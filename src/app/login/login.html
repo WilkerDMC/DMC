@@ -5,19 +5,37 @@
         <i class="fas fa-moon" id="themeIcon"></i>
     </button>
 
-    <!-- Menu de Perfis acima do container -->
-    <div class="role-menu">
-        <button type="button" class="role-btn" (click)="selectRole('cartorio')" [class.active]="selectedRole === 'cartorio'">Cartório</button>
-        <button type="button" class="role-btn" (click)="selectRole('advogado')" [class.active]="selectedRole === 'advogado'">Advogado</button>
-        <button type="button" class="role-btn" (click)="selectRole('cliente')" [class.active]="selectedRole === 'cliente'">Cliente</button>
-    </div>
-
     <!-- Hero Section -->
     <section class="login-hero">
         <!-- Background EFEITOS -->
         <div class="hero-flare"></div>
         <div class="hero-flare-secondary"></div>
         <div class="hero-triangle-pattern"></div>
+
+        <!-- Menu de Perfis acima do container -->
+        <div class="role-menu">
+            <button
+                type="button"
+                class="role-btn"
+                (click)="selectRole('cartorio')"
+                [class.active]="selectedRole === 'cartorio'">
+                Cartório
+            </button>
+            <button
+                type="button"
+                class="role-btn"
+                (click)="selectRole('advogado')"
+                [class.active]="selectedRole === 'advogado'">
+                Advogado
+            </button>
+            <button
+                type="button"
+                class="role-btn"
+                (click)="selectRole('cliente')"
+                [class.active]="selectedRole === 'cliente'">
+                Cliente
+            </button>
+        </div>
 
         <!-- Login CARD -->
         <div class="login-container">
@@ -27,12 +45,24 @@
                     <p>Entre com a sua conta</p>
                 </div>
 
+                <!-- Mensagem de erro -->
+                <div *ngIf="errorMessage" class="error-message">
+                    {{ errorMessage }}
+                </div>
+
                 <!-- FORMULÁRIO CARTÓRIO -->
-                <form *ngIf="selectedRole === 'cartorio'" id="cartorioForm" (submit)="onSubmit($event)">
+                <form *ngIf="selectedRole === 'cartorio'" (ngSubmit)="onSubmitCartorio($event)">
                     <div class="form-group">
                         <label for="cartorioNumber">Número do Cartório</label>
                         <div class="input-wrapper">
-                            <input type="text" id="cartorioNumber" name="cartorioNumber" class="form-input" placeholder="0000" required>
+                            <input
+                                type="text"
+                                id="cartorioNumber"
+                                [(ngModel)]="cartorioForm.numero"
+                                name="numero"
+                                class="form-input"
+                                placeholder="0000"
+                                required>
                             <i class="fas fa-building input-icon"></i>
                         </div>
                     </div>
@@ -40,7 +70,14 @@
                     <div class="form-group">
                         <label for="emailCartorio">E-mail</label>
                         <div class="input-wrapper">
-                            <input type="email" id="emailCartorio" name="email" class="form-input" placeholder="seu@email.com" required>
+                            <input
+                                type="email"
+                                id="emailCartorio"
+                                [(ngModel)]="cartorioForm.email"
+                                name="email"
+                                class="form-input"
+                                placeholder="seu@email.com"
+                                required>
                             <i class="fas fa-envelope input-icon"></i>
                         </div>
                     </div>
@@ -48,19 +85,35 @@
                     <div class="form-group">
                         <label for="passwordCartorio">Senha</label>
                         <div class="input-wrapper">
-                            <input type="password" id="passwordCartorio" name="password" class="form-input" placeholder="••••••••" required>
+                            <input
+                                type="password"
+                                id="passwordCartorio"
+                                [(ngModel)]="cartorioForm.password"
+                                name="password"
+                                class="form-input"
+                                placeholder="••••••••"
+                                required>
                             <i class="fas fa-lock input-icon"></i>
                         </div>
                     </div>
-                    <button type="submit" class="btn-login">Entrar como Cartório</button>
+                    <button type="submit" class="btn-login" [disabled]="isLoading">
+                        {{ isLoading ? 'Entrando...' : 'Entrar como Cartório' }}
+                    </button>
                 </form>
 
                 <!-- FORMULÁRIO ADVOGADO -->
-                <form *ngIf="selectedRole === 'advogado'" id="advogadoForm" (submit)="onSubmit($event)">
+                <form *ngIf="selectedRole === 'advogado'" (ngSubmit)="onSubmitAdvogado($event)">
                     <div class="form-group">
                         <label for="oab">Número OAB</label>
                         <div class="input-wrapper">
-                            <input type="text" id="oab" name="oab" class="form-input" placeholder="OAB 000000" required>
+                            <input
+                                type="text"
+                                id="oab"
+                                [(ngModel)]="advogadoForm.oabNumber"
+                                name="oabNumber"
+                                class="form-input"
+                                placeholder="OAB 000000"
+                                required>
                             <i class="fas fa-id-card input-icon"></i>
                         </div>
                     </div>
@@ -68,7 +121,14 @@
                     <div class="form-group">
                         <label for="emailAdv">E-mail</label>
                         <div class="input-wrapper">
-                            <input type="email" id="emailAdv" name="email" class="form-input" placeholder="seu@email.com" required>
+                            <input
+                                type="email"
+                                id="emailAdv"
+                                [(ngModel)]="advogadoForm.email"
+                                name="email"
+                                class="form-input"
+                                placeholder="seu@email.com"
+                                required>
                             <i class="fas fa-envelope input-icon"></i>
                         </div>
                     </div>
@@ -76,20 +136,36 @@
                     <div class="form-group">
                         <label for="passwordAdv">Senha</label>
                         <div class="input-wrapper">
-                            <input type="password" id="passwordAdv" name="password" class="form-input" placeholder="••••••••" required>
+                            <input
+                                type="password"
+                                id="passwordAdv"
+                                [(ngModel)]="advogadoForm.password"
+                                name="password"
+                                class="form-input"
+                                placeholder="••••••••"
+                                required>
                             <i class="fas fa-lock input-icon"></i>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-login">Entrar como Advogado</button>
+                    <button type="submit" class="btn-login" [disabled]="isLoading">
+                        {{ isLoading ? 'Entrando...' : 'Entrar como Advogado' }}
+                    </button>
                 </form>
 
                 <!-- FORMULÁRIO CLIENTE -->
-                <form *ngIf="selectedRole === 'cliente'" id="clienteForm" (submit)="onSubmit($event)">
+                <form *ngIf="selectedRole === 'cliente'" (ngSubmit)="onSubmitCliente($event)">
                     <div class="form-group">
                         <label for="emailCli">E-mail</label>
                         <div class="input-wrapper">
-                            <input type="email" id="emailCli" name="email" class="form-input" placeholder="seu@email.com" required>
+                            <input
+                                type="email"
+                                id="emailCli"
+                                [(ngModel)]="clienteForm.email"
+                                name="email"
+                                class="form-input"
+                                placeholder="seu@email.com"
+                                required>
                             <i class="fas fa-envelope input-icon"></i>
                         </div>
                     </div>
@@ -97,12 +173,21 @@
                     <div class="form-group">
                         <label for="passwordCli">Senha</label>
                         <div class="input-wrapper">
-                            <input type="password" id="passwordCli" name="password" class="form-input" placeholder="••••••••" required>
+                            <input
+                                type="password"
+                                id="passwordCli"
+                                [(ngModel)]="clienteForm.password"
+                                name="password"
+                                class="form-input"
+                                placeholder="••••••••"
+                                required>
                             <i class="fas fa-lock input-icon"></i>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-login">Entrar como Cliente</button>
+                    <button type="submit" class="btn-login" [disabled]="isLoading">
+                        {{ isLoading ? 'Entrando...' : 'Entrar como Cliente' }}
+                    </button>
                 </form>
 
                 <div class="divider">
