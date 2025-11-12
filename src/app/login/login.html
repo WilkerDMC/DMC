@@ -1,0 +1,118 @@
+<!-- ...existing code... -->
+<body>
+    <!-- troca de tema -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+
+    <!-- Menu de Perfis acima do container -->
+    <div class="role-menu">
+        <button type="button" class="role-btn" (click)="selectRole('cartorio')" [class.active]="selectedRole === 'cartorio'">Cartório</button>
+        <button type="button" class="role-btn" (click)="selectRole('advogado')" [class.active]="selectedRole === 'advogado'">Advogado</button>
+        <button type="button" class="role-btn" (click)="selectRole('cliente')" [class.active]="selectedRole === 'cliente'">Cliente</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="login-hero">
+        <!-- Background EFEITOS -->
+        <div class="hero-flare"></div>
+        <div class="hero-flare-secondary"></div>
+        <div class="hero-triangle-pattern"></div>
+
+        <!-- Login CARD -->
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>Bem-vindo</h1>
+                    <p>Entre com a sua conta</p>
+                </div>
+
+                <!-- FORMULÁRIO CARTÓRIO -->
+                <form *ngIf="selectedRole === 'cartorio'" id="cartorioForm" (submit)="onSubmit($event)">
+                    <div class="form-group">
+                        <label for="cartorioNumber">Número do Cartório</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="cartorioNumber" name="cartorioNumber" class="form-input" placeholder="0000" required>
+                            <i class="fas fa-building input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailCartorio">E-mail</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="emailCartorio" name="email" class="form-input" placeholder="seu@email.com" required>
+                            <i class="fas fa-envelope input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passwordCartorio">Senha</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="passwordCartorio" name="password" class="form-input" placeholder="••••••••" required>
+                            <i class="fas fa-lock input-icon"></i>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-login">Entrar como Cartório</button>
+                </form>
+
+                <!-- FORMULÁRIO ADVOGADO -->
+                <form *ngIf="selectedRole === 'advogado'" id="advogadoForm" (submit)="onSubmit($event)">
+                    <div class="form-group">
+                        <label for="oab">Número OAB</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="oab" name="oab" class="form-input" placeholder="OAB 000000" required>
+                            <i class="fas fa-id-card input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailAdv">E-mail</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="emailAdv" name="email" class="form-input" placeholder="seu@email.com" required>
+                            <i class="fas fa-envelope input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passwordAdv">Senha</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="passwordAdv" name="password" class="form-input" placeholder="••••••••" required>
+                            <i class="fas fa-lock input-icon"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-login">Entrar como Advogado</button>
+                </form>
+
+                <!-- FORMULÁRIO CLIENTE -->
+                <form *ngIf="selectedRole === 'cliente'" id="clienteForm" (submit)="onSubmit($event)">
+                    <div class="form-group">
+                        <label for="emailCli">E-mail</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="emailCli" name="email" class="form-input" placeholder="seu@email.com" required>
+                            <i class="fas fa-envelope input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passwordCli">Senha</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="passwordCli" name="password" class="form-input" placeholder="••••••••" required>
+                            <i class="fas fa-lock input-icon"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-login">Entrar como Cliente</button>
+                </form>
+
+                <div class="divider">
+                    <span>ou</span>
+                </div>
+                <div class="signup-link">
+                    Não tem uma conta? <a href="#">Cadastre-se</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<!-- ...existing code... -->
