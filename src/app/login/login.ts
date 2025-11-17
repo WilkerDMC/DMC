@@ -1,16 +1,17 @@
 // Importa os módulos necessários do Angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LocalStorageToken } from '@angular/cli';
 
 // Decorador que define as configurações e rotas do componente
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './login.html',
-  styleUrls: ['../../styles.scss']
+  styleUrls: ['./login.scss', '../../styles.scss']
 })
 
 // Classe do componente que implementa a interface OnInit
@@ -44,7 +45,10 @@ export class Login implements OnInit {
   errorMessage = '';
 
   // Injeção de dependência do roteador
-  constructor(private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
 
   // Método chamado na inicialização do componente
   ngOnInit(): void {
