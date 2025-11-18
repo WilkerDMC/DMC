@@ -7,9 +7,9 @@ import { LocalStorageToken } from '../tokens/local-storage';
 export class AuthTokenStorage {
   private readonly key: string = "auth-token";
 
-  LocalStorageToken = inject(localStorageToken);
+  private localStorage = inject(LocalStorageToken);
 
-  set(Token: string) {
-    this.LocalStorageToken.setItem(this.key, token);
+  set(token: string) {
+    this.localStorage.setItem(this.key, token);
   }
 }

@@ -1,4 +1,3 @@
-import { List } from './../list/list';
 import { Component } from '@angular/core';
 
 

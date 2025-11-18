@@ -3,7 +3,7 @@ import { Component, OnInit, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LocalStorageToken } from '@angular/cli';
+// LocalStorageToken não está sendo usado no momento, mas se precisar, importar de '../tokens/local-storage'
 
 // Decorador que define as configurações e rotas do componente
 @Component({

@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { Dashboard } from "./dashboard/dashboard";
+import { Login } from "./login/login";
 
 @Component({
   selector: 'app-root',
-  imports: [Dashboard],
+  imports: [Login],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
