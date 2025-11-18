@@ -1,0 +1,11 @@
+.card-container {
+  display: flex;
+  gap: 30px;
+}
+
+.card {
+  flex: 1;
+  height: 250px;
+  background-color: #ffffff;
+  border-radius: 16px;
+}
