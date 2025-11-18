@@ -1,4 +1,21 @@
-.body{
-  color: rgb(3, 3, 3);
-background: -o-repeating-linear-gradient(45deg, black,)
+body{
+
+background: linear-gradient(45deg, rgba(208, 223, 255, 1.000) 0.000%, rgba(207, 221, 255, 1.000) 25.000%, rgba(219, 225, 255, 1.000) 50.000%, rgba(237, 234, 255, 1.000) 75.000%, rgba(254, 243, 255, 1.000) 100.000%)}
+
+.pt{
+display: flexbox;
+  position: 20px;
+  min-height: -500px;
+  max-width: 500px;
+  width: 100%;
+  background: #4b4b4b;
+  border: 1px solid transparent;
+  box-shadow: none;
+  border-radius: 240px;
+  margin-left: 450px;
+  margin-inline: 743px;
+  margin-top: 570px;
+  align-items: 20px;
+  padding: 10px 10px;
+  position: fixed;
 }
