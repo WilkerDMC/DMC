@@ -40,7 +40,7 @@
       }
       <!-- FORMULÁRIOS -->
       @if (selectedRole === 'cartorio') {
-      <form (ngSubmit)="onSubmitCartorio($event)">
+      <form (ngSubmit)="onSubmitCartorio($event)" class="form-animation">
         <div class="form-group">
           <label for="cartorioNumber">Códico CNJ</label>
           <div class="input-wrapper">
@@ -84,7 +84,7 @@
         </button>
       </form>
       } @else if (selectedRole === 'advogado') {
-      <form (ngSubmit)="onSubmitAdvogado($event)">
+      <form (ngSubmit)="onSubmitAdvogado($event)" class="form-animation">
         <div class="form-group">
           <label for="oab">Número OAB</label>
           <div class="input-wrapper">
@@ -138,7 +138,7 @@
         </button>
       </form>
       } @else if (selectedRole === 'cliente') {
-      <form (ngSubmit)="onSubmitCliente($event)">
+      <form (ngSubmit)="onSubmitCliente($event)" class="form-animation">
         <div class="form-group">
           <label for="emailCli">E-mail</label>
           <div class="input-wrapper">
