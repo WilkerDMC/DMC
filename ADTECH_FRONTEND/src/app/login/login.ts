@@ -1,99 +1,151 @@
-// Importa os módulos necessários do Angular
-import { Component, OnInit, InjectionToken } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-// LocalStorageToken não está sendo usado no momento, mas se precisar, importar de '../tokens/local-storage'
+import { AutorizacaoService } from '../services/autorizacao';
+import { AuthService } from '../services/auth.service';
 
-// Decorador que define as configurações e rotas do componente
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
   styleUrls: ['./login.scss', '../../styles.scss']
 })
-
-// Classe do componente que implementa a interface OnInit
 export class Login implements OnInit {
-  // Controla qual formulário está visível
   selectedRole: 'cartorio' | 'advogado' | 'cliente' = 'cliente';
 
-  // Dados dos formulários
-  // cartorio form
   cartorioForm = {
     numero: '',
     email: '',
     password: ''
   };
 
-  // advogado form
   advogadoForm = {
     oabNumber: '',
     email: '',
     password: ''
   };
 
-  // cliente form
   clienteForm = {
     email: '',
     password: ''
   };
 
-  // Controle de loading e erros
   isLoading = false;
   errorMessage = '';
 
-  // Injeção de dependência do roteador
+  private readonly platformId = inject(PLATFORM_ID);
+
   constructor(
-    private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private autorizacaoService: AutorizacaoService,
+    private authService: AuthService
   ) {}
 
-  // Método chamado na inicialização do componente
   ngOnInit(): void {
-    console.log('Login component initialized');
-    console.log('Role inicial:', this.selectedRole);
+    console.log('🔵 Login component ngOnInit chamado');
+    // Só executa no browser, não no servidor (SSR)
+    if (isPlatformBrowser(this.platformId)) {
+      console.log('✅ Login component initialized no browser');
+      // Aguarda um pouco para garantir que o componente foi renderizado
+      setTimeout(() => {
+        const estaAutenticado = this.autorizacaoService.estaAutenticado();
+        console.log('🔍 Verificando autenticação:', estaAutenticado);
+        if (estaAutenticado) {
+          console.log('🔄 Usuário já autenticado, redirecionando...');
+          this.redirecionarParaDashboard();
+        } else {
+          console.log('👤 Usuário não autenticado, mostrando formulário de login');
+        }
+      }, 200);
+    } else {
+      console.log('⚠️ Não está no browser (SSR)');
+    }
   }
 
-  /** Seleciona qual o perfil (role) está ativo */
+  obterDescricaoLogin(): string {
+    return this.autorizacaoService.obterLoginStatus()
+      ? "Estou autorizado"
+      : "Não estou Autorizado";
+  }
+
   selectRole(role: 'cartorio' | 'advogado' | 'cliente'): void {
     this.selectedRole = role;
-    this.errorMessage = ''; // Limpa mensagens de erro ao mudar de perfil
+    this.errorMessage = '';
     console.log('Role selecionado:', this.selectedRole);
   }
 
-  /** Verifica se um role específico está ativo */
   isRoleActive(role: 'cartorio' | 'advogado' | 'cliente'): boolean {
     return this.selectedRole === role;
   }
 
-  /** Submit do formulário de cartório */
   onSubmitCartorio(event: Event): void {
     event.preventDefault();
     console.log('Formulário de Cartório enviado:', this.cartorioForm);
 
-    // Simula um processo de login do cartório
     if (!this.cartorioForm.numero || !this.cartorioForm.email || !this.cartorioForm.password) {
       this.errorMessage = 'Por favor, preencha todos os campos do formulário de Cartório.';
       return;
     }
 
     this.isLoading = true;
+    this.errorMessage = '';
 
-    // Simula a chamada da API
-    setTimeout(() => {
-      this.isLoading = false;
-      alert('Login do Cartório bem-sucedido!');
-      console.log('Dados:', this.cartorioForm);
-      this.router.navigate(['/dashboard-cartorio']);
-    }, 1000);
+    this.authService.login('cartorio', {
+      numero: this.cartorioForm.numero,
+      email: this.cartorioForm.email,
+      password: this.cartorioForm.password
+    }).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        if (response.success) {
+          // Salva a autenticação
+          this.autorizacaoService.autorizar('cartorio');
+          console.log('✅ Autenticação salva para cartório');
+          
+          // Verifica se foi salvo corretamente
+          const verificarAuth = () => {
+            const estaAutenticado = this.autorizacaoService.estaAutenticado();
+            console.log('🔍 Status autenticado após salvar:', estaAutenticado);
+            
+            if (estaAutenticado) {
+              console.log('🚀 Redirecionando para dashboard-cartorio...');
+              this.router.navigate(['/dashboard-cartorio']).then(
+                (success) => {
+                  console.log('✅ Redirecionamento bem-sucedido!');
+                },
+                (err) => {
+                  console.error('❌ Erro ao redirecionar:', err);
+                  // Tenta novamente após um delay maior
+                  setTimeout(() => {
+                    console.log('🔄 Tentando redirecionar novamente...');
+                    this.router.navigate(['/dashboard-cartorio']);
+                  }, 500);
+                }
+              );
+            } else {
+              console.warn('⚠️ Autenticação não foi salva, tentando novamente...');
+              setTimeout(verificarAuth, 100);
+            }
+          };
+          
+          // Aguarda um pouco e verifica
+          setTimeout(verificarAuth, 100);
+        } else {
+          this.errorMessage = response.message || 'Erro ao realizar login. Tente novamente.';
+        }
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Erro ao conectar com o servidor. Verifique sua conexão e tente novamente.';
+        console.error('Erro no login:', error);
+      }
+    });
   }
 
-  /** Submit do formulário do advogado */
   onSubmitAdvogado(event: Event): void {
     event.preventDefault();
-
     console.log('Submit Advogado:', this.advogadoForm);
 
     if (!this.advogadoForm.oabNumber || !this.advogadoForm.email || !this.advogadoForm.password) {
@@ -102,20 +154,62 @@ export class Login implements OnInit {
     }
 
     this.isLoading = true;
+    this.errorMessage = '';
 
-    // Simula a chamada da API
-    setTimeout(() => {
-      this.isLoading = false;
-      alert('Login do Advogado bem-sucedido!');
-      console.log('Dados:', this.advogadoForm);
-      this.router.navigate(['/dashboard-advogado']);
-    }, 1000);
+    this.authService.login('advogado', {
+      oabNumber: this.advogadoForm.oabNumber,
+      email: this.advogadoForm.email,
+      password: this.advogadoForm.password
+    }).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        if (response.success) {
+          // Salva a autenticação
+          this.autorizacaoService.autorizar('advogado');
+          console.log('✅ Autenticação salva para advogado');
+          
+          // Verifica se foi salvo corretamente
+          const verificarAuth = () => {
+            const estaAutenticado = this.autorizacaoService.estaAutenticado();
+            console.log('🔍 Status autenticado após salvar:', estaAutenticado);
+            
+            if (estaAutenticado) {
+              console.log('🚀 Redirecionando para dashboard-advogado...');
+              this.router.navigate(['/dashboard-advogado']).then(
+                (success) => {
+                  console.log('✅ Redirecionamento bem-sucedido!');
+                },
+                (err) => {
+                  console.error('❌ Erro ao redirecionar:', err);
+                  // Tenta novamente após um delay maior
+                  setTimeout(() => {
+                    console.log('🔄 Tentando redirecionar novamente...');
+                    this.router.navigate(['/dashboard-advogado']);
+                  }, 500);
+                }
+              );
+            } else {
+              console.warn('⚠️ Autenticação não foi salva, tentando novamente...');
+              setTimeout(verificarAuth, 100);
+            }
+          };
+          
+          // Aguarda um pouco e verifica
+          setTimeout(verificarAuth, 100);
+        } else {
+          this.errorMessage = response.message || 'Erro ao realizar login. Tente novamente.';
+        }
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Erro ao conectar com o servidor. Verifique sua conexão e tente novamente.';
+        console.error('Erro no login:', error);
+      }
+    });
   }
 
-  /** Submit do formulário do cliente */
   onSubmitCliente(event: Event): void {
     event.preventDefault();
-
     console.log('Submit Cliente:', this.clienteForm);
 
     if (!this.clienteForm.email || !this.clienteForm.password) {
@@ -124,17 +218,76 @@ export class Login implements OnInit {
     }
 
     this.isLoading = true;
+    this.errorMessage = '';
 
-    // Simula a chamada da API
-    setTimeout(() => {
-      this.isLoading = false;
-      alert('Login do Cliente bem-sucedido!');
-      console.log('Dados:', this.clienteForm);
-      this.router.navigate(['/dashboard-cliente']);
-    }, 1000);
+    this.authService.login('cliente', {
+      email: this.clienteForm.email,
+      password: this.clienteForm.password
+    }).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        if (response.success) {
+          // Salva a autenticação
+          this.autorizacaoService.autorizar('cliente');
+          console.log('✅ Autenticação salva para cliente');
+          
+          // Verifica se foi salvo corretamente
+          const verificarAuth = () => {
+            const estaAutenticado = this.autorizacaoService.estaAutenticado();
+            console.log('🔍 Status autenticado após salvar:', estaAutenticado);
+            
+            if (estaAutenticado) {
+              console.log('🚀 Redirecionando para dashboard-cliente...');
+              this.router.navigate(['/dashboard-cliente']).then(
+                (success) => {
+                  console.log('✅ Redirecionamento bem-sucedido!');
+                },
+                (err) => {
+                  console.error('❌ Erro ao redirecionar:', err);
+                  // Tenta novamente após um delay maior
+                  setTimeout(() => {
+                    console.log('🔄 Tentando redirecionar novamente...');
+                    this.router.navigate(['/dashboard-cliente']);
+                  }, 500);
+                }
+              );
+            } else {
+              console.warn('⚠️ Autenticação não foi salva, tentando novamente...');
+              setTimeout(verificarAuth, 100);
+            }
+          };
+          
+          // Aguarda um pouco e verifica
+          setTimeout(verificarAuth, 100);
+        } else {
+          this.errorMessage = response.message || 'Erro ao realizar login. Tente novamente.';
+        }
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Erro ao conectar com o servidor. Verifique sua conexão e tente novamente.';
+        console.error('Erro no login:', error);
+      }
+    });
   }
 
-  /** Limpa os formulários */
+  private redirecionarParaDashboard(): void {
+    const role = this.autorizacaoService.obterRole();
+    switch(role) {
+      case 'cartorio':
+        this.router.navigate(['/dashboard-cartorio']);
+        break;
+      case 'advogado':
+        this.router.navigate(['/dashboard-advogado']);
+        break;
+      case 'cliente':
+        this.router.navigate(['/dashboard-cliente']);
+        break;
+      default:
+        this.router.navigate(['/']);
+    }
+  }
+
   clearForms(): void {
     this.cartorioForm = { numero: '', email: '', password: '' };
     this.advogadoForm = { oabNumber: '', email: '', password: '' };
