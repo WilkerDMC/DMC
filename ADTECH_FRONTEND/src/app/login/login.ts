@@ -103,12 +103,12 @@ export class Login implements OnInit {
           // Salva a autenticação
           this.autorizacaoService.autorizar('cartorio');
           console.log('✅ Autenticação salva para cartório');
-          
+
           // Verifica se foi salvo corretamente
           const verificarAuth = () => {
             const estaAutenticado = this.autorizacaoService.estaAutenticado();
             console.log('🔍 Status autenticado após salvar:', estaAutenticado);
-            
+
             if (estaAutenticado) {
               console.log('🚀 Redirecionando para dashboard-cartorio...');
               this.router.navigate(['/dashboard-cartorio']).then(
@@ -129,7 +129,7 @@ export class Login implements OnInit {
               setTimeout(verificarAuth, 100);
             }
           };
-          
+
           // Aguarda um pouco e verifica
           setTimeout(verificarAuth, 100);
         } else {
@@ -167,12 +167,12 @@ export class Login implements OnInit {
           // Salva a autenticação
           this.autorizacaoService.autorizar('advogado');
           console.log('✅ Autenticação salva para advogado');
-          
+
           // Verifica se foi salvo corretamente
           const verificarAuth = () => {
             const estaAutenticado = this.autorizacaoService.estaAutenticado();
             console.log('🔍 Status autenticado após salvar:', estaAutenticado);
-            
+
             if (estaAutenticado) {
               console.log('🚀 Redirecionando para dashboard-advogado...');
               this.router.navigate(['/dashboard-advogado']).then(
@@ -193,7 +193,7 @@ export class Login implements OnInit {
               setTimeout(verificarAuth, 100);
             }
           };
-          
+
           // Aguarda um pouco e verifica
           setTimeout(verificarAuth, 100);
         } else {
@@ -230,12 +230,12 @@ export class Login implements OnInit {
           // Salva a autenticação
           this.autorizacaoService.autorizar('cliente');
           console.log('✅ Autenticação salva para cliente');
-          
+
           // Verifica se foi salvo corretamente
           const verificarAuth = () => {
             const estaAutenticado = this.autorizacaoService.estaAutenticado();
             console.log('🔍 Status autenticado após salvar:', estaAutenticado);
-            
+
             if (estaAutenticado) {
               console.log('🚀 Redirecionando para dashboard-cliente...');
               this.router.navigate(['/dashboard-cliente']).then(
@@ -256,7 +256,7 @@ export class Login implements OnInit {
               setTimeout(verificarAuth, 100);
             }
           };
-          
+
           // Aguarda um pouco e verifica
           setTimeout(verificarAuth, 100);
         } else {

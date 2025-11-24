@@ -1,9 +1,65 @@
 <body>
-<app-menu></app-menu>
+  <div class="dashboard-hero">
+    <div class="hero-flare" aria-hidden="true"></div>
+    <div class="hero-flare-secondary" aria-hidden="true"></div>
+    <div class="hero-triangle-pattern" aria-hidden="true"></div>
 
-  <input class="pt" type="text" placeholder="Search..."/>
+    <div class="dashboard-layout">
+    <aside class="sidebar">
+      <!-- menu component remains separate, rendered in the left column -->
+      <app-menu></app-menu>
+    </aside>
 
-  <app-calendar></app-calendar>
+    <main class="dashboard-main">
+      <div class="dashboard-top">
+        <!-- elegant title above the placeholder with subtitle -->
+        <div class="dashboard-title">
+          <div class="dashboard-title-inner">
+            <h1>Bem Vindo</h1>
+            <p class="dashboard-subtitle">busque seus processos em um click</p>
+          </div>
+        </div>
+
+        <!-- placeholder / search centered below the title -->
+        <div class="placeholder-wrap">
+          <input class="search-input" type="text" placeholder="Pesquisar..." aria-label="Pesquisar" />
+        </div>
+
+        <!-- dashboard actions removed (logout handled by fixed profile control) -->
+      </div>
+
+      <section class="dashboard-cards">
+        <div class="dashboard-card cpf-card login-card">
+          <div class="card-body">
+            <h2>Preencha o CPF</h2>
+            <p class="muted">Traga todos os dados do seu cliente</p>
+          </div>
+        </div>
+
+        <div class="dashboard-card cnpj-card login-card">
+          <div class="card-body">
+            <h2>Preencha o CNPJ</h2>
+            <p class="muted">Traga todos os dados da empresa</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    </div>
+
+    <!-- fixed profile control (right side) -->
+    <details class="profile-dropdown" aria-label="Profile menu">
+      <summary class="profile-summary">
+        <div class="profile-avatar">
+          <img class="profile-pic" src="/assets/images/default-user.png" alt="Perfil" />
+          <span class="online-badge" aria-hidden="true"></span>
+        </div>
+        <span class="profile-name">Wilker DMC</span>
+      </summary>
+      <div class="profile-menu">
+        <button class="btn-neon logout-action" type="button">Sair</button>
+      </div>
+    </details>
+
+  </div>
+
 </body>
-
-

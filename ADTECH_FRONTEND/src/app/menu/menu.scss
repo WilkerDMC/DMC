@@ -1,80 +1,156 @@
-.ng{
-background: #000000;
-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-font-size: 40px;
-max-width:30%;
-max-height: 120%;
-text-align: left;
-height: 115vh;
-justify-content: left;
-margin-top :-80px;
-margin-left:-10px;
-margin-bottom: 20px;
-display:flex;
-border-radius: 10px;
-position: fixed;
-box-shadow: #000000 10px 10px 10px 10px;
+/* Menu modernizado para combinar com o estilo do login */
+
+.ng, .menu-card{
+	/* fixed full-height sidebar on the far left */
+	background: rgba(10,10,10,0.95);
+	color: var(--text-primary, #fff);
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	width: 260px; /* fixed column width to match dashboard spacing */
+	padding: 1.6rem 1.2rem;
+	/* make corners more squared but keep a soft right edge */
+	border-radius: 0 12px 12px 0;
+	box-shadow: 0 12px 34px rgba(0,0,0,0.6), 0 0 18px rgba(0,231,252,0.03);
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 40;
 }
 
-.layout {
-margin-top: 130px;
-color: rgb(249, 255, 249);
-text-align: left;
-justify-content: left;
-font-size: 30px;
+.menu-header {
+	padding: 4px 0 12px 0;
 }
 
-h5{
-margin-top: 50px;
-padding: 0;
-color: #747e9c;
+.menu-header h5{
+	margin: 0 0 8px 0;
+	color: var(--text-secondary, #e6f7fb);
+	font-size: 1.05rem;
+	font-weight: 800;
+	letter-spacing: 0.6px;
+	text-transform: uppercase;
 }
 
-li{
-margin-top: 50px;
-list-style:none;
-padding: 0;
-margin: 0;
-color: aqua;
+.menu-list{
+	list-style: none;
+	margin-top: 1.2rem;
+	padding: 0;
+	display:flex;
+	flex-direction: column;
+	gap: 0.35rem;
 }
 
- a{
-text-decoration: none;
-display: block;
-padding: 10px 16px;
-transition: background-color 0.3s, color 0.3s;
-border-radius: 6px;
-border-left: 6px solid transparent;
-color:whitesmoke;
-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-font-size: 20px;
- }
-
-a:hover{
-
-
-padding: 5px;
-border-radius: 1px;
-margin: 1px;
-padding: 10px 15px;
-text-align: center;
-color: #747e9c;
-box-shadow: 0 0 20px #eee;
-border-radius: 10px;
-display: block;
+.menu-link{
+	display:flex;
+	align-items:center;
+	padding: 12px 16px;
+	border-radius: 6px; /* mais quadrado */
+	color: var(--text-primary, #fff);
+	text-decoration: none;
+	font-size: 1rem;
+	transition: transform 0.18s ease, color 0.18s ease;
+	border-left: 4px solid transparent;
+	background: rgba(255,255,255,0.01);
+	position: relative;
+	z-index: 1; /* keep content above pseudo outlines */
+	overflow: visible;
 }
 
-.btn-grad:hover {
-background-position: right center;
-color: #fff;
-text-decoration: blue;
+/* Futuristic outline loader effect */
+.menu-link::before{
+	content: '';
+	position: absolute;
+	inset: -4px; /* place outline slightly outside */
+	border-radius: 8px;
+	background: linear-gradient(90deg, rgba(0,231,252,0.0) 0%, rgba(0,231,252,0.95) 50%, rgba(0,255,77,0.95) 100%);
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform 0.6s cubic-bezier(.22,.9,.37,1), opacity 0.18s;
+	filter: blur(6px);
+	opacity: 0.0;
+	pointer-events: none;
 }
 
+/* subtle inner border to give depth */
+.menu-link::after{
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: 6px;
+	border: 1px solid rgba(255,255,255,0.03);
+	pointer-events: none;
+}
 
-a:focus{
-color: #747e9c;
-padding: 5px;
-border-radius: 5px;
+.menu-link:hover::before,
+.menu-link:focus::before{
+	transform: scaleX(1);
+	opacity: 1;
+}
+
+.menu-link:hover{
+	color: #e6fbff;
+	transform: translateX(4px);
+}
+
+.menu-link:focus{
+	outline: none;
+	box-shadow: 0 0 28px rgba(0,231,252,0.12);
+}
+
+/* Search input inside menu */
+/* Search input and login role buttons removed from markup; styles for
+   reusable .btn-neon are kept below for links/buttons used elsewhere. */
+
+/* Reusable neon button style for consistency across the app */
+.btn-neon{
+	border-radius: 999px;
+	padding: 8px 12px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(17,17,17,0.28);
+	color: var(--text-primary, #fff);
+	text-decoration: none;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+	position: relative;
+	overflow: hidden;
+	border: 1px solid rgba(255,255,255,0.02);
+	box-shadow: 0 0 8px rgba(0,231,252,0.06);
+}
+
+.btn-neon::before{
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: 999px;
+	padding: 1px;
+	background: linear-gradient(90deg, rgba(0,231,252,1) 0%, rgba(0,255,77,1) 100%);
+	-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	-webkit-mask-composite: xor;
+	mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	mask-composite: exclude;
+	z-index: 0;
+	opacity: 0.85;
+	pointer-events: none;
+}
+
+.btn-neon:hover{
+	transform: translateY(-2px);
+	box-shadow: 0 0 16px rgba(0,231,252,0.14), 0 0 28px rgba(0,255,77,0.06);
+}
+
+@media (max-width: 900px){
+	/* On small screens the sidebar becomes a normal in-flow block */
+	.menu-card{
+		position: relative;
+		left: auto;
+		top: auto;
+		bottom: auto;
+		transform: none;
+		width: 100%;
+		min-height: auto;
+		margin: 12px 0;
+		border-radius: 12px;
+	}
 }
 
 
