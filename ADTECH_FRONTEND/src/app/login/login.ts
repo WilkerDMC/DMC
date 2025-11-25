@@ -110,8 +110,8 @@ export class Login implements OnInit {
             console.log('🔍 Status autenticado após salvar:', estaAutenticado);
 
             if (estaAutenticado) {
-              console.log('🚀 Redirecionando para dashboard-cartorio...');
-              this.router.navigate(['/dashboard-cartorio']).then(
+              console.log('🚀 Redirecionando para home-cartorio...');
+              this.router.navigate(['/home-cartorio']).then(
                 (success) => {
                   console.log('✅ Redirecionamento bem-sucedido!');
                 },
@@ -120,7 +120,7 @@ export class Login implements OnInit {
                   // Tenta novamente após um delay maior
                   setTimeout(() => {
                     console.log('🔄 Tentando redirecionar novamente...');
-                    this.router.navigate(['/dashboard-cartorio']);
+                    this.router.navigate(['/home-cartorio']);
                   }, 500);
                 }
               );
@@ -174,8 +174,8 @@ export class Login implements OnInit {
             console.log('🔍 Status autenticado após salvar:', estaAutenticado);
 
             if (estaAutenticado) {
-              console.log('🚀 Redirecionando para dashboard-advogado...');
-              this.router.navigate(['/dashboard-advogado']).then(
+              console.log('🚀 Redirecionando para home-advogado...');
+              this.router.navigate(['/home-advogado']).then(
                 (success) => {
                   console.log('✅ Redirecionamento bem-sucedido!');
                 },
@@ -184,7 +184,7 @@ export class Login implements OnInit {
                   // Tenta novamente após um delay maior
                   setTimeout(() => {
                     console.log('🔄 Tentando redirecionar novamente...');
-                    this.router.navigate(['/dashboard-advogado']);
+                    this.router.navigate(['/home-advogado']);
                   }, 500);
                 }
               );
@@ -237,8 +237,8 @@ export class Login implements OnInit {
             console.log('🔍 Status autenticado após salvar:', estaAutenticado);
 
             if (estaAutenticado) {
-              console.log('🚀 Redirecionando para dashboard-cliente...');
-              this.router.navigate(['/dashboard-cliente']).then(
+              console.log('🚀 Redirecionando para home-cliente...');
+              this.router.navigate(['/home-cliente']).then(
                 (success) => {
                   console.log('✅ Redirecionamento bem-sucedido!');
                 },
@@ -247,7 +247,7 @@ export class Login implements OnInit {
                   // Tenta novamente após um delay maior
                   setTimeout(() => {
                     console.log('🔄 Tentando redirecionar novamente...');
-                    this.router.navigate(['/dashboard-cliente']);
+                    this.router.navigate(['/home-cliente']);
                   }, 500);
                 }
               );
@@ -275,13 +275,13 @@ export class Login implements OnInit {
     const role = this.autorizacaoService.obterRole();
     switch(role) {
       case 'cartorio':
-        this.router.navigate(['/dashboard-cartorio']);
+        this.router.navigate(['/home-cartorio']);
         break;
       case 'advogado':
-        this.router.navigate(['/dashboard-advogado']);
+        this.router.navigate(['/home-advogado']);
         break;
       case 'cliente':
-        this.router.navigate(['/dashboard-cliente']);
+        this.router.navigate(['/home-cliente']);
         break;
       default:
         this.router.navigate(['/']);

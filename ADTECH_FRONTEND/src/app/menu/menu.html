@@ -1,15 +1,18 @@
 <nav class="ng menu-card" role="navigation" aria-label="Main menu">
   <div class="menu-header">
-    <h5>AD-TECH</h5>
+    <a [routerLink]="homeRoute" routerLinkActive="active" class="logo-link">
+      <h5>AD-TECH</h5>
+    </a>
   </div>
 
   <!-- Menu header only; search and role buttons removed (style retained) -->
 
   <ul class="menu-list">
-  <li><a class="menu-link btn-neon" href="#">Home</a></li>
-  <li><a class="menu-link btn-neon" href="#">Customers</a></li>
-  <li><a class="menu-link btn-neon" href="#">Documents</a></li>
-  <li><a class="menu-link btn-neon" href="/list">Processes</a></li>
+  <li><a class="menu-link btn-neon" routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+  <li><a class="menu-link btn-neon" routerLink="/clientes" routerLinkActive="active">Clientes</a></li>
+  <li><a class="menu-link btn-neon" routerLink="/documentos" routerLinkActive="active">Documentos</a></li>
+  <li><a class="menu-link btn-neon" routerLink="/processos" routerLinkActive="active">Processos</a></li>
   </ul>
 
 </nav>
+<!-- Menu footer removed (style retained) -->

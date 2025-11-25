@@ -18,6 +18,12 @@
   );
   --color-primary: #00e7fc;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* global animation tokens (ensure availability across all components) */
+  --anim-ease: cubic-bezier(.16,.84,.24,1);
+  --anim-fast: 180ms;
+  --anim-medium: 420ms;
+  --anim-slow: 900ms;
+  --float-distance: 18px;
 }
 
 /* ============================================
