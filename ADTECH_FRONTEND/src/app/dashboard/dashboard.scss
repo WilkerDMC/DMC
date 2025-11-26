@@ -367,7 +367,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
   &:hover {
     background: var(--bg-card-hover);
@@ -383,7 +382,7 @@ body {
   img {
     display: none;
   }
-
+}
 
 .cardBox
 {
@@ -612,16 +611,18 @@ body {
     position: relative;
     z-index: 2;
   }
-}.cardHeader{
-display: flex;
-justify-content: space-between;
-align-items: flex-start;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .cardHeader h2 {
   font-weight: 600;
   color: var(--text-primary);
-  background: linear-gradient(90deg, rgba(0,231,252,0.98), rgba(0,255,77,0.84));
+  background: linear-gradient(90deg, rgba(0, 231, 252, 0.98), rgba(0, 255, 77, 0.84));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
