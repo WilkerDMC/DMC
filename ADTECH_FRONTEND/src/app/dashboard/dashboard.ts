@@ -1,12 +1,12 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, FormsModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA], // Permite usar ion-icon
+  imports: [CommonModule, FormsModule, RouterModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // ion-icon
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
