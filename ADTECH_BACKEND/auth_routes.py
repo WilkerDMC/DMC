@@ -1,0 +1,98 @@
+from fastapi import APIRouter, HTTPException, Depends, status
+from sqlalchemy.orm import Session
+from passlib.context import CryptContext
+from models import Usuario
+from dependencies import pegar_sessao, verificar_token
+from schemas import UsuarioSchema, LoginSchema
+from jose import jwt, JWTError
+from datetime import datetime, timedelta, timezone
+from main import bcrypt_context, ALGORITHM, ACCESS_TOKEN_EXPIRE_HOURS, SECRET_KEY
+from fastapi.security import OAuth2PasswordRequestForm
+auth_router = APIRouter(prefix="/auth", tags=["auth"])
+
+def criar_token(email: str, id_usuario: int, duracao_token: timedelta = None):
+    if duracao_token:
+        data_expiracao = datetime.now(timezone.utc) + duracao_token
+    else:
+        data_expiracao = datetime.now(timezone.utc) + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)
+    dic_info = {
+        "user_id": id_usuario,"sub": email,"exp": data_expiracao
+    }
+    token = jwt.encode(dic_info, SECRET_KEY, algorithm=ALGORITHM)
+    return token
+
+
+def autenticar_usuario(email,senha, session):
+    usuario = session.query(Usuario).filter(Usuario.email==email).first()
+    if not usuario:
+        return False
+    elif not bcrypt_context.verify(senha, usuario.senha):
+      return False
+
+    return usuario
+
+
+bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+@auth_router.post("/criar_conta", status_code=status.HTTP_201_CREATED)
+async def criar_conta(usuario_schema: UsuarioSchema, session: Session = Depends(pegar_sessao)):
+
+    usuario = session.query(Usuario).filter(Usuario.email == usuario_schema.email).first()
+    if usuario:
+        raise HTTPException(status_code=400, detail="E-mail de Usuario ja Cadastrado")
+
+    senha_hash = bcrypt_context.hash(usuario_schema.senha)
+
+    novo_usuario = Usuario(
+        nome=usuario_schema.nome,
+        email=usuario_schema.email,
+        senha=senha_hash,
+        numero_cartorio=usuario_schema.numero_cartorio,
+        ativo=True,
+        admin=False
+    )
+    session.add(novo_usuario)
+    session.commit()
+    session.refresh(novo_usuario)
+
+    return {"mensagem": f"Usuario Cadastrado Com Sucesso: {usuario_schema.email}", "id": novo_usuario.id}
+
+@auth_router.post("/login")
+async def login(login_schema: LoginSchema, session: Session = Depends(pegar_sessao)):
+    usuario = autenticar_usuario(login_schema.email, login_schema.senha, session)
+    if not usuario:
+        raise HTTPException(status_code=400, detail="Usuario nao Encontrado ou Credencias nao Encontradas")
+    else:
+        access_token = criar_token (usuario.email, usuario.id)
+        refresh_token = criar_token(usuario.email,usuario.id,duracao_token=timedelta(days=7))
+        return {
+          "access_token": access_token,
+          "refresh_token": refresh_token,
+          "token_type":"Bearer"
+    }
+
+@auth_router.post("/login-form")
+async def login_form(dados_formulario: OAuth2PasswordRequestForm =Depends(), session: Session = Depends(pegar_sessao)):
+    usuario = autenticar_usuario(dados_formulario.username, dados_formulario.password, session)
+    if not usuario:
+        raise HTTPException(status_code=400, detail="Usuario nao Encontrado ou Credencias nao Encontradas")
+    else:
+        access_token = criar_token (usuario.email, usuario.id)
+        refresh_token = criar_token(usuario.email,usuario.id,duracao_token=timedelta(days=7))
+        return {
+          "access_token": access_token,
+          "refresh_token": refresh_token,
+          "token_type":"Bearer"
+    }
+
+@auth_router.get("/refresh")
+async def use_refresh_token(usuario: Usuario = Depends(verificar_token)):
+    access_token = criar_token(usuario.email, usuario.id)
+
+    return {
+        "access_token": access_token,
+        "token_type": "Bearer"
+    }
+
+
+
