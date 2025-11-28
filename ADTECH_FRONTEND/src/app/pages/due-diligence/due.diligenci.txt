@@ -1,0 +1,5 @@
+gerar procuraçao
+gerar contrato de compra e venda
+gerar contrato de sociedade limitada
+
+gerar a tela

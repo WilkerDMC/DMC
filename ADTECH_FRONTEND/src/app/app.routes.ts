@@ -50,5 +50,10 @@ export const routes: Routes = [
     path: 'calendar',
     canActivate: [authGuard],
     loadComponent: () => import('./pages/calendar/calendar').then(m => m.Calendar)
+  },
+  {
+    path: 'due-diligence',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/due-diligence/due-diligence').then(m => m.DueDiligence)
   }
 ];
