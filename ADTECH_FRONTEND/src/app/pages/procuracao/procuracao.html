@@ -1,0 +1,95 @@
+<div class="adtech-title">AD-TECH</div>
+<div class="procuracao-wrapper" *ngIf="view ==='form'">
+  <h2>Nova Procuração</h2>
+
+  <!--BARRA DE PROGRESSO-->
+
+ <div class="steps-bar">
+    <div [class.active]="step === 1">1</div>
+    <div class="line" [class.active]="step > 1"></div>
+    <div [class.active]="step === 2">2</div>
+    <div class="line" [class.active]="step > 2"></div>
+    <div [class.active]="step === 3">3</div>
+  </div>
+
+  <form #procForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
+    <!-- Passo 1: Outorgante -->
+    <div *if="step === 1">
+      <fieldset>
+        <legend>Dados do Outorgante</legend>
+        <label>
+          Nome Completo:
+          <input name="grantorName" [(ngModel)]="formData.grantor.name" required />
+        </label>
+        <label>
+          CPF:
+          <input name="grantorCpf" [(ngModel)]="formData.grantor.cpf" required />
+        </label>
+        <label>
+          RG:
+          <input name="grantorRg" [(ngModel)]="formData.grantor.rg" required />
+        </label>
+        <label>
+          Endereço:
+          <input name="grantorAddress" [(ngModel)]="formData.grantor.address" required />
+        </label>
+      </fieldset>
+    </div>
+
+    <!-- Passo 2: Outorgado -->
+    <div *if="step === 2">
+      <fieldset>
+        <legend>Dados do Outorgado</legend>
+        <label>
+          Nome Completo:
+          <input name="granteeName" [(ngModel)]="formData.grantee.name" required />
+        </label>
+        <label>
+          CPF:
+          <input name="granteeCpf" [(ngModel)]="formData.grantee.cpf" required />
+        </label>
+        <label>
+          RG:
+          <input name="granteeRg" [(ngModel)]="formData.grantee.rg" required />
+        </label>
+        <label>
+          Endereço:
+          <input name="granteeAddress" [(ngModel)]="formData.grantee.address" required />
+        </label>
+      </fieldset>
+    </div>
+
+    <!-- Passo 3: Verificação/Preview -->
+    <div *if="step === 3">
+      <fieldset>
+        <legend>Verifique os Dados</legend>
+        <div class="preview-section">
+          <h4>Outorgante</h4>
+          <p><strong>Nome:</strong> {{formData.grantor.name}}</p>
+          <p><strong>CPF:</strong> {{formData.grantor.cpf}}</p>
+          <p><strong>RG:</strong> {{formData.grantor.rg}}</p>
+          <p><strong>Endereço:</strong> {{formData.grantor.address}}</p>
+        </div>
+        <div class="preview-section">
+          <h4>Outorgado</h4>
+          <p><strong>Nome:</strong> {{formData.grantee.name}}</p>
+          <p><strong>CPF:</strong> {{formData.grantee.cpf}}</p>
+          <p><strong>RG:</strong> {{formData.grantee.rg}}</p>
+          <p><strong>Endereço:</strong> {{formData.grantee.address}}</p>
+        </div>
+        <div class="preview-section">
+          <h4>Poderes Concedidos</h4>
+          <textarea name="powers" [(ngModel)]="formData.powers" required placeholder="Descreva os poderes específicos concedidos ao outorgado..."></textarea>
+          <h4>Prazo de Validade</h4>
+          <input name="validity" [(ngModel)]="formData.validity" required placeholder="Ex: 12 meses, Indeterminado" />
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" (click)="prevStep()" [disabled]="step === 1">Anterior</button>
+      <button type="button" *if="step < 3" (click)="nextStep()" [disabled]="!isStepValid()">Próximo</button>
+      <button type="submit" *if="step === 3" [disabled]="!isStepValid()">Gerar Procuração</button>
+    </div>
+  </form>
+</div>
