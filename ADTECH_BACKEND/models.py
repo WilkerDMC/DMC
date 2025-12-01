@@ -15,9 +15,9 @@ class Usuario(Base):
     nome = Column("nome", String)
     email = Column("email", String, unique=True, index=True)
     senha = Column("senha", String)
-    numero_cartorio = Column("numero_cartorio", String)
+    numero_cartorio = Column ("numero_cartorio", String)
     ativo = Column ("ativo", Boolean)
-    admin = Column ("admin", Boolean)
+    admin = Column ("admin", Boolean, default=True)
 
 def __init__(self, nome, email, senha, numero_cartorio, ativo=True, admin=False):
 

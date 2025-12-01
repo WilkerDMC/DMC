@@ -8,6 +8,7 @@ from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
 from main import bcrypt_context, ALGORITHM, ACCESS_TOKEN_EXPIRE_HOURS, SECRET_KEY
 from fastapi.security import OAuth2PasswordRequestForm
+
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
 def criar_token(email: str, id_usuario: int, duracao_token: timedelta = None):
@@ -30,7 +31,6 @@ def autenticar_usuario(email,senha, session):
       return False
 
     return usuario
-
 
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -77,13 +77,11 @@ async def login_form(dados_formulario: OAuth2PasswordRequestForm =Depends(), ses
     if not usuario:
         raise HTTPException(status_code=400, detail="Usuario nao Encontrado ou Credencias nao Encontradas")
     else:
-        access_token = criar_token (usuario.email, usuario.id)
-        refresh_token = criar_token(usuario.email,usuario.id,duracao_token=timedelta(days=7))
+        access_token = criar_token(usuario.email, usuario.id)
         return {
           "access_token": access_token,
-          "refresh_token": refresh_token,
           "token_type":"Bearer"
-    }
+         }
 
 @auth_router.get("/refresh")
 async def use_refresh_token(usuario: Usuario = Depends(verificar_token)):
