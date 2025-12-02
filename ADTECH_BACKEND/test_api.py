@@ -5,12 +5,6 @@ import random
 client = TestClient(app)
 
 def test_fluxo_completo_criaçao_de_cadastro_e_login():
-    """
-    Testa o ciclo de vida do usuário:
-    1. Cria uma conta nova.
-    2. Faz login com essa conta.
-    3. Verifica se recebeu os tokens.
-    """
 
     random_id = random.randint(1, 100000)
     email_teste = f"usuario_teste_{random_id}@gmail.com"
