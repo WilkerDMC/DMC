@@ -1,0 +1,25 @@
+/* Calendar styled to match login theme */
+.calendar-card{
+  background: rgba(17,17,17,0.22);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 12px rgba(0,231,252,0.04);
+  color: var(--text-primary, #fff);
+  max-width: 720px;
+}
+
+.calendar-header h2{
+  margin:0 0 8px 0;
+  font-size:1.1rem;
+}
+
+.calendar-body{
+  min-height:150px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--text-secondary, #b3b3b3);
+}
+

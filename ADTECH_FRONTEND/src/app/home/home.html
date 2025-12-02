@@ -1,0 +1,63 @@
+<div class="dashboard-hero">
+  <div class="hero-flare" aria-hidden="true"></div>
+  <div class="hero-flare-secondary" aria-hidden="true"></div>
+  <div class="hero-triangle-pattern" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-1" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-2" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-3" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-4" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-5" aria-hidden="true"></div>
+
+    <div class="dashboard-layout">
+    <aside class="sidebar">
+      <app-menu></app-menu>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="dashboard-top">
+        <div class="dashboard-title">
+          <div class="dashboard-title-inner">
+            <h1>Bem Vindo</h1>
+            <p class="dashboard-subtitle">busque seus processos em um click</p>
+          </div>
+        </div>
+
+        <!-- placeholder -->
+        <div class="placeholder-wrap">
+          <input class="search-input" type="text" placeholder="Pesquisar..." aria-label="Pesquisar" />
+        </div>
+      </div>
+
+      <section class="dashboard-cards">
+        <div class="dashboard-card cpf-card login-card">
+          <div class="card-body">
+            <h2>Preencha o CPF</h2>
+            <p class="muted">Traga todos os dados do seu cliente</p>
+          </div>
+        </div>
+
+        <div class="dashboard-card cnpj-card login-card">
+          <div class="card-body">
+            <h2>Preencha o CNPJ</h2>
+            <p class="muted">Traga todos os dados da empresa</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    </div>
+
+    <!-- sistema de logoff -->
+    <details class="profile-dropdown" aria-label="Profile menu">
+      <summary class="profile-summary">
+        <div class="profile-avatar">
+              <img class="profile-pic" src="assets/images/login.png" alt="Foto de perfil" loading="lazy" decoding="async" />
+          <span class="online-badge" aria-hidden="true"></span>
+        </div>
+        <span class="profile-name">Cartorio teste</span>
+      </summary>
+      <div class="profile-menu">
+        <button class="btn-neon logout-action" type="button" (click)="logout()">Sair</button>
+      </div>
+    </details>
+
+  </div>
