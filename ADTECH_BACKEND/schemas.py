@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from pydantic import BaseModel, ConfigDict
 
 class UsuarioSchema(BaseModel):
     nome:str
@@ -7,13 +8,10 @@ class UsuarioSchema(BaseModel):
     senha:str
     numero_cartorio:str
 
-    class Config:
-        from_attributes = True
+model_config = ConfigDict(from_attributes=True)
 
 class LoginSchema(BaseModel):
     email:str
     senha:str
 
-    class Config:
-        from_attributes = True
-
+model_config = ConfigDict(from_attributes=True)
