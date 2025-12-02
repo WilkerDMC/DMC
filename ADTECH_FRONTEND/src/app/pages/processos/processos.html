@@ -1,1 +1,265 @@
-<p>processos works!</p>
+<!-- Container Principal da Página de Processos -->
+<div class="processos-page">
+
+  <!-- Menu Lateral com Submenus -->
+  <div class="navigation">
+    <ul>
+      <li>
+        <a routerLink="/dashboard">
+          <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
+          <span class="title">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/processos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span class="icon"><ion-icon name="folder-open-outline"></ion-icon></span>
+          <span class="title">Todos Processos</span>
+        </a>
+      </li>
+
+      <!-- Menu com Submenu -->
+      <li class="has-submenu" [class.open]="submenuAcoes">
+        <a (click)="toggleSubmenu('acoes')">
+          <span class="icon"><ion-icon name="create-outline"></ion-icon></span>
+          <span class="title">Ações</span>
+          <span class="arrow"><ion-icon name="chevron-down-outline"></ion-icon></span>
+        </a>
+        <ul class="submenu" [class.show]="submenuAcoes">
+          <li>
+            <a (click)="novoProcesso()">
+              <span class="icon"><ion-icon name="add-circle-outline"></ion-icon></span>
+              <span class="title">Novo Processo</span>
+            </a>
+          </li>
+          <li>
+            <a (click)="editarProcesso()">
+              <span class="icon"><ion-icon name="create-outline"></ion-icon></span>
+              <span class="title">Editar</span>
+            </a>
+          </li>
+          <li>
+            <a (click)="arquivarProcesso()">
+              <span class="icon"><ion-icon name="archive-outline"></ion-icon></span>
+              <span class="title">Arquivar</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Menu com Submenu-->
+      <li class="has-submenu" [class.open]="submenuVisualizacao">
+        <a (click)="toggleSubmenu('visualizacao')">
+          <span class="icon"><ion-icon name="eye-outline"></ion-icon></span>
+          <span class="title">Visualizar</span>
+          <span class="arrow"><ion-icon name="chevron-down-outline"></ion-icon></span>
+        </a>
+        <ul class="submenu" [class.show]="submenuVisualizacao">
+          <li>
+            <a (click)="aplicarFiltro('todos')">
+              <span class="icon"><ion-icon name="albums-outline"></ion-icon></span>
+              <span class="title">Todos</span>
+            </a>
+          </li>
+          <li>
+            <a (click)="aplicarFiltro('Em Andamento')">
+              <span class="icon"><ion-icon name="time-outline"></ion-icon></span>
+              <span class="title">Em Andamento</span>
+            </a>
+          </li>
+          <li>
+            <a (click)="aplicarFiltro('Pendente')">
+              <span class="icon"><ion-icon name="alert-circle-outline"></ion-icon></span>
+              <span class="title">Pendentes</span>
+            </a>
+          </li>
+          <li>
+            <a (click)="aplicarFiltro('Concluído')">
+              <span class="icon"><ion-icon name="checkmark-circle-outline"></ion-icon></span>
+              <span class="title">Concluídos</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Menu com Submenu: Exportar -->
+      <li class="has-submenu" [class.open]="submenuExportar">
+        <a (click)="toggleSubmenu('exportar')">
+          <span class="icon"><ion-icon name="download-outline"></ion-icon></span>
+          <span class="title">Exportar</span>
+          <span class="arrow"><ion-icon name="chevron-down-outline"></ion-icon></span>
+        </a>
+        <ul class="submenu" [class.show]="submenuExportar">
+          <li>
+            <a (click)="exportarPDF()">
+              <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
+              <span class="title">PDF</span>
+            </a>
+          </li>
+          <li>
+            <a (click)="exportarExcel()">
+              <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
+              <span class="title">Excel</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <a routerLink="/calendar">
+          <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
+          <span class="title">Agenda</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="stats-chart-outline"></ion-icon></span>
+          <span class="title">Relatórios</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="wallet-outline"></ion-icon></span>
+          <span class="title">Financeiro</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/documentos">
+          <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
+          <span class="title">Documentos</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+          <span class="title">Configurações</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Área Principal -->
+  <div class="main">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="toggle">
+        <ion-icon name="menu-outline"></ion-icon>
+      </div>
+      <div class="search">
+        <label>
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            placeholder="Buscar processos..."
+            (keyup.enter)="onSearch()"
+          />
+          <ion-icon name="search-outline"></ion-icon>
+        </label>
+      </div>
+      <div class="user">
+        <ion-icon name="person-outline"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Filtros Rápidos -->
+    <div class="quick-filters">
+      <button
+        class="filter-btn"
+        [class.active]="filtroStatus === 'todos'"
+        (click)="aplicarFiltro('todos')">
+        <ion-icon name="albums-outline"></ion-icon>
+        Todos
+      </button>
+      <button
+        class="filter-btn andamento"
+        [class.active]="filtroStatus === 'Em Andamento'"
+        (click)="aplicarFiltro('Em Andamento')">
+        <ion-icon name="time-outline"></ion-icon>
+        Em Andamento
+      </button>
+      <button
+        class="filter-btn pendente"
+        [class.active]="filtroStatus === 'Pendente'"
+        (click)="aplicarFiltro('Pendente')">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        Pendentes
+      </button>
+      <button
+        class="filter-btn concluido"
+        [class.active]="filtroStatus === 'Concluído'"
+        (click)="aplicarFiltro('Concluído')">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        Concluídos
+      </button>
+      <button
+        class="filter-btn novo"
+        (click)="novoProcesso()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        Novo Processo
+      </button>
+    </div>
+
+    <!-- Tabela de Processos -->
+    <div class="processos-content" #tableElement (mousemove)="onMouseMove($event, tableElement)">
+      <div class="recentOrders">
+        <div class="cardHeader">
+          <h2>Lista de Processos</h2>
+          <span class="count">{{ processosFiltrados.length }} processo(s)</span>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <td>Nº Processo</td>
+                <td>Cliente</td>
+                <td>Tipo</td>
+                <td>Data Abertura</td>
+                <td>Status</td>
+                <td>Prioridade</td>
+                <td>Responsável</td>
+                <td>Valor da Causa</td>
+                <td>Próxima Audiência</td>
+                <td>Ações</td>
+              </tr>
+            </thead>
+            <tbody>
+              @for (processo of processosFiltrados; track processo.numero) {
+                <tr>
+                  <td>{{ processo.numero }}</td>
+                  <td>{{ processo.cliente }}</td>
+                  <td>{{ processo.tipo }}</td>
+                  <td>{{ processo.dataAbertura }}</td>
+                  <td>
+                    <span class="status" [ngClass]="processo.statusClass">
+                      {{ processo.status }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="prioridade" [ngClass]="'prioridade-' + processo.prioridade.toLowerCase()">
+                      {{ processo.prioridade }}
+                    </span>
+                  </td>
+                  <td>{{ processo.responsavel }}</td>
+                  <td>{{ processo.valorCausa }}</td>
+                  <td>{{ processo.proximaAudiencia }}</td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="action-btn view" (click)="viewProcess(processo)" title="Visualizar">
+                        <ion-icon name="eye-outline"></ion-icon>
+                      </button>
+                      <button class="action-btn edit" (click)="editProcess(processo)" title="Editar">
+                        <ion-icon name="create-outline"></ion-icon>
+                      </button>
+                      <button class="action-btn delete" (click)="deleteProcess(processo)" title="Excluir">
+                        <ion-icon name="trash-outline"></ion-icon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
