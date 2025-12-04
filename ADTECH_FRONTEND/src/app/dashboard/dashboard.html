@@ -1,119 +1,123 @@
 <!-- Dashboard - Página limpa com contornos neon -->
-<div class="dashboard-container">
+<div class="dashboard-container" role="main" aria-label="Dashboard principal">
   <!-- Menu Lateral -->
-  <div class="navigation">
-    <ul>
-      <li>
-        <a routerLink="/dashboard" routerLinkActive="active">
-          <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
+  <nav class="navigation" role="navigation" aria-label="Menu de navegação principal">
+    <ul role="menubar">
+      <li role="none">
+        <a routerLink="/dashboard" routerLinkActive="active" role="menuitem" aria-label="Ir para Geral">
+          <span class="icon" aria-hidden="true"><ion-icon name="grid-outline"></ion-icon></span>
           <span class="title">Geral</span>
         </a>
       </li>
       <li>
-        <a routerLink="/processos" routerLinkActive="active">
-          <span class="icon"><ion-icon name="folder-open-outline"></ion-icon></span>
+        <a routerLink="/processos" routerLinkActive="active" role="menuitem" aria-label="Ir para Processos">
+          <span class="icon" aria-hidden="true"><ion-icon name="folder-open-outline"></ion-icon></span>
           <span class="title">Processos</span>
         </a>
       </li>
       <li>
-        <a routerLink="/calendar" routerLinkActive="active">
-          <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
+        <a routerLink="/calendar" routerLinkActive="active" role="menuitem" aria-label="Ir para Agenda">
+          <span class="icon" aria-hidden="true"><ion-icon name="calendar-outline"></ion-icon></span>
           <span class="title">Agenda</span>
         </a>
       </li>
       <li>
-        <a href="#">
-          <span class="icon"><ion-icon name="stats-chart-outline"></ion-icon></span>
+        <a href="#" role="menuitem" aria-label="Relatórios">
+          <span class="icon" aria-hidden="true"><ion-icon name="stats-chart-outline"></ion-icon></span>
           <span class="title">Relatórios</span>
         </a>
       </li>
       <li>
-        <a href="#">
-          <span class="icon"><ion-icon name="wallet-outline"></ion-icon></span>
+        <a href="#" role="menuitem" aria-label="Financeiro">
+          <span class="icon" aria-hidden="true"><ion-icon name="wallet-outline"></ion-icon></span>
           <span class="title">Financeiro</span>
         </a>
       </li>
       <li>
-        <a routerLink="/documentos" routerLinkActive="active">
-          <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
+        <a routerLink="/documentos" routerLinkActive="active" role="menuitem" aria-label="Ir para Documentos">
+          <span class="icon" aria-hidden="true"><ion-icon name="document-text-outline"></ion-icon></span>
           <span class="title">Documentos</span>
         </a>
       </li>
       <li>
-        <a href="#" routerLinkActive="active">
-          <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+        <a href="#" routerLinkActive="active" role="menuitem" aria-label="Configurações">
+          <span class="icon" aria-hidden="true"><ion-icon name="settings-outline"></ion-icon></span>
           <span class="title">Configurações</span>
         </a>
       </li>
       <li (click)="irParaProcuracao()" style="cursor: pointer;">
-        <a>
-          <span class="icon"><ion-icon name="document-attach-outline"></ion-icon></span>
+        <a role="menuitem" aria-label="Ir para Procuração">
+          <span class="icon" aria-hidden="true"><ion-icon name="document-attach-outline"></ion-icon></span>
           <span class="title">Procuração</span>
         </a>
       </li>
     </ul>
-  </div>
+  </nav>
 
   <!-- Área Principal -->
-  <div class="main">
-    <div class="topbar">
-      <div class="toggle">
+  <div class="main" role="region" aria-label="Área de conteúdo principal">
+    <div class="topbar" role="toolbar" aria-label="Barra de ferramentas">
+      <button class="toggle" aria-label="Alternar menu de navegação" aria-expanded="false">
         <ion-icon name="menu-outline"></ion-icon>
-      </div>
+      </button>
       <div class="search">
-        <label>
-          <input
-            type="text"
-            placeholder="Pesquisar..."
-            [(ngModel)]="searchTerm"
-            (keyup.enter)="onSearch()"
-          />
-          <ion-icon name="search-outline"></ion-icon>
-        </label>
+        <label for="search-input" class="sr-only">Pesquisar</label>
+        <input
+          id="search-input"
+          type="text"
+          placeholder="Pesquisar..."
+          [(ngModel)]="searchTerm"
+          (keyup.enter)="onSearch()"
+          aria-label="Campo de pesquisa"
+        />
+        <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
       </div>
-      <div class="user">
+      <button class="user" aria-label="Menu do usuário">
         <ion-icon name="person-outline"></ion-icon>
-      </div>
+      </button>
     </div>
-    <!-- cards-->
-    <div class="cardBox">
+    <!-- cards - Bento Grid Layout -->
+    <section class="cardBox" role="region" aria-label="Métricas principais">
       <div
         *ngFor="let card of cards"
         class="card card-glow"
         #cardElement
         (mousemove)="onMouseMove($event, cardElement)"
+        role="article"
+        [attr.aria-label]="'Métrica: ' + card.name + ', Valor: ' + card.value"
       >
         <div class="card-content">
           <div>
-            <div [class]="card.class">{{ card.value }}</div>
+            <div [class]="card.class" aria-live="polite">{{ card.value }}</div>
             <div class="cardName">{{ card.name }}</div>
           </div>
-          <div class="iconBx">
+          <div class="iconBx" aria-hidden="true">
             <ion-icon [name]="card.icon"></ion-icon>
           </div>
         </div>
       </div>
-    </div>
-    <!--CARDS PROCESSOS E CALENDARIO-->
-    <div class="content-flex">
-      <div class="processos">
-        <div
+    </section>
+    <!--CARDS PROCESSOS E CALENDARIO - Bento Grid-->
+    <div class="content-flex" role="region" aria-label="Processos e Calendário">
+      <section class="processos" role="region" aria-label="Processos recentes">
+        <article
           class="recentOrders"
           #processosElement
           (mousemove)="onMouseMove($event, processosElement)"
+          role="article"
         >
           <div class="cardHeader">
             <h2>Processos Recentes</h2>
-            <a href="#" class="btn-neon">Ver Todos</a>
+            <a href="#" class="btn-neon" aria-label="Ver todos os processos">Ver Todos</a>
           </div>
-          <table>
+          <table role="table" aria-label="Lista de processos recentes">
             <thead>
               <tr>
-                <td>Cliente</td>
-                <td>Processo</td>
-                <td>Data de Abertura</td>
-                <td>Status</td>
-                <td>Prioridade</td>
+                <th>Cliente</th>
+                <th>Processo</th>
+                <th>Data de Abertura</th>
+                <th>Status</th>
+                <th>Prioridade</th>
               </tr>
             </thead>
             <tbody>
@@ -121,74 +125,76 @@
                 <td>Maria Silva</td>
                 <td>0001234-56.2024</td>
                 <td>15/01/2024</td>
-                <td><span class="status andamento">Andamento</span></td>
-                <td>Alta</td>
+                <td><span class="status andamento" role="status" aria-label="Andamento">Andamento</span></td>
+                <td><span aria-label="Prioridade alta">Alta</span></td>
               </tr>
               <tr>
                 <td>João Santos</td>
                 <td>0002345-67.2024</td>
                 <td>22/01/2024</td>
-                <td><span class="status pendente">Pendente</span></td>
-                <td>Média</td>
+                <td><span class="status pendente" role="status" aria-label="Pendente">Pendente</span></td>
+                <td><span aria-label="Prioridade média">Média</span></td>
               </tr>
               <tr>
                 <td>Ana Souza</td>
                 <td>0003456-78.2024</td>
                 <td>03/02/2024</td>
-                <td><span class="status concluido">Concluído</span></td>
-                <td>Baixa</td>
+                <td><span class="status concluido" role="status" aria-label="Concluído">Concluído</span></td>
+                <td><span aria-label="Prioridade baixa">Baixa</span></td>
               </tr>
               <tr>
                 <td>Carlos Lima</td>
                 <td>0004567-89.2024</td>
                 <td>10/02/2024</td>
-                <td><span class="status andamento">Andamento</span></td>
-                <td>Alta</td>
+                <td><span class="status andamento" role="status" aria-label="Andamento">Andamento</span></td>
+                <td><span aria-label="Prioridade alta">Alta</span></td>
               </tr>
             </tbody>
           </table>
-        </div>
-      </div>
+        </article>
+      </section>
 
       <!--Mini Calendario-->
-      <div
+      <aside
         class="calendario"
         #calendarioElement
         (mousemove)="onMouseMove($event, calendarioElement)"
+        role="complementary"
+        aria-label="Calendário de compromissos"
       >
         <div class="cardHeader">
           <h2>Calendário de Compromissos</h2>
         </div>
         <div class="calendar-nav">
-          <div id="prev" class="btn">
-            <ion-icon name="chevron-back-outline"></ion-icon>
-          </div>
-          <div id="month-year"></div>
-          <div id="next" class="btn">
-            <ion-icon name="chevron-forward-outline"></ion-icon>
-          </div>
+          <button id="prev" class="btn" aria-label="Mês anterior">
+            <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
+          </button>
+          <div id="month-year" role="status" aria-live="polite" aria-label="Mês e ano atual"></div>
+          <button id="next" class="btn" aria-label="Próximo mês">
+            <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+          </button>
         </div>
-        <div class="diasSemanas">
-          <div>Dom</div>
-          <div>Seg</div>
-          <div>Ter</div>
-          <div>Qua</div>
-          <div>Qui</div>
-          <div>Sex</div>
-          <div>Sáb</div>
+        <div class="diasSemanas" role="presentation">
+          <div aria-label="Domingo">Dom</div>
+          <div aria-label="Segunda">Seg</div>
+          <div aria-label="Terça">Ter</div>
+          <div aria-label="Quarta">Qua</div>
+          <div aria-label="Quinta">Qui</div>
+          <div aria-label="Sexta">Sex</div>
+          <div aria-label="Sábado">Sáb</div>
         </div>
-        <div class="dias" id="days"></div>
-      </div>
+        <div class="dias" id="days" role="grid" aria-label="Dias do mês"></div>
+      </aside>
     </div>
 
     <!--Grafico de Linhas-->
-    <div class="graphBox" #graphElement (mousemove)="onMouseMove($event, graphElement)">
+    <section class="graphBox" #graphElement (mousemove)="onMouseMove($event, graphElement)" role="region" aria-label="Atividade semanal">
       <div class="cardHeader">
         <h2>Atividade Semanal</h2>
       </div>
       <div class="chart-container">
-        <canvas id="barChart"></canvas>
+        <canvas id="barChart" role="img" aria-label="Gráfico de barras mostrando atividade semanal"></canvas>
       </div>
-    </div>
+    </section>
   </div>
 </div>
