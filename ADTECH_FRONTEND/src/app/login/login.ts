@@ -34,6 +34,7 @@ export class Login implements OnInit {
 
   isLoading = false;
   errorMessage = '';
+  fieldErrors: { [key: string]: string } = {};
 
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -73,7 +74,83 @@ export class Login implements OnInit {
   selectRole(role: 'cartorio' | 'advogado' | 'cliente'): void {
     this.selectedRole = role;
     this.errorMessage = '';
+    this.fieldErrors = {};
     console.log('Role selecionado:', this.selectedRole);
+  }
+
+  hasError(field: string): boolean {
+    return !!this.fieldErrors[field];
+  }
+
+  getError(field: string): string {
+    return this.fieldErrors[field] || '';
+  }
+
+  validateCartorioForm(): boolean {
+    this.fieldErrors = {};
+
+    if (!this.cartorioForm.numero?.trim()) {
+      this.fieldErrors['numero'] = 'Campo obrigatório';
+    }
+
+    if (!this.cartorioForm.email?.trim()) {
+      this.fieldErrors['email'] = 'Campo obrigatório';
+    } else if (!this.isValidEmail(this.cartorioForm.email)) {
+      this.fieldErrors['email'] = 'E-mail inválido';
+    }
+
+    if (!this.cartorioForm.password?.trim()) {
+      this.fieldErrors['password'] = 'Campo obrigatório';
+    } else if (this.cartorioForm.password.length < 6) {
+      this.fieldErrors['password'] = 'Senha deve ter no mínimo 6 caracteres';
+    }
+
+    return Object.keys(this.fieldErrors).length === 0;
+  }
+
+  validateAdvogadoForm(): boolean {
+    this.fieldErrors = {};
+
+    if (!this.advogadoForm.oabNumber?.trim()) {
+      this.fieldErrors['oabNumber'] = 'Campo obrigatório';
+    }
+
+    if (!this.advogadoForm.email?.trim()) {
+      this.fieldErrors['email'] = 'Campo obrigatório';
+    } else if (!this.isValidEmail(this.advogadoForm.email)) {
+      this.fieldErrors['email'] = 'E-mail inválido';
+    }
+
+    if (!this.advogadoForm.password?.trim()) {
+      this.fieldErrors['password'] = 'Campo obrigatório';
+    } else if (this.advogadoForm.password.length < 6) {
+      this.fieldErrors['password'] = 'Senha deve ter no mínimo 6 caracteres';
+    }
+
+    return Object.keys(this.fieldErrors).length === 0;
+  }
+
+  validateClienteForm(): boolean {
+    this.fieldErrors = {};
+
+    if (!this.clienteForm.email?.trim()) {
+      this.fieldErrors['email'] = 'Campo obrigatório';
+    } else if (!this.isValidEmail(this.clienteForm.email)) {
+      this.fieldErrors['email'] = 'E-mail inválido';
+    }
+
+    if (!this.clienteForm.password?.trim()) {
+      this.fieldErrors['password'] = 'Campo obrigatório';
+    } else if (this.clienteForm.password.length < 6) {
+      this.fieldErrors['password'] = 'Senha deve ter no mínimo 6 caracteres';
+    }
+
+    return Object.keys(this.fieldErrors).length === 0;
+  }
+
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 
   isRoleActive(role: 'cartorio' | 'advogado' | 'cliente'): boolean {
@@ -84,13 +161,14 @@ export class Login implements OnInit {
     event.preventDefault();
     console.log('Formulário de Cartório enviado:', this.cartorioForm);
 
-    if (!this.cartorioForm.numero || !this.cartorioForm.email || !this.cartorioForm.password) {
-      this.errorMessage = 'Por favor, preencha todos os campos do formulário de Cartório.';
+    if (!this.validateCartorioForm()) {
+      this.errorMessage = 'Por favor, corrija os erros nos campos destacados.';
       return;
     }
 
     this.isLoading = true;
     this.errorMessage = '';
+    this.fieldErrors = {};
 
     this.authService.login('cartorio', {
       numero: this.cartorioForm.numero,
@@ -148,13 +226,14 @@ export class Login implements OnInit {
     event.preventDefault();
     console.log('Submit Advogado:', this.advogadoForm);
 
-    if (!this.advogadoForm.oabNumber || !this.advogadoForm.email || !this.advogadoForm.password) {
-      this.errorMessage = 'Preencha todos os campos!';
+    if (!this.validateAdvogadoForm()) {
+      this.errorMessage = 'Por favor, corrija os erros nos campos destacados.';
       return;
     }
 
     this.isLoading = true;
     this.errorMessage = '';
+    this.fieldErrors = {};
 
     this.authService.login('advogado', {
       oabNumber: this.advogadoForm.oabNumber,
@@ -212,13 +291,14 @@ export class Login implements OnInit {
     event.preventDefault();
     console.log('Submit Cliente:', this.clienteForm);
 
-    if (!this.clienteForm.email || !this.clienteForm.password) {
-      this.errorMessage = 'Preencha todos os campos!';
+    if (!this.validateClienteForm()) {
+      this.errorMessage = 'Por favor, corrija os erros nos campos destacados.';
       return;
     }
 
     this.isLoading = true;
     this.errorMessage = '';
+    this.fieldErrors = {};
 
     this.authService.login('cliente', {
       email: this.clienteForm.email,
@@ -293,5 +373,14 @@ export class Login implements OnInit {
     this.advogadoForm = { oabNumber: '', email: '', password: '' };
     this.clienteForm = { email: '', password: '' };
     this.errorMessage = '';
+  }
+
+  irParaCadastro(): void {
+    console.log('🚀 Navegando para cadastro...');
+    this.router.navigate(['/cadastro']).then(success => {
+      console.log('✅ Navegação bem-sucedida:', success);
+    }).catch(error => {
+      console.error('❌ Erro na navegação:', error);
+    });
   }
 }
