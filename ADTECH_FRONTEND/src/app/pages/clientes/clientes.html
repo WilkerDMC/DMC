@@ -1,1 +1,410 @@
-<p>clientes works!</p>
+npm <!-- Dashboard Container com Menu Lateral -->
+<div class="dashboard-container">
+  <!-- Menu Lateral -->
+  <div class="navigation">
+    <ul>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active">
+          <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
+          <span class="title">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/clientes/lista" routerLinkActive="active">
+          <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+          <span class="title">Lista de Clientes</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/clientes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span class="icon"><ion-icon name="person-add-outline"></ion-icon></span>
+          <span class="title">Novo Cliente</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="business-outline"></ion-icon></span>
+          <span class="title">Empresas</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="analytics-outline"></ion-icon></span>
+          <span class="title">Relatórios</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/documentos" routerLinkActive="active">
+          <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
+          <span class="title">Documentos</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/processos" routerLinkActive="active">
+          <span class="icon"><ion-icon name="folder-open-outline"></ion-icon></span>
+          <span class="title">Processos</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+          <span class="title">Configurações</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Área Principal -->
+  <div class="main">
+    <!-- Hero Section -->
+    <section class="cadastro-hero">
+      <!-- Background EFEITOS -->
+      <div class="hero-flare"></div>
+      <div class="hero-flare-secondary"></div>
+      <div class="hero-triangle-pattern"></div>
+
+      <!-- Cadastro CARD -->
+      <div class="cadastro-wrapper">
+        <div class="cadastro-container">
+          <div class="cadastro-card">
+        <!-- Header -->
+        <div class="cadastro-header">
+          <h1>Cadastro de Cliente</h1>
+          <p>Preencha os dados para criar uma nova conta</p>
+        </div>
+
+        <!-- Mensagem de erro/sucesso -->
+        @if (errorMessage) {
+        <div class="error-message">
+          {{ errorMessage }}
+        </div>
+        }
+        @if (successMessage) {
+        <div class="success-message">
+          {{ successMessage }}
+        </div>
+        }
+
+        <!-- FORMULÁRIO -->
+        <form (ngSubmit)="onSubmit($event)" class="form-animation">
+          <!-- DADOS BÁSICOS -->
+          <div class="section-title">DADOS BÁSICOS</div>
+
+          <!-- Tipo -->
+          <div class="form-group">
+            <label>Tipo</label>
+            <div class="tipo-toggle">
+              <button
+                type="button"
+                class="tipo-btn"
+                [class.active]="clienteForm.tipo === 'fisica'"
+                (click)="selectTipo('fisica')">
+                <i class="fas fa-user"></i>
+                Física
+              </button>
+              <button
+                type="button"
+                class="tipo-btn"
+                [class.active]="clienteForm.tipo === 'juridica'"
+                (click)="selectTipo('juridica')">
+                <i class="fas fa-building"></i>
+                Jurídica
+              </button>
+            </div>
+          </div>
+
+          <!-- CPF / CNPJ e Justificativa -->
+          <div class="form-row">
+            <div class="form-group" [class.col-50]="clienteForm.tipo === 'fisica'">
+              <label [attr.for]="clienteForm.tipo === 'fisica' ? 'cpf' : 'cnpj'">
+                {{ clienteForm.tipo === 'fisica' ? 'CPF' : 'CNPJ' }}
+                <span class="required">*</span>
+              </label>
+              <div class="input-wrapper" [class.error]="hasError('cpfCnpj')">
+                <input
+                  [type]="clienteForm.tipo === 'fisica' ? 'text' : 'text'"
+                  [id]="clienteForm.tipo === 'fisica' ? 'cpf' : 'cnpj'"
+                  [(ngModel)]="clienteForm.cpfCnpj"
+                  name="cpfCnpj"
+                  class="form-input"
+                  [placeholder]="clienteForm.tipo === 'fisica' ? '000.000.000-00' : '00.000.000/0000-00'"
+                  [required]="clienteForm.tipo === 'fisica'"
+                />
+                <i class="fas fa-id-card input-icon"></i>
+              </div>
+              @if (hasError('cpfCnpj')) {
+                <span class="error-text">{{ getError('cpfCnpj') }}</span>
+              }
+            </div>
+
+            @if (clienteForm.tipo === 'fisica') {
+            <div class="form-group col-50">
+              <label for="justificativa">Justificativa sem CPF</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="justificativa"
+                  [(ngModel)]="clienteForm.justificativaSemCpf"
+                  name="justificativaSemCpf"
+                  class="form-input"
+                  placeholder="Opcional"
+                />
+                <i class="fas fa-comment-dots input-icon"></i>
+              </div>
+            </div>
+            }
+          </div>
+
+          <!-- Nome -->
+          <div class="form-group">
+            <label for="nome">
+              Nome {{ clienteForm.tipo === 'juridica' ? 'da Empresa' : 'Completo' }}
+              <span class="required">*</span>
+            </label>
+            <div class="input-wrapper" [class.error]="hasError('nome')">
+              <input
+                type="text"
+                id="nome"
+                [(ngModel)]="clienteForm.nome"
+                name="nome"
+                class="form-input"
+                [placeholder]="clienteForm.tipo === 'fisica' ? 'Digite o nome completo' : 'Digite o nome da empresa'"
+                required
+              />
+              <i class="fas fa-user input-icon"></i>
+            </div>
+            @if (hasError('nome')) {
+              <span class="error-text">{{ getError('nome') }}</span>
+            }
+          </div>
+
+          @if (clienteForm.tipo === 'fisica') {
+          <!-- Gênero -->
+          <div class="form-group">
+            <label>Gênero</label>
+            <div class="genero-options">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="genero"
+                  value="masculino"
+                  [(ngModel)]="clienteForm.genero"
+                />
+                <span class="radio-label">
+                  <i class="fas fa-mars"></i>
+                  MASCULINO
+                </span>
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="genero"
+                  value="feminino"
+                  [(ngModel)]="clienteForm.genero"
+                />
+                <span class="radio-label">
+                  <i class="fas fa-venus"></i>
+                  FEMININO
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <!-- RG, Profissão, Data de Nascimento -->
+          <div class="form-row">
+            <div class="form-group col-33">
+              <label for="rg">RG</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="rg"
+                  [(ngModel)]="clienteForm.rg"
+                  name="rg"
+                  class="form-input"
+                  placeholder="00.000.000-0"
+                />
+                <i class="fas fa-id-card-alt input-icon"></i>
+              </div>
+            </div>
+            <div class="form-group col-33">
+              <label for="profissao">Profissão</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="profissao"
+                  [(ngModel)]="clienteForm.profissao"
+                  name="profissao"
+                  class="form-input"
+                  placeholder="Ex: Engenheiro"
+                />
+                <i class="fas fa-briefcase input-icon"></i>
+              </div>
+            </div>
+            <div class="form-group col-33">
+              <label for="dataNascimento">Data de nascimento</label>
+              <div class="input-wrapper">
+                <input
+                  type="date"
+                  id="dataNascimento"
+                  [(ngModel)]="clienteForm.dataNascimento"
+                  name="dataNascimento"
+                  class="form-input"
+                />
+                <i class="fas fa-calendar input-icon"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Naturalidade -->
+          <div class="form-group">
+            <label for="naturalidade">Naturalidade</label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="naturalidade"
+                [(ngModel)]="clienteForm.naturalidade"
+                name="naturalidade"
+                class="form-input"
+                placeholder="Ex: São Paulo/SP"
+              />
+              <i class="fas fa-map-marker-alt input-icon"></i>
+            </div>
+          </div>
+
+          <!-- Estado Civil, Nome da Mãe, Nome do Pai -->
+          <div class="form-row">
+            <div class="form-group col-33">
+              <label for="estadoCivil">Estado civil</label>
+              <div class="input-wrapper">
+                <select
+                  id="estadoCivil"
+                  [(ngModel)]="clienteForm.estadoCivil"
+                  name="estadoCivil"
+                  class="form-input"
+                >
+                  <option value="">Selecione</option>
+                  <option value="solteiro">Solteiro(a)</option>
+                  <option value="casado">Casado(a)</option>
+                  <option value="divorciado">Divorciado(a)</option>
+                  <option value="viuvo">Viúvo(a)</option>
+                  <option value="separado">Separado(a)</option>
+                  <option value="uniao-estavel">União Estável</option>
+                </select>
+                <i class="fas fa-heart input-icon"></i>
+              </div>
+            </div>
+            <div class="form-group col-33">
+              <label for="nomeMae">Nome da mãe</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="nomeMae"
+                  [(ngModel)]="clienteForm.nomeMae"
+                  name="nomeMae"
+                  class="form-input"
+                  placeholder="Nome completo"
+                />
+                <i class="fas fa-female input-icon"></i>
+              </div>
+            </div>
+            <div class="form-group col-33">
+              <label for="nomePai">Nome do pai</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="nomePai"
+                  [(ngModel)]="clienteForm.nomePai"
+                  name="nomePai"
+                  class="form-input"
+                  placeholder="Nome completo"
+                />
+                <i class="fas fa-male input-icon"></i>
+              </div>
+            </div>
+          </div>
+          }
+
+          <!-- Categoria e URL Site -->
+          <div class="form-row">
+            <div class="form-group col-50">
+              <label for="categoria">Categoria</label>
+              <div class="input-wrapper">
+                <select
+                  id="categoria"
+                  [(ngModel)]="clienteForm.categoria"
+                  name="categoria"
+                  class="form-input"
+                >
+                  <option value="">Selecione uma categoria</option>
+                  <option value="cliente-vip">Cliente VIP</option>
+                  <option value="cliente-gold">Cliente Gold</option>
+                  <option value="cliente-standard">Cliente Standard</option>
+                  <option value="cliente-novo">Cliente Novo</option>
+                </select>
+                <i class="fas fa-tag input-icon"></i>
+              </div>
+            </div>
+            <div class="form-group col-50">
+              <label for="urlSite">URL Site</label>
+              <div class="input-wrapper">
+                <input
+                  type="url"
+                  id="urlSite"
+                  [(ngModel)]="clienteForm.urlSite"
+                  name="urlSite"
+                  class="form-input"
+                  placeholder="https://exemplo.com.br"
+                />
+                <i class="fas fa-globe input-icon"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Anexar Foto -->
+          <div class="form-group">
+            <label for="foto">Anexar foto (envie uma imagem na proporção 50 x 50 ou superior)</label>
+            <div class="file-upload-wrapper">
+              <input
+                type="file"
+                id="foto"
+                (change)="onFileSelected($event)"
+                accept="image/*"
+                class="file-input"
+                #fileInput
+              />
+              <button type="button" class="file-upload-btn" (click)="fileInput.click()">
+                <i class="fas fa-cloud-upload-alt"></i>
+                {{ clienteForm.foto ? 'Alterar Foto' : 'Selecionar Foto' }}
+              </button>
+              @if (clienteForm.foto) {
+                <span class="file-name">{{ clienteForm.foto.name }}</span>
+              }
+              @if (fotoPreview) {
+                <div class="foto-preview">
+                  <img [src]="fotoPreview" alt="Preview da foto" />
+                  <button type="button" class="remove-foto" (click)="removeFoto()">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Botões de Ação -->
+          <div class="form-actions">
+            <button type="button" class="btn-cancelar" (click)="onCancel()">
+              <i class="fas fa-times"></i>
+              Cancelar
+            </button>
+            <button type="submit" class="btn-cadastrar" [disabled]="isLoading">
+              <i class="fas fa-check"></i>
+              {{ isLoading ? 'Cadastrando...' : 'Cadastrar Cliente' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+  </div>
+</div>
