@@ -55,5 +55,10 @@ export const routes: Routes = [
     path: 'due-diligence',
     canActivate: [authGuard],
     loadComponent: () => import('./pages/due-diligence/due-diligence').then(m => m.DueDiligence)
+  },
+  {
+    path: 'procuracao',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/procuracao/procuracao').then(m => m.ProcuracaoComponent)
   }
 ];

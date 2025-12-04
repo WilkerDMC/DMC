@@ -1,0 +1,637 @@
+.procuracao-container {
+  min-height: 100vh;
+  width: 100vw;
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  position: relative;
+}
+
+body {
+  background: none;
+  overflow-x: hidden;
+}
+
+//=========================MENU LATERAL====================//
+
+.navigation li {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.navigation {
+  position: fixed;
+  width: 80px;
+  height: 100%;
+  background: #1c1c1c;
+  border-right: 1.5px solid #232a3a;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.7), inset -1px 0 20px #ffc43a11;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  z-index: 100;
+
+  ul li a {
+    padding: 1rem 0.5rem;
+    justify-content: center;
+    margin: 4px 4px;
+    color: #00ff88;
+    background: transparent;
+    border-radius: 10px;
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  }
+
+  ul li a .title {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    transition: opacity 0.3s, width 0.3s;
+  }
+
+  ul li:hover a,
+  ul li.hovered a {
+    background: #1a1a1a;
+    color: #00ff84;
+    box-shadow: 0 2px 12px #00ffd033;
+    transform: translateX(4px);
+  }
+
+  ul li:hover a .title,
+  ul li.hovered a .title {
+    color: #00ffd0;
+  }
+}
+
+.navigation.active {
+  width: 240px;
+
+  ul li a {
+    padding: 1rem 1.5rem;
+    margin: 4px 12px;
+    justify-content: flex-start;
+    color: #00ff84;
+  }
+
+  ul li a .title {
+    opacity: 1;
+    width: auto;
+    margin-left: 8px;
+    color: #fff;
+  }
+
+  ul li:hover a,
+  ul li.hovered a {
+    background: #1a1a1a;
+    color: #00ff8c;
+    box-shadow: 0 2px 16px #00ffd033;
+    transform: translateX(8px);
+  }
+}
+
+.navigation ul {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.navigation ul li {
+  position: relative;
+  width: 100%;
+  list-style-type: none;
+}
+
+.navigation ul li a .icon {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  color: #00ff95;
+  filter: drop-shadow(0 0 4px #00ffd055);
+  transition: color 0.3s, filter 0.3s;
+}
+
+.navigation ul li:hover a .icon,
+.navigation ul li.hovered a .icon {
+  color: #fff;
+  filter: drop-shadow(0 0 8px #00ffd0) drop-shadow(0 0 12px #00ffd055);
+}
+
+.navigation ul li a .title {
+  color: #fff;
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.navigation ul li:hover a .title,
+.navigation ul li.hovered a .title {
+  color: #00ff7b;
+}
+
+.navigation ul li:nth-child(1) {
+  margin-bottom: 40px;
+}
+
+// ========================TITULO E SUBTITULO====================//
+.adtech-title {
+  display: flex;
+  justify-content: center;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #fff !important;
+  padding: 48px 56px 0 56px;
+  gap: 20px;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  display: flex;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #aaa !important;
+  padding: 8px 56px 24px 56px;
+  gap: 10px;
+  letter-spacing: 0.3px;
+}
+
+.adtech-title .icon {
+  color: #00ff6a;
+  font-size: 2.8rem;
+  margin-right: 10px;
+}
+
+//=======================PROCURACAO TITULO ====================//
+
+.titulo-procuracao {
+  display: flex;
+  align-items: center;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #fff !important;
+  padding: 48px 56px 0 56px;
+  gap: 20px;
+  letter-spacing: 0.5px;
+
+  .icon {
+    color: #00ff6a;
+    font-size: 2.8rem;
+    margin-right: 10px;
+  }
+}
+
+//=======================ICONE====================//
+
+.icon {
+  font-size: 2.2rem;
+  color: #00ff8c;
+  margin-right: 12px;
+}
+
+.procuracao-wrapper {
+  justify-content: center;
+  position: relative;
+  background: #1a1a1a;
+  border-radius: 24px;
+  box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.25);
+  max-width: 1400px;
+  width: 100%;
+  margin: 48px 0 48px 120px;
+  padding: 0 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: center;
+}
+
+.steps-bar {
+  width: calc(100% - 112px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+  margin: 36px 0 0 56px;
+  padding-bottom: 28px;
+}
+
+.steps-bar div {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #5c5c5c;
+  color: #b0b8c9;
+  border: 3px solid #232a3a;
+  font-size: 1.35rem;
+  font-weight: 700;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  transition: background 0.3s, color 0.3s, border 0.3s;
+  position: relative;
+  z-index: 1; // Garante que as bolas fiquem acima das linhas
+}
+
+.steps-bar div::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 50%;
+  top: 110%;
+  transform: translateX(-50%);
+  color: #00ffd0;
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  margin-top: 4px;
+  opacity: 0.85;
+  pointer-events: none; // Garante que o label não sobreponha a bola
+}
+
+.steps-bar .line {
+  flex: 1;
+  height: 4px;
+  background: #383838;
+  margin: 0 0.5rem;
+  border-radius: 2px;
+  transition: background 0.3s;
+  z-index: 0;
+}
+
+.steps-bar div.active {
+  background: #00ff88;
+  color: #282828;
+  border: 3px solid #00ff88;
+}
+
+.steps-bar div.active::after {
+  color: #fff;
+  opacity: 1;
+}
+
+.steps-bar .line.active {
+  background: #00ff88;
+}
+
+fieldset {
+  background: #1a1a1a;
+  border-radius: 14px;
+  border: 1.5px solid #373737;
+  margin: 0 56px 28px 56px;
+  padding: 36px 36px 28px 36px;
+  box-shadow: none;
+  min-height: 120px;
+}
+
+legend {
+  font-family: 'Merriweather', 'Georgia', serif;
+  font-weight: 700;
+  color: #6f6f6f !important;
+  font-size: 1.22rem;
+  margin-bottom: 18px;
+  letter-spacing: 0.2px;
+}
+
+label {
+  display: block;
+  margin-bottom: 22px;
+  font-size: 1.13rem;
+  color: #fff !important;
+  font-weight: 700;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1.5px solid #2f2f2f;
+  background: #1e1e1e;
+  color: #fff !important;
+  font-size: 1.13rem;
+  transition: border 0.2s, background 0.2s;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus {
+  border: 1.5px solid #00ffd0;
+  background: #2e2e2e;
+  outline: none;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin: 0 56px 0 56px;
+}
+
+button,
+.button-elegant,
+.btn-download,
+.btn-procuracao,
+.btn-due-diligence {
+  font-family: inherit;
+  font-size: 1.08rem;
+  border-radius: 8px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  transition: all 0.2s;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 12px 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button-elegant,
+.btn-download {
+  background: #292929;
+  color: #00ffd0;
+  border: 1.5px solid #00ff55;
+  box-shadow: 0 2px 8px #2f2f2f22;
+}
+.button-elegant:hover,
+.btn-download:hover {
+  background: #00ffd0;
+  color: #181c2f;
+}
+
+.btn-procuracao {
+  position: relative;
+  padding: 1em 2em;
+  background: #414141;
+  color: #b7b7b7;
+  font-size: 1.18rem;
+  border: none;
+  box-shadow: 0 4px 16px #00ffd033;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-procuracao::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  padding: 2px;
+  background: linear-gradient(45deg, #00ff88, #00ffd0,);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+
+}
+
+.btn-procuracao > * {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-procuracao:hover::after {
+  filter: brightness(1.3) saturate(1.5);
+  padding: 4px;
+}
+
+.btn-procuracao:hover {
+  color: #00ffd0;
+  z-index: 0;
+}
+
+.btn-due-diligence {
+  background: #1a1a1a;
+  color: #282828;
+  border-radius: 0 0 18px 18px;
+  font-size: 1.18rem;
+  box-shadow: 0 2px 8px #ffc43a33;
+}
+
+.procuracao-document {
+  background: #232a3a;
+  color: #fff !important;
+  border-radius: 18px;
+  box-shadow: none;
+  margin: 0 56px 28px 56px;
+  padding: 40px 36px 36px 36px;
+  border: 1.5px solid #232a3a;
+  font-size: 1.18rem;
+  line-height: 1.7;
+  min-height: 220px;
+  position: relative;
+  word-break: break-word;
+}
+
+.procuracao-document h3 {
+  font-size: 2.2rem;
+  font-family: 'Merriweather', 'Georgia', serif;
+  font-weight: 800;
+  color: #00ff73 !important;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.procuracao-document .assinatura {
+  margin-top: 48px;
+  text-align: center;
+  color: #00ffd0 !important;
+  font-size: 1.08rem;
+}
+
+.due-diligence-section {
+  background: #232a3a;
+  border-radius: 18px;
+  box-shadow: none;
+  margin: 0 56px 28px 56px;
+  padding: 36px 36px 28px 36px;
+  color: #fff !important;
+  border: 1.5px solid #2d2d2d;
+}
+
+.due-diligence-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.due-diligence-header h4 {
+  color: #00ffd0 !important;
+  font-size: 1.22rem;
+  font-weight: 700;
+}
+
+.due-diligence-report {
+  background: #181818;
+  color: #fff !important;
+  border-radius: 10px;
+  box-shadow: none;
+  padding: 18px 14px;
+  font-size: 1.13rem;
+  min-height: 80px;
+  margin-bottom: 12px;
+  border: 1px solid #232a3a;
+}
+
+.btn-download {
+  margin-left: 0;
+  min-width: 120px;
+  background: #232a3a;
+  color: #00ffd0;
+  border: 1.5px solid #00ffd0;
+  box-shadow: none;
+  padding: 10px 18px;
+  font-size: 1rem;
+}
+
+.btn-download:hover {
+  background: #00ffd0;
+  color: #181c2f;
+}
+
+.btn-top-right {
+  position: absolute;
+  top: 48px;
+  right: 56px;
+  z-index: 10;
+  display: flex;
+  gap: 12px;
+}
+
+// Passos títulos para cada etapa
+.passo-titulo {
+  color: #00ffd0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.passo-titulo .icon {
+  font-size: 1.5rem;
+  color: #00ffd0;
+  margin-right: 6px;
+}
+
+// Due Diligence tela especial
+.due-diligence-fullscreen {
+  background: #272727;
+  min-height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.due-diligence-card {
+  background: #212121;
+  border-radius: 24px;
+  box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.25);
+  max-width: 600px;
+  width: 96vw;
+  padding: 48px 32px 32px 32px;
+  color: #fff;
+  border: 2px solid #00ffd0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+}
+
+.due-diligence-card h2 {
+  color: #00ffd0;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.due-diligence-card .btn-download {
+  margin: 24px auto 0 auto;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .procuracao-wrapper {
+    max-width: 98vw;
+    padding: 0 0 24px 0;
+    border-radius: 16px;
+    margin: 24px 0 24px 90px;
+  }
+  .titulo-procuracao,
+  .steps-bar,
+  fieldset,
+  .procuracao-document,
+  .due-diligence-section,
+  .form-actions {
+    margin-left: 12px;
+    margin-right: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .btn-top-right {
+    top: 18px;
+    right: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .procuracao-wrapper {
+    padding: 0 0 12px 0;
+    border-radius: 8px;
+    margin: 8px 0 8px 0;
+  }
+  .titulo-procuracao {
+    font-size: 1.2rem;
+    padding: 18px 4px 0 4px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .steps-bar,
+  fieldset,
+  .procuracao-document,
+  .due-diligence-section,
+  .form-actions {
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  .btn-top-right {
+    position: static;
+    margin-bottom: 12px;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+  }
+}

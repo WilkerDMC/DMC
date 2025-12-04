@@ -1,95 +1,183 @@
-<div class="adtech-title">AD-TECH</div>
-<div class="procuracao-wrapper" *ngIf="view ==='form'">
-  <h2>Nova Procuração</h2>
 
-  <!--BARRA DE PROGRESSO-->
-
- <div class="steps-bar">
-    <div [class.active]="step === 1">1</div>
-    <div class="line" [class.active]="step > 1"></div>
-    <div [class.active]="step === 2">2</div>
-    <div class="line" [class.active]="step > 2"></div>
-    <div [class.active]="step === 3">3</div>
+  <div class="navigation">
+    <ul>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
+          <span class="title">Todas as procurações</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="folder-open-outline"></ion-icon></span>
+          <span class="title">Processos</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
+          <span class="title">Agenda</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="stats-chart-outline"></ion-icon></span>
+          <span class="title">Relatórios</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="wallet-outline"></ion-icon></span>
+          <span class="title">Financeiro</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
+          <span class="title">Documentos</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+          <span class="title">Configurações</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/procuracao">
+          <span class="icon"><ion-icon name="document-attach-outline"></ion-icon></span>
+          <span class="title">Procuração</span>
+        </a>
+      </li>
+    </ul>
   </div>
 
-  <form #procForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
-    <!-- Passo 1: Outorgante -->
-    <div *if="step === 1">
+
+<!------------------------------------------------COMPONENTE PROCURACAO-------------------------------->
+
+<div class="procuracao-container">
+  <div id="container-title">
+    <div class="adtech-title">AD-TECH</div>
+    <div class="subtitle">Gerador de Procuração Digital</div>
+  </div>
+
+  <div class="procuracao-wrapper">
+    <div class="titulo-procuracao">
+      <span>
+        <i class="icon" aria-hidden="false"></i>Procuração Digital</span>
+      <div class="btn-top-right" *ngIf="procGerada">
+        <button class="button-elegant" (click)="baixarProcuracao()">
+          <i class="fa fa-download"></i> Baixar Procuração</button>
+      </div>
+    </div>
+
+    <div class="steps-bar">
+      <div [class.active]="step === 1">1</div>
+      <div class="line" [class.active]="step > 1"></div>
+      <div [class.active]="step === 2">2</div>
+      <div class="line" [class.active]="step > 2"></div>
+      <div [class.active]="step === 3">3</div>
+      <div class="line" [class.active]="step > 3"></div>
+      <div [class.active]="step === 4">4</div>
+      <div class="line" [class.active]="step > 4"></div>
+      <div [class.active]="step === 5">5</div>
+    </div>
+
+    <!-----------------------------------------------ETAPA 1--------------------------------------------------->
+
+
+    <form *ngIf="step === 1 && !procGerada" autocomplete="on">
       <fieldset>
         <legend>Dados do Outorgante</legend>
-        <label>
-          Nome Completo:
-          <input name="grantorName" [(ngModel)]="formData.grantor.name" required />
-        </label>
-        <label>
-          CPF:
-          <input name="grantorCpf" [(ngModel)]="formData.grantor.cpf" required />
-        </label>
-        <label>
-          RG:
-          <input name="grantorRg" [(ngModel)]="formData.grantor.rg" required />
-        </label>
-        <label>
-          Endereço:
-          <input name="grantorAddress" [(ngModel)]="formData.grantor.address" required />
-        </label>
+        <label>Nome<input type="text" [(ngModel)]="formData.grantor.name" name="grantorName" required /></label>
+        <label>CPF<input type="text" [(ngModel)]="formData.grantor.cpf" name="grantorCpf" required /></label>
+        <label>RG<input type="text" [(ngModel)]="formData.grantor.rg" name="grantorRg" required /></label>
+        <label>Endereço<input type="text" [(ngModel)]="formData.grantor.endereco" name="grantorEndereco" required /></label>
+        <label>Email<input type="text" [(ngModel)]="formData.grantor.email" name="grantorEmail" required /></label>
       </fieldset>
-    </div>
+      <div class="form-actions">
+        <button type="button" class="button-elegant" (click)="nextStep()" [disabled]="!isStepValid()">Próxima Etapa</button>
+      </div>
+    </form>
 
-    <!-- Passo 2: Outorgado -->
-    <div *if="step === 2">
+    <!-------------------------------- ETAPA 2 ----------------------------------------------------------->
+
+
+    <form *ngIf="step === 2 && !procGerada" autocomplete="on">
       <fieldset>
         <legend>Dados do Outorgado</legend>
-        <label>
-          Nome Completo:
-          <input name="granteeName" [(ngModel)]="formData.grantee.name" required />
-        </label>
-        <label>
-          CPF:
-          <input name="granteeCpf" [(ngModel)]="formData.grantee.cpf" required />
-        </label>
-        <label>
-          RG:
-          <input name="granteeRg" [(ngModel)]="formData.grantee.rg" required />
-        </label>
-        <label>
-          Endereço:
-          <input name="granteeAddress" [(ngModel)]="formData.grantee.address" required />
-        </label>
+        <label>Nome<input type="text" [(ngModel)]="formData.grantee.name" name="granteeName" required /></label>
+        <label>CPF<input type="text" [(ngModel)]="formData.grantee.cpf" name="granteeCpf" required /></label>
+        <label>RG<input type="text" [(ngModel)]="formData.grantee.rg" name="granteeRg" required /></label>
+        <label>Endereço<input type="text" [(ngModel)]="formData.grantee.endereco" name="granteeEndereco" required /></label>
+        <label>Email<input type="text" [(ngModel)]="formData.grantee.email" name="granteeEmail" required></label>
       </fieldset>
-    </div>
+      <div class="form-actions">
+        <button class="button-elegant" (click)="prevStep()">Voltar</button>
+        <button class="btn-procuracao" (click)="gerarProcuracao()">Gerar Procuração</button>
+      </div>
+    </form>
 
-    <!-- Passo 3: Verificação/Preview -->
-    <div *if="step === 3">
+    <!----------------------------------- ETAPA 3-------------------------------------------------------------->
+
+
+    <div *ngIf="step === 3">
       <fieldset>
-        <legend>Verifique os Dados</legend>
-        <div class="preview-section">
-          <h4>Outorgante</h4>
-          <p><strong>Nome:</strong> {{formData.grantor.name}}</p>
-          <p><strong>CPF:</strong> {{formData.grantor.cpf}}</p>
-          <p><strong>RG:</strong> {{formData.grantor.rg}}</p>
-          <p><strong>Endereço:</strong> {{formData.grantor.address}}</p>
-        </div>
-        <div class="preview-section">
-          <h4>Outorgado</h4>
-          <p><strong>Nome:</strong> {{formData.grantee.name}}</p>
-          <p><strong>CPF:</strong> {{formData.grantee.cpf}}</p>
-          <p><strong>RG:</strong> {{formData.grantee.rg}}</p>
-          <p><strong>Endereço:</strong> {{formData.grantee.address}}</p>
-        </div>
-        <div class="preview-section">
-          <h4>Poderes Concedidos</h4>
-          <textarea name="powers" [(ngModel)]="formData.powers" required placeholder="Descreva os poderes específicos concedidos ao outorgado..."></textarea>
-          <h4>Prazo de Validade</h4>
-          <input name="validity" [(ngModel)]="formData.validity" required placeholder="Ex: 12 meses, Indeterminado" />
-        </div>
+        <legend>Conferir Dados</legend>
+        <div><b>Outorgante:</b> {{formData.grantor.name}} - CPF: {{formData.grantor.cpf}} - RG: {{formData.grantor.rg}} - Endereço: {{formData.grantor.endereco}} - Email: {{formData.grantor.email}}</div>
+        <div><b>Outorgado:</b> {{formData.grantee.name}} - CPF: {{formData.grantee.cpf}} - RG: {{formData.grantee.rg}} - Endereço: {{formData.grantee.endereco}} - Email: {{formData.grantee.email}}</div>
       </fieldset>
+      <div class="form-actions">
+        <button class="button-elegant" (click)="prevStep()">Voltar</button>
+        <button class="btn-procuracao" (click)="gerarProcuracao()">Gerar Procuração</button>
+      </div>
     </div>
 
-    <div class="form-actions">
-      <button type="button" (click)="prevStep()" [disabled]="step === 1">Anterior</button>
-      <button type="button" *if="step < 3" (click)="nextStep()" [disabled]="!isStepValid()">Próximo</button>
-      <button type="submit" *if="step === 3" [disabled]="!isStepValid()">Gerar Procuração</button>
+
+    <!---------------------------------------------------------- ETAPA 4-------------------------------------------------------------->
+
+    <div *ngIf="step === 4">
+      <div class="procuracao-document">
+        <h3 id="cor-procuracao">Procuração Gerada</h3>
+          <p>Eu, {{formData.grantor.name}}, portador do CPF {{formData.grantor.cpf}} e RG {{formData.grantor.rg}}, residente em {{formData.grantor.endereco}}, nomeio e constituo como meu
+          bastante procurador {{formData.grantee.name}}, portador do CPF {{formData.grantee.cpf}} e RG {{formData.grantee.rg}}, residente em {{formData.grantee.endereco}}, para
+          me representar junto a terceiros, com poderes para praticar todos os atos necessários ao bom e fiel cumprimento deste mandato.</p>
+          <p>Esta procuração é válida por 1 (um) ano a partir da data de sua assinatura.</p>
+        <p id="data-emissao">Data: {{dataAtual | date:'dd/MM/yyyy'}}</p>
+      </div>
+      <div class="form-actions">
+        <button class="button-elegant" (click)="prevStep()">Voltar</button>
+        <button class="btn-procuracao" (click)="gerarProcuracao()">Continuar para Due Diligence</button>
+      </div>
     </div>
-  </form>
+
+
+    <!------------------------------------------------ ETAPA 5 ----------------------------------------------------------->
+   <div *ngIf="step === 5">
+      <div class="due-diligence-section">
+        <div class="due-diligence-header">
+          <h3 id="cor-procuracao">Due Diligence Detalhada</h3>
+          <button class="btn-procuracao" (click)="baixarDueDiligence()">Baixar Due Diligence</button>
+        </div>
+        <div class="due-diligence-report">
+          <p><b>Outorgante</b>{{formData.grantor.name}}({{formData.grantor.cpf}})</p>
+          <p><b>Outorgado</b>{{formData.grantee.name}}({{formData.grantee.cpf}})</p>
+          <p>Status: <span id="status-aprovado"></span></p>
+          <p>Relatório geredo automaticamente em {{dataAtual | date:'dd/MM/yyyy'}}</p>
+
+          <button type="button" class="button-elegant" (click)="expandir = !expandir">ver detalhes financeiros</button>
+          <div *ngIf="expandir"class="due-details">
+            <p><b>Histórico financeiro</b></p>
+          </div>
+          <button type="button" class="button-elegant" (click)="expandir2 = !expandir2">ver processos</button>
+          <div *ngIf="expandir2"class="due-details">
+            <p><b>Histórico de processos:</b></p>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="button-elegant" (click)="prevStep()">Voltar</button>
+        <button class="btn-procuracao" (click)="baixarProcuracao()">Baixar Procuração</button>
+      </div>
+  </div>
 </div>
+

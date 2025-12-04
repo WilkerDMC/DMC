@@ -51,15 +51,7 @@
         <div class="form-group">
           <label for="emailCartorio">E-mail</label>
           <div class="input-wrapper">
-            <input
-              type="email"
-              id="emailCartorio"
-              [(ngModel)]="cartorioForm.email"
-              name="email"
-              class="form-input"
-              placeholder="seu@email.com"
-              required
-            />
+            <input type="email" id="emailCartorio" [(ngModel)]="cartorioForm.email" name="email" class="form-input" placeholder="seu@email.com" required/>
             <i class="fas fa-envelope input-icon"></i>
           </div>
         </div>
@@ -67,15 +59,7 @@
         <div class="form-group">
           <label for="passwordCartorio">Senha</label>
           <div class="input-wrapper">
-            <input
-              type="password"
-              id="passwordCartorio"
-              [(ngModel)]="cartorioForm.password"
-              name="password"
-              class="form-input"
-              placeholder="••••••••"
-              required
-            />
+            <input type="password" id="passwordCartorio" [(ngModel)]="cartorioForm.password" name="password" class="form-input" placeholder="••••••••" required/>
             <i class="fas fa-lock input-icon"></i>
           </div>
         </div>
@@ -83,20 +67,13 @@
           {{ isLoading ? 'Entrando...' : 'Entrar como Cartório' }}
         </button>
       </form>
-      } @else if (selectedRole === 'advogado') {
+      }
+        @else if (selectedRole === 'advogado') {
       <form (ngSubmit)="onSubmitAdvogado($event)" class="form-animation">
         <div class="form-group">
           <label for="oab">Número OAB</label>
           <div class="input-wrapper">
-            <input
-              type="text"
-              id="oab"
-              [(ngModel)]="advogadoForm.oabNumber"
-              name="oabNumber"
-              class="form-input"
-              placeholder="OAB 000000"
-              required
-            />
+            <input type="text" id="oab" [(ngModel)]="advogadoForm.oabNumber" name="oabNumber" class="form-input" placeholder="OAB 000000" required/>
             <i class="fas fa-id-card input-icon"></i>
           </div>
         </div>
@@ -104,15 +81,7 @@
         <div class="form-group">
           <label for="emailAdv">E-mail</label>
           <div class="input-wrapper">
-            <input
-              type="email"
-              id="emailAdv"
-              [(ngModel)]="advogadoForm.email"
-              name="email"
-              class="form-input"
-              placeholder="seu@email.com"
-              required
-            />
+            <input type="email" id="emailAdv" [(ngModel)]="advogadoForm.email" name="email" class="form-input" placeholder="seu@email.com" required/>
             <i class="fas fa-envelope input-icon"></i>
           </div>
         </div>
@@ -120,15 +89,7 @@
         <div class="form-group">
           <label for="passwordAdv">Senha</label>
           <div class="input-wrapper">
-            <input
-              type="password"
-              id="passwordAdv"
-              [(ngModel)]="advogadoForm.password"
-              name="password"
-              class="form-input"
-              placeholder="••••••••"
-              required
-            />
+            <input type="password" id="passwordAdv" [(ngModel)]="advogadoForm.password" name="password" class="form-input" placeholder="••••••••" required/>
             <i class="fas fa-lock input-icon"></i>
           </div>
         </div>
@@ -137,20 +98,15 @@
           {{ isLoading ? 'Entrando...' : 'Entrar como Advogado' }}
         </button>
       </form>
-      } @else if (selectedRole === 'cliente') {
+      }
+        @else if
+
+            (selectedRole === 'cliente') {
       <form (ngSubmit)="onSubmitCliente($event)" class="form-animation">
         <div class="form-group">
           <label for="emailCli">E-mail</label>
           <div class="input-wrapper">
-            <input
-              type="email"
-              id="emailCli"
-              [(ngModel)]="clienteForm.email"
-              name="email"
-              class="form-input"
-              placeholder="seu@email.com"
-              required
-            />
+            <input type="email" id="emailCli" [(ngModel)]="clienteForm.email" name="email" class="form-input" placeholder="seu@email.com" required/>
             <i class="fas fa-envelope input-icon"></i>
           </div>
         </div>
@@ -158,15 +114,7 @@
         <div class="form-group">
           <label for="passwordCli">Senha</label>
           <div class="input-wrapper">
-            <input
-              type="password"
-              id="passwordCli"
-              [(ngModel)]="clienteForm.password"
-              name="password"
-              class="form-input"
-              placeholder="••••••••"
-              required
-            />
+            <input type="password" id="passwordCli" [(ngModel)]="clienteForm.password" name="password" class="form-input" placeholder="••••••••" id="passwordCli" [(ngModel)]="clienteForm.password" name="password" class="form-input" placeholder="••••••••" required/>
             <i class="fas fa-lock input-icon"></i>
           </div>
         </div>

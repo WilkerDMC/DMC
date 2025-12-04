@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // ion-icon
   templateUrl: './dashboard.html',
@@ -22,6 +23,19 @@ export class Dashboard implements AfterViewInit {
   ];
 
   constructor(private router: Router) {}
+
+  // Navega para a página de procuração
+  irParaProcuracao(event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    console.log('🔵 Navegando para /procuracao');
+    this.router.navigate(['/procuracao']).then(
+      success => console.log('✅ Navegação bem-sucedida:', success),
+      error => console.error('❌ Erro na navegação:', error)
+    );
+  }
 
   // Mouse move effect para cards
   onMouseMove(event: MouseEvent, cardElement: HTMLElement) {
