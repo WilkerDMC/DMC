@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String, Boolean
 from sqlalchemy.orm import declarative_base
-from sqlalchemy_utils.types import ChoiceType # pyright: ignore[reportMissingImports]
+from sqlalchemy_utils.types import ChoiceType
 from fastapi import APIRouter, HTTPException, Depends, status
 db = create_engine("sqlite:///banco.db")
 

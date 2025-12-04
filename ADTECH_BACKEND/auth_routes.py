@@ -22,7 +22,6 @@ def criar_token(email: str, id_usuario: int, duracao_token: timedelta = None):
     token = jwt.encode(dic_info, SECRET_KEY, algorithm=ALGORITHM)
     return token
 
-
 def autenticar_usuario(email,senha, session):
     usuario = session.query(Usuario).filter(Usuario.email==email).first()
     if not usuario:
