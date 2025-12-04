@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, delay } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import {validateCredentials}
 
 export interface LoginCredentials {
   email: string;
@@ -35,40 +37,17 @@ interface ClienteUser {
   providedIn: 'root',
 })
 export class AuthService {
-  // Credenciais mockadas para demonstração
-  // Em produção, isso viria de uma API
-  private readonly MOCK_USERS: {
-    cartorio: CartorioUser[];
-    advogado: AdvogadoUser[];
-    cliente: ClienteUser[];
-  } = {
-    cartorio: [
-      { numero: '121475', email: 'cartorio@teste.com', password: '123456' },
-      { numero: '123456', email: 'cartorio2@teste.com', password: 'senha123' },
-    ],
-    advogado: [
-      { oabNumber: 'OAB123456', email: 'advogado@teste.com', password: '123456' },
-      { oabNumber: 'OAB789012', email: 'advogado2@teste.com', password: 'senha123' },
-    ],
-    cliente: [
-      { email: 'cliente@teste.com', password: '123456' },
-      { email: 'cliente2@teste.com', password: 'senha123' },
-      { email: 'teste@teste.com', password: 'teste123' },
-    ],
-  };
 
-  /**
-   * Valida as credenciais de logi
-   * @param role Tipo de usuário (cartorio, advogado, cliente)
-   * @param credentials Credenciais do formulário
-   * @returns Observable com a resposta do login
-   */
-  login(role: 'cartorio' | 'advogado' | 'cliente', credentials: LoginCredentials): Observable<LoginResponse> {
-    // Simula uma chamada de API com delay
-    return of(this.validateCredentials(role, credentials)).pipe(delay(1000));
+  private apiUrl = 'http://127.0.0.1:8000';
+
+  constructor(private http: HttpClient) {}
+  login(email: string, password: string):Observable<any> {
+
+    return this.http.post(this.apiUrl, {email, password});
   }
+}
 
-  private validateCredentials(role: 'cartorio' | 'advogado' | 'cliente', credentials: LoginCredentials): LoginResponse {
+  private validateCredentials = (role: 'cartorio' | 'advogado' | 'cliente', credentials: LoginCredentials): LoginResponse {
     // Validação para Cartório
     if (role === 'cartorio') {
       if (!credentials.numero || !credentials.email || !credentials.password) {
@@ -80,7 +59,7 @@ export class AuthService {
 
       const users = this.MOCK_USERS.cartorio;
       const user = users.find(
-        (u) =>
+        (u: { numero: string | undefined; email: string; password: string; }) =>
           u.numero === credentials.numero &&
           u.email.toLowerCase() === credentials.email.toLowerCase() &&
           u.password === credentials.password
@@ -111,7 +90,7 @@ export class AuthService {
 
       const users = this.MOCK_USERS.advogado;
       const user = users.find(
-        (u) =>
+        (u: { oabNumber: string | undefined; email: string; password: string; }) =>
           u.oabNumber === credentials.oabNumber &&
           u.email.toLowerCase() === credentials.email.toLowerCase() &&
           u.password === credentials.password
@@ -142,7 +121,7 @@ export class AuthService {
 
       const users = this.MOCK_USERS.cliente;
       const user = users.find(
-        (u) =>
+        (u: { email: string; password: string; }) =>
           u.email.toLowerCase() === credentials.email.toLowerCase() &&
           u.password === credentials.password
       );
@@ -166,5 +145,4 @@ export class AuthService {
       message: 'Tipo de usuário inválido.',
     };
   }
-}
 
