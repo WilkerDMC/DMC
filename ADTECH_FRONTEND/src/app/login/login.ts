@@ -188,8 +188,8 @@ export class Login implements OnInit {
             console.log('🔍 Status autenticado após salvar:', estaAutenticado);
 
             if (estaAutenticado) {
-              console.log('🚀 Redirecionando para home-cartorio...');
-              this.router.navigate(['/home-cartorio']).then(
+              console.log('🚀 Redirecionando para dashboard...');
+              this.router.navigate(['/dashboard']).then(
                 (success) => {
                   console.log('✅ Redirecionamento bem-sucedido!');
                 },
@@ -198,7 +198,7 @@ export class Login implements OnInit {
                   // Tenta novamente após um delay maior
                   setTimeout(() => {
                     console.log('🔄 Tentando redirecionar novamente...');
-                    this.router.navigate(['/home-cartorio']);
+                    this.router.navigate(['/dashboard']);
                   }, 500);
                 }
               );
@@ -253,8 +253,8 @@ export class Login implements OnInit {
             console.log('🔍 Status autenticado após salvar:', estaAutenticado);
 
             if (estaAutenticado) {
-              console.log('🚀 Redirecionando para home-advogado...');
-              this.router.navigate(['/home-advogado']).then(
+              console.log('🚀 Redirecionando para dashboard...');
+              this.router.navigate(['/dashboard']).then(
                 (success) => {
                   console.log('✅ Redirecionamento bem-sucedido!');
                 },
@@ -263,7 +263,7 @@ export class Login implements OnInit {
                   // Tenta novamente após um delay maior
                   setTimeout(() => {
                     console.log('🔄 Tentando redirecionar novamente...');
-                    this.router.navigate(['/home-advogado']);
+                    this.router.navigate(['/dashboard']);
                   }, 500);
                 }
               );
@@ -317,8 +317,8 @@ export class Login implements OnInit {
             console.log('🔍 Status autenticado após salvar:', estaAutenticado);
 
             if (estaAutenticado) {
-              console.log('🚀 Redirecionando para home-cliente...');
-              this.router.navigate(['/home-cliente']).then(
+              console.log('🚀 Redirecionando para dashboard...');
+              this.router.navigate(['/dashboard']).then(
                 (success) => {
                   console.log('✅ Redirecionamento bem-sucedido!');
                 },
@@ -327,7 +327,7 @@ export class Login implements OnInit {
                   // Tenta novamente após um delay maior
                   setTimeout(() => {
                     console.log('🔄 Tentando redirecionar novamente...');
-                    this.router.navigate(['/home-cliente']);
+                    this.router.navigate(['/dashboard']);
                   }, 500);
                 }
               );
@@ -352,20 +352,8 @@ export class Login implements OnInit {
   }
 
   private redirecionarParaDashboard(): void {
-    const role = this.autorizacaoService.obterRole();
-    switch(role) {
-      case 'cartorio':
-        this.router.navigate(['/home-cartorio']);
-        break;
-      case 'advogado':
-        this.router.navigate(['/home-advogado']);
-        break;
-      case 'cliente':
-        this.router.navigate(['/home-cliente']);
-        break;
-      default:
-        this.router.navigate(['/']);
-    }
+    console.log('🔄 Redirecionando para dashboard');
+    this.router.navigate(['/dashboard']);
   }
 
   clearForms(): void {

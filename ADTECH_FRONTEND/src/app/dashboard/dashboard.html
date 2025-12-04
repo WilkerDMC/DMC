@@ -71,8 +71,20 @@
           <ion-icon name="search-outline"></ion-icon>
         </label>
       </div>
-      <div class="user">
+      <div class="user-profile" (click)="toggleProfileMenu($event)">
         <ion-icon name="person-outline"></ion-icon>
+        @if (showProfileMenu) {
+          <div class="profile-dropdown">
+            <div class="profile-menu-item" (click)="goToSettings($event)">
+              <ion-icon name="settings-outline"></ion-icon>
+              <span>Configurações</span>
+            </div>
+            <div class="profile-menu-item logout-item" (click)="logout()">
+              <ion-icon name="log-out-outline"></ion-icon>
+              <span>Sair</span>
+            </div>
+          </div>
+        }
       </div>
     </div>
     <!-- cards-->
