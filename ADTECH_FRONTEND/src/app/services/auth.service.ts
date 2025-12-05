@@ -166,5 +166,23 @@ export class AuthService {
       message: 'Tipo de usuário inválido.',
     };
   }
+
+  /**
+   * Cria uma nova conta de usuário
+   * @param dados Dados do usuário para cadastro
+   * @returns Observable com a resposta do cadastro
+   */
+  criarConta(dados: any): Observable<any> {
+    // Simula uma chamada de API com delay
+    return of({
+      success: true,
+      message: 'Conta criada com sucesso!',
+      user: {
+        nome: dados.nome,
+        email: dados.email,
+        role: dados.role
+      }
+    }).pipe(delay(1000));
+  }
 }
 
