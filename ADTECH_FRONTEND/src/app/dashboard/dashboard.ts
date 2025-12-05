@@ -1,12 +1,12 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, AfterViewInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, AfterViewInit, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // ion-icon
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
@@ -22,7 +22,7 @@ export class Dashboard implements AfterViewInit {
     { id: 4, value: 'R$200,000', name: 'Receita', icon: 'cash-outline', class: 'receita' }
   ];
 
-  constructor(private router: Router) {}
+  constructor(@Inject(Router) private router: Router) {}
 
   // Navega para a página de procuração
   irParaProcuracao(event?: Event) {
@@ -32,8 +32,8 @@ export class Dashboard implements AfterViewInit {
     }
     console.log('🔵 Navegando para /procuracao');
     this.router.navigate(['/procuracao']).then(
-      success => console.log('✅ Navegação bem-sucedida:', success),
-      error => console.error('❌ Erro na navegação:', error)
+      (success: boolean) => console.log('✅ Navegação bem-sucedida:', success),
+      (error: unknown) => console.error('❌ Erro na navegação:', error)
     );
   }
 

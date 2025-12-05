@@ -1,4 +1,4 @@
-import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, inject, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -38,7 +38,7 @@ export class Login implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
 
   constructor(
-    private router: Router,
+    @Inject(Router) private router: Router,
     private autorizacaoService: AutorizacaoService,
     private authService: AuthService
   ) {}
