@@ -1,43 +1,30 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.security import OAuth2PasswordBearer
-from passlib.context import CryptContext
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 import os
 
 load_dotenv()
 
+# Pegar variáveis
+MONGO_URL = os.getenv("MONGO_URL") # Ex: mongodb://localhost:27017
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_HOURS= int (os.getenv("ACCESS_TOKEN_EXPIRE_HOURS"))
 
-app = FastAPI ()
+# Gerenciador de Vida do Banco
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Conecta
+    app.mongodb_client = AsyncIOMotorClient(MONGO_URL)
+    app.database = app.mongodb_client.get_default_database() # Pega o banco da URL
+    print("✅ MongoDB Conectado!")
+    yield
+    # Desconecta
+    app.mongodb_client.close()
+    print("🛑 MongoDB Desconectado.")
 
-class LoginRequest(BaseModel):
-    email: str
-    password: str
+app = FastAPI(lifespan=lifespan)
 
-@app.post("/auth/login")
-def login(request: LoginRequest):
-    if request.email == "admin@test.com" and request.password == "123":
-        return {"access_token": "meu_token_aqui"}
-    raise HTTPException(status_code=401, detail="Credenciais inválidas")
-
-origins=[
-    "url = http://localhost:4200/"
-]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_schema = OAuth2PasswordBearer(tokenUrl="auth/login-form")
-
+# Importar rotas DEPOIS de criar o app
 from auth_routes import auth_router
-
 app.include_router(auth_router)
