@@ -22,9 +22,15 @@
   <div class="navigation">
     <ul>
       <li>
-        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <button class="menu-btn" (click)="goToDashboard()">
           <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
           <span class="title">Geral</span>
+        </button>
+      </li>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active">
+          <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+          <span class="title">Dashboard</span>
         </a>
       </li>
       <li>
@@ -290,7 +296,7 @@
             <col class="col-prazo" style="width:120px" />
             <col class="col-actions" style="width:120px" />
           </colgroup>
-          <thead>
+          <thead class="coluna-tabela thead-lado">
             <tr>
               <th class="col-expand"><ion-icon name="list-outline"></ion-icon></th>
               <th class="col-numero">Nº Processo</th>
@@ -359,8 +365,7 @@
                   </div>
                 </td>
               </tr>
-
-              <!-- Linha Expandida (Accordion) -->
+              
               @if (processo.expanded) {
                 <tr class="expanded-row">
                   <td colspan="10">
@@ -443,7 +448,7 @@
                               <div class="timeline-dot"></div>
                               <div class="timeline-content">
                                 <span class="timeline-date">05/12/2024 14:30</span>
-                                <p>Processo criado por João Santos</p>
+                                <p>Processo criado por {{processo.responsavel}}</p>
                               </div>
                             </div>
                             <div class="timeline-item">

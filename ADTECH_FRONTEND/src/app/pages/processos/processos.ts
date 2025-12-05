@@ -1,7 +1,7 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-processos',
@@ -13,6 +13,8 @@ import { RouterModule } from '@angular/router';
   encapsulation: ViewEncapsulation.None // Permite herdar estilos do dashboard
 })
 export class Processos implements OnInit, AfterViewInit {
+
+  constructor(private router: Router) {}
   searchTerm: string = '';
   filtroStatus: string = 'todos';
   filtroTipo: string = '';
@@ -307,6 +309,15 @@ export class Processos implements OnInit, AfterViewInit {
   imprimirProcesso(processo: any) {
     console.log('Imprimir ficha do processo:', processo);
     // Implementar impressão da ficha do processo
+  }
+
+  // Navegação
+  goToDashboard() {
+    console.log('Navegando para dashboard...');
+    this.router.navigate(['/dashboard']).then(
+      () => console.log('Navegação bem-sucedida'),
+      (error) => console.error('Erro na navegação:', error)
+    );
   }
 
   // Métodos para paginação
