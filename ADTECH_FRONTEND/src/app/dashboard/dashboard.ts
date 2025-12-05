@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class Dashboard implements AfterViewInit {
   searchTerm: string = ''; // Armazena o texto da busca
+  showProfileMenu: boolean = false; // Controla a exibição do menu de perfil
 
   // Cards data
   cards = [
@@ -23,6 +24,34 @@ export class Dashboard implements AfterViewInit {
   ];
 
   constructor(private router: Router) {}
+
+  // Toggle do menu de perfil
+  toggleProfileMenu(event: Event) {
+    event.stopPropagation();
+    this.showProfileMenu = !this.showProfileMenu;
+  }
+
+  // Vai para configurações
+  goToSettings(event: Event) {
+    event.stopPropagation();
+    console.log('🔧 Navegando para configurações...');
+    this.showProfileMenu = false;
+    // TODO: Implementar navegação para página de configurações
+    // this.router.navigate(['/configuracoes']);
+  }
+
+  // Faz logout e volta para a tela de login
+  logout() {
+    console.log('🚪 Fazendo logout...');
+    this.showProfileMenu = false;
+    // Limpa o localStorage
+    localStorage.clear();
+    // Redireciona para login
+    this.router.navigate(['/login']).then(
+      success => console.log('✅ Logout realizado com sucesso'),
+      error => console.error('❌ Erro ao fazer logout:', error)
+    );
+  }
 
   // Navega para a página de procuração
   irParaProcuracao(event?: Event) {
@@ -49,6 +78,13 @@ export class Dashboard implements AfterViewInit {
 
   // Executa após a view estar carregada
   ngAfterViewInit() {
+    // Fecha o menu de perfil ao clicar fora
+    document.addEventListener('click', () => {
+      if (this.showProfileMenu) {
+        this.showProfileMenu = false;
+      }
+    });
+
     const list = document.querySelectorAll<HTMLElement>('.navigation li');
 
     // efeito hover com bordas arredondadas
