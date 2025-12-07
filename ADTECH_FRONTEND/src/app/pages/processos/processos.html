@@ -4,7 +4,7 @@
   <div class="hero-flare-secondary"></div>
   <div class="hero-triangle-pattern"></div>
 
-  <!-- Dropdown do Profile (nível superior para não ser cortado) -->
+  <!-- Dropdown do Profile -->
   @if (showProfileMenu) {
     <div class="profile-dropdown">
       <div class="profile-menu-item" (click)="goToSettings($event)">
@@ -22,15 +22,9 @@
   <div class="navigation">
     <ul>
       <li>
-        <button class="menu-btn" (click)="goToDashboard()">
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
           <span class="title">Geral</span>
-        </button>
-      </li>
-      <li>
-        <a routerLink="/dashboard" routerLinkActive="active">
-          <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
-          <span class="title">Dashboard</span>
         </a>
       </li>
       <li>
@@ -177,72 +171,72 @@
       <!-- Painel Filtros Avançados (Expandido abaixo) -->
       @if (mostrarFiltrosAvancados) {
         <div class="advanced-filters-panel">
-            <div class="filter-group">
-              <label>
-                <ion-icon name="document-outline"></ion-icon>
-                Tipo de Ato
-              </label>
-              <select [(ngModel)]="filtroTipo" (change)="aplicarFiltros()">
-                <option value="">Todos os tipos</option>
-                <option value="Registro">Registro</option>
-                <option value="Averbação">Averbação</option>
-                <option value="Certidão">Certidão</option>
-                <option value="Escritura">Escritura</option>
-                <option value="Procuração">Procuração</option>
-                <option value="Testamento">Testamento</option>
-              </select>
-            </div>
+          <div class="filter-group">
+            <label>
+              <ion-icon name="document-outline"></ion-icon>
+              Tipo de Ato
+            </label>
+            <select [(ngModel)]="filtroTipo" (change)="aplicarFiltros()">
+              <option value="">Todos os tipos</option>
+              <option value="Registro">Registro</option>
+              <option value="Averbação">Averbação</option>
+              <option value="Certidão">Certidão</option>
+              <option value="Escritura">Escritura</option>
+              <option value="Procuração">Procuração</option>
+              <option value="Testamento">Testamento</option>
+            </select>
+          </div>
 
-            <div class="filter-group">
-              <label>
-                <ion-icon name="flag-outline"></ion-icon>
-                Prioridade
-              </label>
-              <select [(ngModel)]="filtroPrioridade" (change)="aplicarFiltros()">
-                <option value="">Todas</option>
-                <option value="Alta">Alta</option>
-                <option value="Média">Média</option>
-                <option value="Baixa">Baixa</option>
-              </select>
-            </div>
+          <div class="filter-group">
+            <label>
+              <ion-icon name="flag-outline"></ion-icon>
+              Prioridade
+            </label>
+            <select [(ngModel)]="filtroPrioridade" (change)="aplicarFiltros()">
+              <option value="">Todas</option>
+              <option value="Alta">Alta</option>
+              <option value="Média">Média</option>
+              <option value="Baixa">Baixa</option>
+            </select>
+          </div>
 
-            <div class="filter-group">
-              <label>
-                <ion-icon name="calendar-outline"></ion-icon>
-                Período
-              </label>
-              <select [(ngModel)]="filtroPeriodo" (change)="aplicarFiltros()">
-                <option value="">Todo período</option>
-                <option value="hoje">Hoje</option>
-                <option value="semana">Esta semana</option>
-                <option value="mes">Este mês</option>
-                <option value="trimestre">Último trimestre</option>
-              </select>
-            </div>
+          <div class="filter-group">
+            <label>
+              <ion-icon name="calendar-outline"></ion-icon>
+              Período
+            </label>
+            <select [(ngModel)]="filtroPeriodo" (change)="aplicarFiltros()">
+              <option value="">Todo período</option>
+              <option value="hoje">Hoje</option>
+              <option value="semana">Esta semana</option>
+              <option value="mes">Este mês</option>
+              <option value="trimestre">Último trimestre</option>
+            </select>
+          </div>
 
-            <div class="filter-group">
-              <label>
-                <ion-icon name="person-outline"></ion-icon>
-                Responsável
-              </label>
-              <select [(ngModel)]="filtroResponsavel" (change)="aplicarFiltros()">
-                <option value="">Todos</option>
-                <option value="João Santos">João Santos</option>
-                <option value="Ana Costa">Ana Costa</option>
-                <option value="Carlos Lima">Carlos Lima</option>
-              </select>
-            </div>
+          <div class="filter-group">
+            <label>
+              <ion-icon name="person-outline"></ion-icon>
+              Responsável
+            </label>
+            <select [(ngModel)]="filtroResponsavel" (change)="aplicarFiltros()">
+              <option value="">Todos</option>
+              <option value="João Santos">João Santos</option>
+              <option value="Ana Costa">Ana Costa</option>
+              <option value="Carlos Lima">Carlos Lima</option>
+            </select>
+          </div>
 
-            <div class="filter-actions">
-              <button class="btn-clear" (click)="limparFiltros()">
-                <ion-icon name="close-circle-outline"></ion-icon>
-                Limpar Filtros
-              </button>
-              <button class="btn-apply" (click)="aplicarFiltros()">
-                <ion-icon name="funnel-outline"></ion-icon>
-                Aplicar Filtros
-              </button>
-            </div>
+          <div class="filter-actions">
+            <button class="btn-clear" (click)="limparFiltros()">
+              <ion-icon name="close-circle-outline"></ion-icon>
+              Limpar Filtros
+            </button>
+            <button class="btn-apply" (click)="aplicarFiltros()">
+              <ion-icon name="funnel-outline"></ion-icon>
+              Aplicar Filtros
+            </button>
+          </div>
         </div>
       }
 
@@ -280,222 +274,213 @@
           </button>
         </div>
       </div>
-    </div>    <!-- Tabela de Processos com Accordion -->
-    <div class="table-container">
-      <div class="table-wrapper">
+    </div>
+
+    <!-- TABELA ÚNICA -->
+    <div class="table-responsive-wrapper">
+      <div class="tabela-processos-alinhada">
         <table class="processos-table">
-          <colgroup>
-            <col class="col-expand" style="width:120px" />
-            <col class="col-numero" style="width:180px" />
-            <col class="col-tipo" style="width:140px" />
-            <col class="col-solicitante" style="width:200px" />
-            <col class="col-data" style="width:120px" />
-            <col class="col-status" style="width:140px" />
-            <col class="col-prioridade" style="width:120px" />
-            <col class="col-responsavel" style="width:180px" />
-            <col class="col-prazo" style="width:120px" />
-            <col class="col-actions" style="width:120px" />
-          </colgroup>
-          <thead class="coluna-tabela thead-lado">
-            <tr>
-              <th class="col-expand"><ion-icon name="list-outline"></ion-icon></th>
-              <th class="col-numero">Nº Processo</th>
-              <th class="col-tipo">Tipo de Ato</th>
-              <th class="col-solicitante">Solicitante</th>
-              <th class="col-data">Data Abertura</th>
-              <th class="col-status">Status</th>
-              <th class="col-prioridade">Prioridade</th>
-              <th class="col-responsavel">Responsável</th>
-              <th class="col-prazo">Prazo</th>
-              <th class="col-actions">Ações</th>
+        <thead>
+          <tr>
+            <th class="col-expand"></th>
+            <th>Nº PROCESSO</th>
+            <th>TIPO</th>
+            <th>SOLICITANTE</th>
+            <th>DATA</th>
+            <th>STATUS</th>
+            <th>PRIORIDADE</th>
+            <th>RESPONSÁVEL</th>
+            <th>PRAZO</th>
+            <th>AÇÕES</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (processo of processosFiltrados; track processo.numero) {
+            <!-- LINHA PRINCIPAL -->
+            <tr class="linha-principal" [class.expandida]="processo.expanded">
+              <td>
+                <button class="btn-expand" (click)="toggleProcesso(processo)">
+                  <ion-icon [name]="processo.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                </button>
+              </td>
+              <td>{{processo.numero}}</td>
+              <td>{{processo.tipo}}</td>
+              <td>{{processo.cliente}}</td>
+              <td>{{processo.dataAbertura}}</td>
+              <td>{{processo.status}}</td>
+              <td>{{processo.prioridade}}</td>
+              <td>{{processo.responsavel}}</td>
+              <td>{{processo.proximaAudiencia || '-'}}</td>
+              <td>
+                <button class="btn-icon" (click)="viewProcess(processo); $event.stopPropagation()" title="Visualizar">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </button>
+                <button class="btn-icon" (click)="editProcess(processo); $event.stopPropagation()" title="Editar">
+                  <ion-icon name="create-outline"></ion-icon>
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            @for (processo of processosFiltrados; track processo.numero) {
-              <tr class="table-row" [class.expanded]="processo.expanded">
-                <td class="col-expand">
-                  <button
-                    class="expand-btn"
-                    (click)="toggleProcesso(processo)"
-                    [class.active]="processo.expanded">
-                    <ion-icon [name]="processo.expanded ? 'chevron-up' : 'chevron-down'"></ion-icon>
-                  </button>
-                </td>
-                <td class="col-numero">
-                  <div class="numero-wrapper">
-                    <ion-icon name="document-text-outline"></ion-icon>
-                    <span>{{processo.numero}}</span>
-                  </div>
-                </td>
-                <td class="col-tipo">
-                  <span class="tipo-badge">{{processo.tipo}}</span>
-                </td>
-                <td class="col-solicitante">{{processo.cliente}}</td>
-                <td class="col-data">{{processo.dataAbertura}}</td>
-                <td class="col-status">
-                  <span class="status-badge" [attr.data-status]="processo.status">
-                    <span class="status-dot"></span>
-                    {{processo.status}}
-                  </span>
-                </td>
-                <td class="col-prioridade">
-                  <span class="prioridade-badge" [attr.data-prioridade]="processo.prioridade">
-                    {{processo.prioridade}}
-                  </span>
-                </td>
-                <td class="col-responsavel">
-                  <div class="responsavel-info">
-                    <ion-icon name="person-circle-outline"></ion-icon>
-                    <span>{{processo.responsavel}}</span>
-                  </div>
-                </td>
-                <td class="col-prazo">
-                  <span class="prazo-text" [class.urgente]="isPrazoUrgente(processo)">
-                    {{processo.proximaAudiencia || '-'}}
-                  </span>
-                </td>
-                <td class="col-actions">
-                  <div class="action-buttons">
-                    <button class="btn-action-icon view" (click)="viewProcess(processo); $event.stopPropagation()" title="Visualizar">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </button>
-                    <button class="btn-action-icon edit" (click)="editProcess(processo); $event.stopPropagation()" title="Editar">
-                      <ion-icon name="create-outline"></ion-icon>
-                    </button>
+
+            <!-- LINHA EXPANDIDA (DETALHES) -->
+            @if (processo.expanded) {
+              <tr class="linha-detalhes">
+                <td colspan="10" class="td-detalhes">
+                  <div class="detalhes-container">
+
+                    <!-- SEÇÃO 1: DETALHES DO PROCESSO -->
+                    <div class="secao detalhes">
+                      <div class="secao-header">
+                        <ion-icon name="document-text-outline" class="icone"></ion-icon>
+                        <h3>DETALHES DO PROCESSO</h3>
+                      </div>
+                      <div class="info-grid">
+                        <div class="info-item">
+                          <span class="label">Nº do Processo:</span>
+                          <span class="value">{{processo.numero}}</span>
+                        </div>
+                        <div class="info-item">
+                          <span class="label">Tipo:</span>
+                          <span class="value">{{processo.tipo}}</span>
+                        </div>
+                        <div class="info-item">
+                          <span class="label">Livro/Folha:</span>
+                          <span class="value">Livro 3-A / Folha 120</span>
+                        </div>
+                        <div class="info-item">
+                          <span class="label">Valor da Causa:</span>
+                          <span class="value">{{processo.valorCausa}}</span>
+                        </div>
+                        <div class="info-item">
+                          <span class="label">Forma de Pagamento:</span>
+                          <span class="value">Boleto Bancário</span>
+                        </div>
+                        <div class="info-item">
+                          <span class="label">Status:</span>
+                          <span class="value status-badge" [class]="processo.statusClass">{{processo.status}}</span>
+                        </div>
+                        <div class="info-item full-width">
+                          <span class="label">Observações:</span>
+                          <span class="value">Processo em tramitação normal. Aguardando análise documental.</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- SEÇÃO 2: PARTES ENVOLVIDAS -->
+                    <div class="secao partes">
+                      <div class="secao-header">
+                        <ion-icon name="people-outline" class="icone"></ion-icon>
+                        <h3>PARTES ENVOLVIDAS</h3>
+                      </div>
+                      <div class="partes-grid">
+                        <div class="parte-card">
+                          <span class="parte-tipo">Solicitante</span>
+                          <span class="parte-nome">{{processo.cliente}}</span>
+                          <span class="parte-info">CPF: 123.456.789-00</span>
+                          <span class="parte-info">Tel: (11) 98765-4321</span>
+                        </div>
+                        <div class="parte-card">
+                          <span class="parte-tipo">Responsável</span>
+                          <span class="parte-nome">{{processo.responsavel}}</span>
+                          <span class="parte-info">OAB/SP 123.456</span>
+                          <span class="parte-info">Email: advogado@exemplo.com</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- SEÇÃO 3: DOCUMENTOS ANEXADOS -->
+                    <div class="secao documentos">
+                      <div class="secao-header">
+                        <ion-icon name="attach-outline" class="icone"></ion-icon>
+                        <h3>DOCUMENTOS ANEXADOS</h3>
+                      </div>
+                      <div class="documentos-list">
+                        <div class="documento-item">
+                          <ion-icon name="document-outline" class="doc-icone"></ion-icon>
+                          <div class="doc-info">
+                            <span class="doc-nome">RG_Frente.pdf</span>
+                            <span class="doc-tamanho">1.2 MB • Enviado em 15/01/2024</span>
+                          </div>
+                          <button class="btn-download">
+                            <ion-icon name="download-outline"></ion-icon>
+                            Download
+                          </button>
+                        </div>
+                        <div class="documento-item">
+                          <ion-icon name="document-outline" class="doc-icone"></ion-icon>
+                          <div class="doc-info">
+                            <span class="doc-nome">CPF.pdf</span>
+                            <span class="doc-tamanho">890 KB • Enviado em 15/01/2024</span>
+                          </div>
+                          <button class="btn-download">
+                            <ion-icon name="download-outline"></ion-icon>
+                            Download
+                          </button>
+                        </div>
+                        <div class="documento-item">
+                          <ion-icon name="document-outline" class="doc-icone"></ion-icon>
+                          <div class="doc-info">
+                            <span class="doc-nome">Comprovante_Residencia.pdf</span>
+                            <span class="doc-tamanho">2.5 MB • Enviado em 16/01/2024</span>
+                          </div>
+                          <button class="btn-download">
+                            <ion-icon name="download-outline"></ion-icon>
+                            Download
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- SEÇÃO 4: HISTÓRICO/TIMELINE -->
+                    <div class="secao historico">
+                      <div class="secao-header">
+                        <ion-icon name="time-outline" class="icone"></ion-icon>
+                        <h3>HISTÓRICO</h3>
+                      </div>
+                      <div class="timeline">
+                        <div class="timeline-item">
+                          <div class="timeline-marker"></div>
+                          <div class="timeline-content">
+                            <div class="timeline-timestamp">{{processo.dataAbertura}} 14:30</div>
+                            <div class="timeline-evento">Processo criado e cadastrado no sistema</div>
+                            <div class="timeline-usuario">por {{processo.responsavel}}</div>
+                          </div>
+                        </div>
+                        <div class="timeline-item">
+                          <div class="timeline-marker"></div>
+                          <div class="timeline-content">
+                            <div class="timeline-timestamp">{{processo.dataAbertura}} 15:15</div>
+                            <div class="timeline-evento">Documentos anexados (RG, CPF, Comprovante)</div>
+                            <div class="timeline-usuario">por {{processo.responsavel}}</div>
+                          </div>
+                        </div>
+                        <div class="timeline-item">
+                          <div class="timeline-marker"></div>
+                          <div class="timeline-content">
+                            <div class="timeline-timestamp">{{processo.dataAbertura}} 16:45</div>
+                            <div class="timeline-evento">Status alterado para: {{processo.status}}</div>
+                            <div class="timeline-usuario">por Sistema Automático</div>
+                          </div>
+                        </div>
+                        <div class="timeline-item">
+                          <div class="timeline-marker"></div>
+                          <div class="timeline-content">
+                            <div class="timeline-timestamp">05/12/2024 10:20</div>
+                            <div class="timeline-evento">Prioridade definida como: {{processo.prioridade}}</div>
+                            <div class="timeline-usuario">por {{processo.responsavel}}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
                 </td>
               </tr>
-              
-              @if (processo.expanded) {
-                <tr class="expanded-row">
-                  <td colspan="10">
-                    <div class="expanded-content">
-                      <div class="expanded-grid">
-                        <!-- Coluna Esquerda: Detalhes -->
-                        <div class="details-section">
-                          <h4>
-                            <ion-icon name="information-circle-outline"></ion-icon>
-                            Detalhes do Processo
-                          </h4>
-                          <div class="detail-group">
-                            <div class="detail-item">
-                              <label><ion-icon name="document-outline"></ion-icon> Livro/Folha:</label>
-                              <span>Livro 3-A / Folha 120</span>
-                            </div>
-                            <div class="detail-item">
-                              <label><ion-icon name="cash-outline"></ion-icon> Valor dos Emolumentos:</label>
-                              <span>{{processo.valorCausa}}</span>
-                            </div>
-                            <div class="detail-item">
-                              <label><ion-icon name="card-outline"></ion-icon> Forma de Pagamento:</label>
-                              <span>Boleto Bancário</span>
-                            </div>
-                            <div class="detail-item">
-                              <label><ion-icon name="newspaper-outline"></ion-icon> Matrícula:</label>
-                              <span>12.345</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Coluna Centro: Documentos -->
-                        <div class="documents-section">
-                          <h4>
-                            <ion-icon name="folder-open-outline"></ion-icon>
-                            Documentos Anexados
-                          </h4>
-                          <div class="document-list">
-                            <div class="document-item">
-                              <ion-icon name="document-text-outline"></ion-icon>
-                              <div class="doc-info">
-                                <span class="doc-name">RG - Documento de Identidade.pdf</span>
-                                <span class="doc-size">2.4 MB</span>
-                              </div>
-                              <button class="btn-download">
-                                <ion-icon name="download-outline"></ion-icon>
-                              </button>
-                            </div>
-                            <div class="document-item">
-                              <ion-icon name="document-text-outline"></ion-icon>
-                              <div class="doc-info">
-                                <span class="doc-name">CPF - Cadastro Pessoa Física.pdf</span>
-                                <span class="doc-size">1.8 MB</span>
-                              </div>
-                              <button class="btn-download">
-                                <ion-icon name="download-outline"></ion-icon>
-                              </button>
-                            </div>
-                            <div class="document-item">
-                              <ion-icon name="document-text-outline"></ion-icon>
-                              <div class="doc-info">
-                                <span class="doc-name">Comprovante Residência.pdf</span>
-                                <span class="doc-size">980 KB</span>
-                              </div>
-                              <button class="btn-download">
-                                <ion-icon name="download-outline"></ion-icon>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Coluna Direita: Histórico -->
-                        <div class="history-section">
-                          <h4>
-                            <ion-icon name="time-outline"></ion-icon>
-                            Histórico de Movimentações
-                          </h4>
-                          <div class="timeline">
-                            <div class="timeline-item">
-                              <div class="timeline-dot"></div>
-                              <div class="timeline-content">
-                                <span class="timeline-date">05/12/2024 14:30</span>
-                                <p>Processo criado por {{processo.responsavel}}</p>
-                              </div>
-                            </div>
-                            <div class="timeline-item">
-                              <div class="timeline-dot"></div>
-                              <div class="timeline-content">
-                                <span class="timeline-date">05/12/2024 15:15</span>
-                                <p>Documentos anexados</p>
-                              </div>
-                            </div>
-                            <div class="timeline-item">
-                              <div class="timeline-dot"></div>
-                              <div class="timeline-content">
-                                <span class="timeline-date">05/12/2024 16:00</span>
-                                <p>Aguardando análise documental</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Ações Rápidas -->
-                      <div class="expanded-actions">
-                        <button class="btn-expanded edit" (click)="editProcess(processo)">
-                          <ion-icon name="create-outline"></ion-icon>
-                          Editar Processo
-                        </button>
-                        <button class="btn-expanded docs" (click)="gerenciarDocumentos(processo)">
-                          <ion-icon name="folder-outline"></ion-icon>
-                          Gerenciar Documentos
-                        </button>
-                        <button class="btn-expanded history" (click)="verHistorico(processo)">
-                          <ion-icon name="time-outline"></ion-icon>
-                          Ver Histórico Completo
-                        </button>
-                        <button class="btn-expanded print" (click)="imprimirProcesso(processo)">
-                          <ion-icon name="print-outline"></ion-icon>
-                          Imprimir Ficha
-                        </button>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              }
             }
-          </tbody>
-        </table>
+          }
+        </tbody>
+      </table>
       </div>
+    </div>
 
       <!-- Paginação -->
       <div class="pagination">
@@ -521,19 +506,18 @@
           </button>
         </div>
       </div>
-    </div>
 
-    <!-- Mensagem quando não há processos -->
-    @if (processosFiltrados.length === 0) {
-      <div class="empty-state">
-        <ion-icon name="folder-open-outline"></ion-icon>
-        <h3>Nenhum processo encontrado</h3>
-        <p>Não há processos {{filtroStatus !== 'todos' ? 'com o status "' + filtroStatus + '"' : 'cadastrados'}} no momento.</p>
-        <button class="btn-primary" (click)="novoProcesso()">
-          <ion-icon name="add-circle-outline"></ion-icon>
-          Criar Primeiro Processo
-        </button>
-      </div>
-    }
+      <!-- Vazio -->
+      @if (processosFiltrados.length === 0) {
+        <div class="empty-state">
+          <ion-icon name="folder-open-outline"></ion-icon>
+          <h3>Nenhum processo encontrado</h3>
+          <p>Não há processos {{filtroStatus !== 'todos' ? 'com o status ' + filtroStatus : 'cadastrados'}} no momento.</p>
+          <button class="btn-primary" (click)="novoProcesso()">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            Criar Primeiro Processo
+          </button>
+        </div>
+      }
   </div>
 </div>

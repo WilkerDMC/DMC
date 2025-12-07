@@ -282,7 +282,9 @@ export class Processos implements OnInit, AfterViewInit {
 
   // Métodos para o accordion da tabela
   toggleProcesso(processo: any) {
+    console.log('Toggle processo:', processo.numero, 'expanded:', processo.expanded);
     processo.expanded = !processo.expanded;
+    console.log('Novo estado:', processo.expanded);
   }
 
   isPrazoUrgente(processo: any): boolean {
@@ -309,15 +311,6 @@ export class Processos implements OnInit, AfterViewInit {
   imprimirProcesso(processo: any) {
     console.log('Imprimir ficha do processo:', processo);
     // Implementar impressão da ficha do processo
-  }
-
-  // Navegação
-  goToDashboard() {
-    console.log('Navegando para dashboard...');
-    this.router.navigate(['/dashboard']).then(
-      () => console.log('Navegação bem-sucedida'),
-      (error) => console.error('Erro na navegação:', error)
-    );
   }
 
   // Métodos para paginação
