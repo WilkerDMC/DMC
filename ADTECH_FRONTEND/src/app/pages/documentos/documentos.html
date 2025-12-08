@@ -1,899 +1,489 @@
-<!-- Container Principal da Página de Documentos -->
+<!-- Documentos - Nova Interface Completa -->
+<div class="documentos-container dashboard-hero">
+  <div class="hero-flare"></div>
+  <div class="hero-flare-secondary"></div>
+  <div class="hero-triangle-pattern"></div>
 
-<div class="navigation">
-  <ul>
-    <li>
-      <a routerLink="/dashboard" routerLinkActive="active">
-        <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
-        <span class="title">Geral</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/processos" routerLinkActive="active">
-        <span class="icon"><ion-icon name="folder-open-outline"></ion-icon></span>
-        <span class="title">Documentos Pendentes</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/calendar" routerLinkActive="active">
-        <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
-        <span class="title">Meus Documentos</span>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <span class="icon"><ion-icon name="stats-chart-outline"></ion-icon></span>
-        <span class="title">Editar documentos</span>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <span class="icon"><ion-icon name="wallet-outline"></ion-icon></span>
-        <span class="title">Pendências</span>
-      </a>
-    </li>
-  </ul>
-</div>
-
-<div class="documentos-page">
-  <!-- Header da Página -->
-  <header class="page-header">
-    <div class="title-section">
-      <h1>Documentos</h1>
-      <p>Crie e gerencie documentos jurídicos</p>
-    </div>
-
-    <button class="btn-focus-mode" title="Modo Foco">
-      <ion-icon name="expand-outline"></ion-icon>
-    </button>
-  </header>
-
-  <!-- Barra de Ações -->
-  <section class="actions-bar">
-    <button class="btn-primary">
-      <ion-icon name="add-outline"></ion-icon>
-      <span>Novo Documento</span>
-    </button>
-  </section>
-
-  <!-- Grid Principal: Categorias em cima e Documentos embaixo -->
-  <div class="main-grid">
-    <!-- Categorias no Topo -->
-    <aside class="categories-panel">
-      <div class="panel-header">
-        <div class="panel-header-left">
-          <ion-icon name="folder-open-outline"></ion-icon>
-          <h3>Categorias</h3>
-        </div>
-        <div class="search-box">
-          <ion-icon name="search-outline"></ion-icon>
-          <input type="text" placeholder="Buscar documentos..." />
-        </div>
-      </div>
-      <div class="categories-list">
-        <!-- Categoria 1: Petições -->
-        <button class="category-item" data-document="contrato-trabalho">
-          <div class="category-content">
-            <span class="category-icon">
-              <ion-icon name="document-text-outline"></ion-icon>
-            </span>
-            <div class="category-info">
-              <p class="category-name">Petições</p>
-              <p class="category-count">5 modelos</p>
-            </div>
-          </div>
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
-
-        <!-- Categoria 2: Defesas -->
-        <button class="category-item">
-          <div class="category-content">
-            <span class="category-icon">
-              <ion-icon name="shield-checkmark-outline"></ion-icon>
-            </span>
-            <div class="category-info">
-              <p class="category-name">Defesas</p>
-              <p class="category-count">4 modelos</p>
-            </div>
-          </div>
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
-
-        <!-- Categoria 3: Recursos -->
-        <button class="category-item">
-          <div class="category-content">
-            <span class="category-icon">
-              <ion-icon name="scale-outline"></ion-icon>
-            </span>
-            <div class="category-info">
-              <p class="category-name">Recursos</p>
-              <p class="category-count">4 modelos</p>
-            </div>
-          </div>
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
-
-        <!-- Categoria 4: Contratos -->
-        <button class="category-item" data-document="contrato-sociedade">
-          <div class="category-content">
-            <span class="category-icon">
-              <ion-icon name="clipboard-outline"></ion-icon>
-            </span>
-            <div class="category-info">
-              <p class="category-name">Contratos</p>
-              <p class="category-count">5 modelos</p>
-            </div>
-          </div>
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
-
-        <!-- Categoria 5: Procurações -->
-        <button class="category-item">
-          <div class="category-content">
-            <span class="category-icon">
-              <ion-icon name="create-outline"></ion-icon>
-            </span>
-            <div class="category-info">
-              <p class="category-name">Procurações</p>
-              <p class="category-count">3 modelos</p>
-            </div>
-          </div>
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
-
-        <!-- Categoria 6: Inventário -->
-        <button class="category-item" id="btn-inventario">
-          <div class="category-content">
-            <span class="category-icon">
-              <ion-icon name="cube-outline"></ion-icon>
-            </span>
-            <div class="category-info">
-              <p class="category-name">Inventário</p>
-              <p class="category-count">3 modelos</p>
-            </div>
-          </div>
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
-
-        <!-- Categoria 7: Outros Documentos -->
-        <button class="category-item">
-          <div class="category-content">
-            <span class="category-icon">
-              <ion-icon name="folder-outline"></ion-icon>
-            </span>
-            <div class="category-info">
-              <p class="category-name">Outros Documentos</p>
-              <p class="category-count">4 modelos</p>
-            </div>
-          </div>
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </button>
-      </div>
-    </aside>
-
-    <!-- Lista de Documentos abaixo -->
-    <section class="documents-list">
-      <!-- Documento 0: INVENTARIO PDF -->
-      <article class="document-card">
-        <div class="card-content">
-          <div class="file-icon pdf">
-            <ion-icon name="document-outline"></ion-icon>
-          </div>
-
-          <div class="document-info">
-            <h3>Inventário - Patrimonial</h3>
-            <div class="document-meta">
-              <span class="badge badge-pdf">PDF</span>
-              <span class="category">Inventário</span>
-              <span class="separator">•</span>
-              <span class="process">Processo #985</span>
-            </div>
-            <p class="modified-date">Modificado em 28/11/2025</p>
-          </div>
-        </div>
-
-        <button class="btn-edit" data-document="inventario-extrajudicial" title="Editar Documento">
-          <ion-icon name="create-outline"></ion-icon>
-        </button>
-      </article>
-
-      <!-- Documento 1: DOCX -->
-      <article class="document-card">
-        <div class="card-content">
-          <div class="file-icon docx">
-            <ion-icon name="document-text-outline"></ion-icon>
-          </div>
-
-          <div class="document-info">
-            <h3>Petição Inicial - Ação Trabalhista</h3>
-            <div class="document-meta">
-              <span class="badge badge-docx">DOCX</span>
-              <span class="category">Petição</span>
-              <span class="separator">•</span>
-              <span class="process">Processo #1024</span>
-            </div>
-            <p class="modified-date">Modificado em 15/10/2025</p>
-          </div>
-        </div>
-
-        <button class="btn-edit" data-document="peticao-trabalhista" title="Editar Documento">
-          <ion-icon name="create-outline"></ion-icon>
-        </button>
-      </article>
-
-      <!-- Documento 2: PDF -->
-      <article class="document-card">
-        <div class="card-content">
-          <div class="file-icon pdf">
-            <ion-icon name="document-outline"></ion-icon>
-          </div>
-
-          <div class="document-info">
-            <h3>Contestação - Ação de Cobrança</h3>
-            <div class="document-meta">
-              <span class="badge badge-pdf">PDF</span>
-              <span class="category">Contestação</span>
-              <span class="separator">•</span>
-              <span class="process">Processo #985</span>
-            </div>
-            <p class="modified-date">Modificado em 14/10/2025</p>
-          </div>
-        </div>
-
-        <button class="btn-edit" data-document="contestacao-cobranca" title="Editar Documento">
-          <ion-icon name="create-outline"></ion-icon>
-        </button>
-      </article>
-
-      <!-- Documento 3: DOCX -->
-      <article class="document-card">
-        <div class="card-content">
-          <div class="file-icon docx">
-            <ion-icon name="document-text-outline"></ion-icon>
-          </div>
-
-          <div class="document-info">
-            <h3>Recurso de Apelação</h3>
-            <div class="document-meta">
-              <span class="badge badge-docx">DOCX</span>
-              <span class="category">Recurso</span>
-              <span class="separator">•</span>
-              <span class="process">Processo #1001</span>
-            </div>
-            <p class="modified-date">Modificado em 13/10/2025</p>
-          </div>
-        </div>
-
-        <button class="btn-edit" data-document="recurso-apelacao" title="Editar Documento">
-          <ion-icon name="create-outline"></ion-icon>
-        </button>
-      </article>
-
-      <!-- Documento 4: PDF -->
-      <article class="document-card">
-        <div class="card-content">
-          <div class="file-icon pdf">
-            <ion-icon name="document-outline"></ion-icon>
-          </div>
-
-          <div class="document-info">
-            <h3>Contrato de Prestação de Serviços</h3>
-            <div class="document-meta">
-              <span class="badge badge-pdf">PDF</span>
-              <span class="category">Contrato</span>
-              <span class="separator">•</span>
-              <span class="process">Processo #950</span>
-            </div>
-            <p class="modified-date">Modificado em 10/10/2025</p>
-          </div>
-        </div>
-
-        <button class="btn-edit" data-document="contrato-prestacao-servicos" title="Editar Documento">
-          <ion-icon name="create-outline"></ion-icon>
-        </button>
-      </article>
-
-      <!-- Documento 5: XLSX -->
-      <article class="document-card">
-        <div class="card-content">
-          <div class="file-icon xlsx">
-            <ion-icon name="grid-outline"></ion-icon>
-          </div>
-
-          <div class="document-info">
-            <h3>Planilha de Honorários</h3>
-            <div class="document-meta">
-              <span class="badge badge-xlsx">XLSX</span>
-              <span class="category">Financeiro</span>
-              <span class="separator">•</span>
-              <span class="process">Geral</span>
-            </div>
-            <p class="modified-date">Modificado em 14/10/2025</p>
-          </div>
-        </div>
-
-        <button class="btn-edit" data-document="planilha-honorarios" title="Editar Documento">
-          <ion-icon name="create-outline"></ion-icon>
-        </button>
-      </article>
-    </section>
+  <!-- Navigation Sidebar -->
+  <div class="navigation">
+    <ul>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
+          <span class="title">Geral</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/processos" routerLinkActive="active">
+          <span class="icon"><ion-icon name="folder-open-outline"></ion-icon></span>
+          <span class="title">Processos</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/clientes" routerLinkActive="active">
+          <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+          <span class="title">Clientes</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/calendar" routerLinkActive="active">
+          <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
+          <span class="title">Agenda</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/documentos" routerLinkActive="active">
+          <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
+          <span class="title">Documentos</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="stats-chart-outline"></ion-icon></span>
+          <span class="title">Relatórios</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="wallet-outline"></ion-icon></span>
+          <span class="title">Financeiro</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+          <span class="title">Configurações</span>
+        </a>
+      </li>
+    </ul>
   </div>
 
-  <!-- Atividades Recentes (Seção Expandida) -->
-  <section class="recent-activities">
-    <div class="activities-header">
-      <ion-icon name="time-outline"></ion-icon>
-      <h3>Atividades Recentes</h3>
-    </div>
-
-    <div class="activities-grid">
-      <!-- Atividade 1 -->
-      <div class="activity-item">
-        <div class="activity-dot green"></div>
-        <div class="activity-content">
-          <p class="activity-title">Editou Petição Inicial</p>
-          <p class="activity-time">Há 5 min</p>
-        </div>
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="toggle">
+        <ion-icon name="menu-outline"></ion-icon>
       </div>
 
-      <!-- Atividade 2 -->
-      <div class="activity-item">
-        <div class="activity-dot blue"></div>
-        <div class="activity-content">
-          <p class="activity-title">Criou Contestação</p>
-          <p class="activity-time">Há 1 hora</p>
-        </div>
+      <div class="search">
+        <label>
+          <input type="text" placeholder="Pesquisar documentos...">
+          <ion-icon name="search-outline"></ion-icon>
+        </label>
       </div>
 
-      <!-- Atividade 3 -->
-      <div class="activity-item">
-        <div class="activity-dot purple"></div>
-        <div class="activity-content">
-          <p class="activity-title">Abriu Modelo Recurso</p>
-          <p class="activity-time">Há 2 horas</p>
-        </div>
+      <div class="notification-icon">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <span class="notification-badge">3</span>
       </div>
 
-      <!-- Atividade 4 -->
-      <div class="activity-item">
-        <div class="activity-dot orange"></div>
-        <div class="activity-content">
-          <p class="activity-title">Salvou Contrato</p>
-          <p class="activity-time">Ontem</p>
-        </div>
-      </div>
-
-      <!-- Atividade 5 -->
-      <div class="activity-item">
-        <div class="activity-dot yellow"></div>
-        <div class="activity-content">
-          <p class="activity-title">Exportou PDF</p>
-          <p class="activity-time">Há 3 dias</p>
-        </div>
+      <div class="user-profile">
+        <ion-icon name="person-outline"></ion-icon>
       </div>
     </div>
-  </section>
 
-  <!-- MODAIS / POP-UPS -->
-
-  <!-- Modal: Novo Documento -->
-  <div class="modal-overlay">
-    <div class="modal-container">
-      <div class="modal-header">
-        <h2>Novo Documento</h2>
-        <button class="btn-close-modal" title="Fechar">
-          <ion-icon name="close-outline"></ion-icon>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="doc-titulo">Título do Documento</label>
-          <input type="text" id="doc-titulo" placeholder="Ex: Petição Inicial - Ação Trabalhista" />
-        </div>
-
-        <div class="form-group">
-          <label for="doc-tipo">Tipo de Arquivo</label>
-          <select id="doc-tipo">
-            <option value="DOCX">DOCX - Documento Word</option>
-            <option value="PDF">PDF - Documento PDF</option>
-            <option value="XLSX">XLSX - Planilha Excel</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="doc-categoria">Categoria</label>
-          <select id="doc-categoria">
-            <option value="Petição">Petição</option>
-            <option value="Contestação">Contestação</option>
-            <option value="Recurso">Recurso</option>
-            <option value="Contrato">Contrato</option>
-            <option value="Procuração">Procuração</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="doc-processo">Processo Relacionado</label>
-          <input type="text" id="doc-processo" placeholder="Ex: Processo #1024" />
+    <!-- Page Header com Logo -->
+    <div class="page-header-with-logo">
+      <div class="logo-section">
+        <div class="logo-wrapper">
+          <img src="assets/logo.png" alt="Logo" class="brand-logo">
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button class="btn-secondary">Cancelar</button>
+      <div class="header-content">
+        <div class="header-left">
+          <h1>
+            <ion-icon name="document-text-outline"></ion-icon>
+            Modelos de Documentos
+          </h1>
+          <p>Gerencie e crie documentos jurídicos de forma prática e eficiente</p>
+        </div>
         <button class="btn-primary">
           <ion-icon name="add-outline"></ion-icon>
-          <span>Criar Documento</span>
+          Novo Documento
         </button>
       </div>
     </div>
-  </div>
 
-  <!-- Modal: Editar Documento -->
-  <div class="modal-overlay modal-edit">
-    <div class="modal-container">
-      <div class="modal-header">
-        <h2>Editar Documento</h2>
-        <button class="btn-close-modal" title="Fechar">
-          <ion-icon name="close-outline"></ion-icon>
-        </button>
-      </div>
+    <!-- Categorias de Documentos -->
+    <div class="categories-section">
+      <h2 class="section-title">
+        <ion-icon name="folder-open-outline"></ion-icon>
+        Categorias de Documentos
+      </h2>
 
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="edit-titulo">Título do Documento</label>
-          <input type="text" id="edit-titulo" value="Petição Inicial - Ação Trabalhista" />
-        </div>
-
-        <div class="form-group">
-          <label for="edit-status">Status</label>
-          <select id="edit-status">
-            <option value="Rascunho" selected>Rascunho</option>
-            <option value="Em revisão">Em revisão</option>
-            <option value="Finalizado">Finalizado</option>
-            <option value="Arquivado">Arquivado</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="edit-categoria">Categoria</label>
-          <select id="edit-categoria">
-            <option value="Petição" selected>Petição</option>
-            <option value="Contestação">Contestação</option>
-            <option value="Recurso">Recurso</option>
-            <option value="Contrato">Contrato</option>
-            <option value="Procuração">Procuração</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="edit-processo">Processo Relacionado</label>
-          <input type="text" id="edit-processo" value="Processo #1024" />
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn-danger">
-          <ion-icon name="trash-outline"></ion-icon>
-          <span>Excluir</span>
-        </button>
-        <div class="modal-footer-right">
-          <button class="btn-secondary">Cancelar</button>
-          <button class="btn-primary">
-            <ion-icon name="save-outline"></ion-icon>
-            <span>Salvar Alterações</span>
+      <div class="categories-grid">
+        <!-- Inventário -->
+        <div class="category-card">
+          <div class="category-icon inventario">
+            <ion-icon name="home-outline"></ion-icon>
+          </div>
+          <div class="category-content">
+            <h3>Inventário</h3>
+            <p class="category-count">8 modelos disponíveis</p>
+            <p class="category-desc">Documentos para processos de inventário judicial e extrajudicial</p>
+          </div>
+          <button class="btn-category">
+            Ver Modelos
+            <ion-icon name="arrow-forward-outline"></ion-icon>
           </button>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Modal: Documentos com Abas -->
-  <div class="modal-overlay modal-documentos">
-    <div class="modal-container modal-large">
-      <div class="modal-header">
-        <div class="modal-header-content">
-          <div class="modal-icon">
+        <!-- Procuração -->
+        <div class="category-card">
+          <div class="category-icon procuracao">
+            <ion-icon name="create-outline"></ion-icon>
+          </div>
+          <div class="category-content">
+            <h3>Procuração</h3>
+            <p class="category-count">12 modelos disponíveis</p>
+            <p class="category-desc">Modelos de procurações públicas, privadas e específicas</p>
+          </div>
+          <button class="btn-category">
+            Ver Modelos
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </button>
+        </div>
+
+        <!-- Petições -->
+        <div class="category-card">
+          <div class="category-icon peticoes">
             <ion-icon name="document-text-outline"></ion-icon>
           </div>
-          <div>
-            <h2 id="modal-title">Inventário Extrajudicial</h2>
-            <p id="modal-description">Processo de inventário sem necessidade de judicialização</p>
+          <div class="category-content">
+            <h3>Petições</h3>
+            <p class="category-count">15 modelos disponíveis</p>
+            <p class="category-desc">Petições iniciais para diversas áreas do direito</p>
           </div>
+          <button class="btn-category">
+            Ver Modelos
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </button>
         </div>
-        <button class="btn-close-modal" title="Fechar">
-          <ion-icon name="close-outline"></ion-icon>
-        </button>
+
+        <!-- Contratos -->
+        <div class="category-card">
+          <div class="category-icon contratos">
+            <ion-icon name="document-attach-outline"></ion-icon>
+          </div>
+          <div class="category-content">
+            <h3>Contratos</h3>
+            <p class="category-count">20 modelos disponíveis</p>
+            <p class="category-desc">Contratos empresariais, trabalhistas e civis</p>
+          </div>
+          <button class="btn-category">
+            Ver Modelos
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </button>
+        </div>
+
+        <!-- Recursos -->
+        <div class="category-card">
+          <div class="category-icon recursos">
+            <ion-icon name="git-branch-outline"></ion-icon>
+          </div>
+          <div class="category-content">
+            <h3>Recursos</h3>
+            <p class="category-count">10 modelos disponíveis</p>
+            <p class="category-desc">Recursos e apelações para tribunais</p>
+          </div>
+          <button class="btn-category">
+            Ver Modelos
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </button>
+        </div>
+
+        <!-- Defesas -->
+        <div class="category-card">
+          <div class="category-icon defesas">
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+          </div>
+          <div class="category-content">
+            <h3>Defesas</h3>
+            <p class="category-count">14 modelos disponíveis</p>
+            <p class="category-desc">Contestações e réplicas processuais</p>
+          </div>
+          <button class="btn-category">
+            Ver Modelos
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Documentos Necessários -->
+    <div class="documents-required-section">
+      <div class="section-header-tabs">
+        <h2 class="section-title">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          Documentos Necessários por Categoria
+        </h2>
+        <div class="filter-tabs">
+          <button class="filter-tab active">Inventário</button>
+          <button class="filter-tab">Procuração</button>
+          <button class="filter-tab">Petições</button>
+          <button class="filter-tab">Contratos</button>
+        </div>
       </div>
 
-      <!-- Abas de Navegação -->
-      <div class="modal-tabs">
-        <button class="tab-item active" data-tab="upload">
-          <ion-icon name="cloud-upload-outline"></ion-icon>
-          Upload
-        </button>
-        <button class="tab-item" data-tab="requirements">
-          <ion-icon name="document-text-outline"></ion-icon>
-          Necessários
-        </button>
-        <button class="tab-item" data-tab="progress">
-          <ion-icon name="checkmark-circle-outline"></ion-icon>
-          Progresso
-        </button>
-        <button class="tab-item" data-tab="preview">
-          <ion-icon name="eye-outline"></ion-icon>
-          Preview
-        </button>
+      <!-- Grid de Documentos Necessários -->
+      <div class="documents-grid">
+        <div class="document-required-card">
+          <div class="document-status pending">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <div class="document-info">
+            <h4>Certidão de Óbito</h4>
+            <p class="document-category">Documento Obrigatório</p>
+            <p class="document-desc">Original ou cópia autenticada da certidão de óbito do falecido</p>
+          </div>
+          <button class="btn-upload">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            Upload
+          </button>
+        </div>
+
+        <div class="document-required-card">
+          <div class="document-status pending">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <div class="document-info">
+            <h4>RG e CPF dos Herdeiros</h4>
+            <p class="document-category">Documento Obrigatório</p>
+            <p class="document-desc">Documentos pessoais de todos os herdeiros envolvidos</p>
+          </div>
+          <button class="btn-upload">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            Upload
+          </button>
+        </div>
+
+        <div class="document-required-card">
+          <div class="document-status pending">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <div class="document-info">
+            <h4>Certidão de Casamento</h4>
+            <p class="document-category">Documento Obrigatório</p>
+            <p class="document-desc">Certidão de casamento do falecido (se casado)</p>
+          </div>
+          <button class="btn-upload">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            Upload
+          </button>
+        </div>
+
+        <div class="document-required-card">
+          <div class="document-status pending">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <div class="document-info">
+            <h4>Certidão de Nascimento dos Filhos</h4>
+            <p class="document-category">Documento Obrigatório</p>
+            <p class="document-desc">Certidões de nascimento de todos os filhos herdeiros</p>
+          </div>
+          <button class="btn-upload">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            Upload
+          </button>
+        </div>
+
+        <div class="document-required-card">
+          <div class="document-status pending">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <div class="document-info">
+            <h4>Certidão de Propriedade de Imóveis</h4>
+            <p class="document-category">Documento Obrigatório</p>
+            <p class="document-desc">Certidões atualizadas de todos os imóveis do espólio</p>
+          </div>
+          <button class="btn-upload">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            Upload
+          </button>
+        </div>
+
+        <div class="document-required-card">
+          <div class="document-status pending">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <div class="document-info">
+            <h4>Declaração de Bens</h4>
+            <p class="document-category">Documento Obrigatório</p>
+            <p class="document-desc">Declaração de IR do falecido (últimos 5 anos)</p>
+          </div>
+          <button class="btn-upload">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            Upload
+          </button>
+        </div>
+
+        <div class="document-required-card">
+          <div class="document-status pending">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <div class="document-info">
+            <h4>Certidões Negativas</h4>
+            <p class="document-category">Documento Obrigatório</p>
+            <p class="document-desc">Certidões negativas de débitos federais, estaduais e municipais</p>
+          </div>
+          <button class="btn-upload">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            Upload
+          </button>
+        </div>
+
+        <div class="document-required-card">
+          <div class="document-status pending">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <div class="document-info">
+            <h4>Testamento (se houver)</h4>
+            <p class="document-category">Documento Opcional</p>
+            <p class="document-desc">Cópia autenticada do testamento, se existir</p>
+          </div>
+          <button class="btn-upload">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            Upload
+          </button>
+        </div>
       </div>
+    </div>
 
+    <!-- Documentos Recentes -->
+    <div class="recent-documents-section">
+      <h2 class="section-title">
+        <ion-icon name="time-outline"></ion-icon>
+        Documentos Recentes
+      </h2>
 
-      <!--POP-UP-->
-      <div class="modal-body">
-        <!-- Aba: Upload -->
-        <div class="tab-content active" id="tab-upload">
-          <!-- Critérios de Elegibilidade (só para inventário) -->
-          <div class="eligibility-section" id="eligibility-section">
-            <h3>📋 Critérios Obrigatórios</h3>
-            <p class="eligibility-subtitle">Marque todas as opções se aplicáveis ao seu caso:</p>
-
-            <!-- Checkbox 1: Maior de 18 anos -->
-            <div class="eligibility-item">
-              <label class="checkbox-container">
-                <input type="checkbox" class="eligibility-check" id="check-maior18" />
-                <span class="checkmark">
-                  <ion-icon name="checkmark-outline"></ion-icon>
-                </span>
-                <div class="checkbox-content">
-                  <h4>Idade Mínima</h4>
-                  <p>Todos os herdeiros devem ser maiores de 18 anos ou emancipados</p>
-                </div>
-              </label>
-            </div>
-
-            <!-- Checkbox 2: Capacidade Civil -->
-            <div class="eligibility-item">
-              <label class="checkbox-container">
-                <input type="checkbox" class="eligibility-check" id="check-capaz" />
-                <span class="checkmark">
-                  <ion-icon name="checkmark-outline"></ion-icon>
-                </span>
-                <div class="checkbox-content">
-                  <h4>Capacidade Civil</h4>
-                  <p>Todos os herdeiros devem ter capacidade civil plena</p>
-                </div>
-              </label>
-            </div>
-
-            <!-- Checkbox 3: Consenso -->
-            <div class="eligibility-item">
-              <label class="checkbox-container">
-                <input type="checkbox" class="eligibility-check" id="check-consensual" />
-                <span class="checkmark">
-                  <ion-icon name="checkmark-outline"></ion-icon>
-                </span>
-                <div class="checkbox-content">
-                  <h4>Consenso entre Herdeiros</h4>
-                  <p>Deve haver consenso entre todos os herdeiros sobre a partilha</p>
-                </div>
-              </label>
-            </div>
-
-            <!-- Status de Elegibilidade -->
-            <div class="eligibility-status" id="eligibility-status">
-              <ion-icon name="alert-circle-outline"></ion-icon>
-              <span>⚠️ Marque todos os critérios para continuar</span>
-            </div>
-          </div>
-
-          <!-- Área de Upload -->
-          <div class="upload-area" id="upload-area">
-            <div class="upload-box" id="upload-box">
-              <ion-icon name="cloud-upload-outline"></ion-icon>
-              <h3>Envie os documentos necessários</h3>
-              <p>Clique aqui ou arraste os arquivos para esta área</p>
-              <p class="upload-hint">PDF, DOC, DOCX, XLS, XLSX, JPG, PNG (máx. 10MB cada)</p>
-              <input
-                type="file"
-                id="file-input"
-                multiple
-                accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
-                hidden
-              />
-            </div>
-
-            <!-- Lista de Arquivos Selecionados -->
-            <div class="uploaded-files" id="uploaded-files" style="display: none">
-              <h4>Arquivos selecionados (<span id="file-count">0</span>)</h4>
-              <div id="files-list"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Aba: Documentos Necessários -->
-        <div class="tab-content" id="tab-requirements">
-          <div class="requirements-header">
-            <ion-icon name="documents-outline"></ion-icon>
-            <div class="requirements-header-text">
-              <h3>Documentos Necessários</h3>
-              <p>Para <span id="req-doc-name">este documento</span></p>
-            </div>
-          </div>
-
-          <!-- Estatísticas Rápidas -->
-          <div class="requirements-stats">
-            <div class="stat-item">
-              <ion-icon name="document-text-outline"></ion-icon>
-              <div class="stat-content">
-                <span class="stat-value" id="total-requirements">0</span>
-                <span class="stat-label">Total de Documentos</span>
-              </div>
-            </div>
-            <div class="stat-item">
-              <ion-icon name="checkmark-circle-outline"></ion-icon>
-              <div class="stat-content">
-                <span class="stat-value" id="completed-requirements">0</span>
-                <span class="stat-label">Concluídos</span>
-              </div>
-            </div>
-            <div class="stat-item">
-              <ion-icon name="time-outline"></ion-icon>
-              <div class="stat-content">
-                <span class="stat-value" id="pending-requirements">0</span>
-                <span class="stat-label">Pendentes</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Mini Barra de Progresso -->
-          <div class="requirements-progress">
-            <div class="requirements-progress-bar">
-              <div class="requirements-progress-fill" id="requirements-progress-fill"></div>
-            </div>
-            <span class="requirements-progress-text" id="requirements-progress-text">0% Completo</span>
-          </div>
-
-          <!-- Documentos Enviados -->
-          <div class="uploaded-documents-section" id="uploaded-documents-section" style="display: none;">
-            <div class="section-header uploaded-header">
-              <ion-icon name="checkmark-circle"></ion-icon>
-              <h4>✅ Documentos Enviados</h4>
-            </div>
-            <div class="uploaded-documents-list" id="uploaded-documents-list">
-              <!-- Será preenchido dinamicamente -->
-            </div>
-          </div>
-
-          <!-- Documentos Faltantes -->
-          <div class="missing-documents-section" id="missing-documents-section">
-            <div class="section-header missing-header">
-              <div class="missing-header-content">
-                <div class="missing-title">
-                  <ion-icon name="alert-circle"></ion-icon>
-                  <h4>⚠️ Documentos Necessários</h4>
-                </div>
-                <span id="urgent-count-badge" class="urgent-count-badge" style="display: none;"></span>
-              </div>
-            </div>
-            <p class="missing-instructions">Clique no botão de upload para enviar cada documento ou marque como concluído.</p>
-            <div class="requirements-list" id="requirements-list">
-              <!-- Será preenchido dinamicamente com checklist interativa -->
-            </div>
-          </div>
-
-          <!-- Alertas Legais -->
-          <div class="legal-warnings-section" id="legal-warnings-section" style="display: none;">
-            <h4>⚖️ Avisos Legais Importantes</h4>
-            <div class="warnings-list" id="warnings-list">
-              <!-- Será preenchido dinamicamente -->
-            </div>
-          </div>
-
-          <!-- Prazos Processuais -->
-          <div class="deadlines-section" id="deadlines-section" style="display: none;">
-            <h4>⏰ Prazos Processuais</h4>
-            <div class="deadlines-timeline" id="deadlines-timeline">
-              <!-- Será preenchido dinamicamente -->
-            </div>
-          </div>
-
-          <!-- Informações Adicionais -->
-          <div class="additional-info-section" id="additional-info-section" style="display: none;">
-            <div class="info-grid">
-              <div class="info-card cost-card">
-                <ion-icon name="cash-outline"></ion-icon>
-                <div class="info-content">
-                  <span class="info-label">Custo Estimado</span>
-                  <span class="info-value" id="estimated-cost">R$ 0,00</span>
-                </div>
-              </div>
-              <div class="info-card time-card">
-                <ion-icon name="hourglass-outline"></ion-icon>
-                <div class="info-content">
-                  <span class="info-label">Prazo Médio</span>
-                  <span class="info-value" id="processing-time">-</span>
-                </div>
-              </div>
-              <div class="info-card jurisdiction-card">
-                <ion-icon name="business-outline"></ion-icon>
-                <div class="info-content">
-                  <span class="info-label">Jurisdição</span>
-                  <span class="info-value" id="jurisdiction">-</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Dicas e Informações -->
-          <div class="requirements-tips">
-            <div class="tip-card">
-              <ion-icon name="information-circle-outline"></ion-icon>
-              <div class="tip-content">
-                <h4>💡 Dica Importante</h4>
-                <p>Certifique-se de que todos os documentos estejam legíveis e em formato PDF ou imagem de alta qualidade.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Aba: Progresso -->
-        <div class="tab-content" id="tab-progress">
-          <div class="progress-header">
-            <h3>Progresso do Documento</h3>
-            <p id="progress-doc-name">Inventário Extrajudicial</p>
-          </div>
-
-          <!-- Barra de Progresso -->
-          <div class="progress-bar-section">
-            <div class="progress-info">
-              <span class="progress-label">Progresso Geral</span>
-              <span class="progress-count" id="progress-count">0 / 5</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-            </div>
-          </div>
-
-          <!-- Lista de Documentos com Status -->
-          <div class="progress-list" id="progress-list">
-            <!-- Será preenchido dinamicamente -->
-          </div>
-
-          <!-- Arquivos Enviados -->
-          <div class="uploaded-files-section" id="uploaded-files-section" style="display: none">
-            <h4>Arquivos Enviados</h4>
-            <div id="uploaded-files-list"></div>
-          </div>
-        </div>
-
-        <!-- Aba: Preview -->
-        <div class="tab-content" id="tab-preview">
-          <div class="preview-header">
-            <h3>Preview do Documento</h3>
-            <p id="preview-doc-name">Inventário Extrajudicial</p>
-          </div>
-          <div class="preview-placeholder">
+      <div class="recent-documents-list">
+        <div class="recent-document-item">
+          <div class="document-icon-wrapper inventario">
             <ion-icon name="document-text-outline"></ion-icon>
-            <h4>Preview em Desenvolvimento</h4>
-            <p>O preview do documento será implementado em breve</p>
+          </div>
+          <div class="document-details">
+            <h4>Inventário - João Silva</h4>
+            <p>Processo #1024 • Modificado há 2 horas</p>
+          </div>
+          <div class="document-status-badge completed">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            Completo
+          </div>
+          <div class="document-actions-quick">
+            <button class="btn-icon-quick" title="Visualizar">
+              <ion-icon name="eye-outline"></ion-icon>
+            </button>
+            <button class="btn-icon-quick" title="Download">
+              <ion-icon name="download-outline"></ion-icon>
+            </button>
+            <button class="btn-icon-quick" title="Compartilhar">
+              <ion-icon name="share-social-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="recent-document-item">
+          <div class="document-icon-wrapper procuracao">
+            <ion-icon name="create-outline"></ion-icon>
+          </div>
+          <div class="document-details">
+            <h4>Procuração - Maria Santos</h4>
+            <p>Processo #985 • Modificado há 5 horas</p>
+          </div>
+          <div class="document-status-badge pending">
+            <ion-icon name="time-outline"></ion-icon>
+            Pendente
+          </div>
+          <div class="document-actions-quick">
+            <button class="btn-icon-quick" title="Visualizar">
+              <ion-icon name="eye-outline"></ion-icon>
+            </button>
+            <button class="btn-icon-quick" title="Download">
+              <ion-icon name="download-outline"></ion-icon>
+            </button>
+            <button class="btn-icon-quick" title="Compartilhar">
+              <ion-icon name="share-social-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="recent-document-item">
+          <div class="document-icon-wrapper peticoes">
+            <ion-icon name="document-text-outline"></ion-icon>
+          </div>
+          <div class="document-details">
+            <h4>Petição Inicial - Carlos Lima</h4>
+            <p>Processo #1001 • Modificado ontem</p>
+          </div>
+          <div class="document-status-badge completed">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            Completo
+          </div>
+          <div class="document-actions-quick">
+            <button class="btn-icon-quick" title="Visualizar">
+              <ion-icon name="eye-outline"></ion-icon>
+            </button>
+            <button class="btn-icon-quick" title="Download">
+              <ion-icon name="download-outline"></ion-icon>
+            </button>
+            <button class="btn-icon-quick" title="Compartilhar">
+              <ion-icon name="share-social-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="recent-document-item">
+          <div class="document-icon-wrapper contratos">
+            <ion-icon name="document-attach-outline"></ion-icon>
+          </div>
+          <div class="document-details">
+            <h4>Contrato de Prestação - Ana Costa</h4>
+            <p>Processo #950 • Modificado há 3 dias</p>
+          </div>
+          <div class="document-status-badge in-progress">
+            <ion-icon name="sync-outline"></ion-icon>
+            Em Andamento
+          </div>
+          <div class="document-actions-quick">
+            <button class="btn-icon-quick" title="Visualizar">
+              <ion-icon name="eye-outline"></ion-icon>
+            </button>
+            <button class="btn-icon-quick" title="Download">
+              <ion-icon name="download-outline"></ion-icon>
+            </button>
+            <button class="btn-icon-quick" title="Compartilhar">
+              <ion-icon name="share-social-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="recent-document-item">
+          <div class="document-icon-wrapper recursos">
+            <ion-icon name="git-branch-outline"></ion-icon>
+          </div>
+          <div class="document-details">
+            <h4>Recurso de Apelação - Pedro Oliveira</h4>
+            <p>Processo #922 • Modificado há 1 semana</p>
+          </div>
+          <div class="document-status-badge completed">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            Completo
+          </div>
+          <div class="document-actions-quick">
+            <button class="btn-icon-quick" title="Visualizar">
+              <ion-icon name="eye-outline"></ion-icon>
+            </button>
+            <button class="btn-icon-quick" title="Download">
+              <ion-icon name="download-outline"></ion-icon>
+            </button>
+            <button class="btn-icon-quick" title="Compartilhar">
+              <ion-icon name="share-social-outline"></ion-icon>
+            </button>
           </div>
         </div>
       </div>
-
-      <div class="modal-footer">
-        <button class="btn-secondary" id="btn-cancel">Cancelar</button>
-        <button class="btn-primary" id="btn-submit">
-          <ion-icon name="cloud-upload-outline"></ion-icon>
-          <span>Enviar Documentos</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Painel de Modelos Expandido (Lateral Direita) -->
-  <div class="modelos-panel">
-    <div class="modelos-panel-header">
-      <div class="modelos-title">
-        <span class="modelos-icon">
-          <ion-icon name="document-text-outline"></ion-icon>
-        </span>
-        <h4>Petições</h4>
-      </div>
-      <button class="btn-close-panel" title="Fechar">
-        <ion-icon name="close-outline"></ion-icon>
-      </button>
-    </div>
-
-    <p class="modelos-subtitle">Selecione um modelo para editar</p>
-
-    <div class="modelos-list">
-      <button class="modelo-item">
-        <div class="modelo-info">
-          <p class="modelo-name">Petição Inicial Trabalhista</p>
-          <p class="modelo-desc">Modelo completo para ações trabalhistas</p>
-        </div>
-      </button>
-
-      <button class="modelo-item">
-        <div class="modelo-info">
-          <p class="modelo-name">Petição Inicial Cível</p>
-          <p class="modelo-desc">Para ações cíveis em geral</p>
-        </div>
-      </button>
-
-      <button class="modelo-item">
-        <div class="modelo-info">
-          <p class="modelo-name">Petição de Divórcio</p>
-          <p class="modelo-desc">Divórcio consensual ou litigioso</p>
-        </div>
-      </button>
-
-      <button class="modelo-item">
-        <div class="modelo-info">
-          <p class="modelo-name">Petição de Inventário</p>
-          <p class="modelo-desc">Abertura de inventário</p>
-        </div>
-      </button>
-
-      <button class="modelo-item">
-        <div class="modelo-info">
-          <p class="modelo-name">Petição de Usucapião</p>
-          <p class="modelo-desc">Ação de usucapião</p>
-        </div>
-      </button>
-    </div>
-  </div>
-
-  <!-- Sistema de Abas do Editor -->
-  <div class="editor-container">
-    <!-- Barra de Abas -->
-    <div class="editor-tabs">
-      <div class="tab-item active">
-        <ion-icon name="document-text-outline"></ion-icon>
-        <span>Petição Inicial - Ação Trabalhista</span>
-        <button class="btn-close-tab" title="Fechar aba">
-          <ion-icon name="close-outline"></ion-icon>
-        </button>
-      </div>
-
-      <div class="tab-item">
-        <ion-icon name="document-outline"></ion-icon>
-        <span>Contestação - Ação de Cobrança</span>
-        <button class="btn-close-tab" title="Fechar aba">
-          <ion-icon name="close-outline"></ion-icon>
-        </button>
-      </div>
-
-      <div class="tab-item">
-        <ion-icon name="document-text-outline"></ion-icon>
-        <span>Recurso de Apelação</span>
-        <button class="btn-close-tab" title="Fechar aba">
-          <ion-icon name="close-outline"></ion-icon>
-        </button>
-      </div>
-    </div>
-
-    <!-- Área do Editor -->
-    <div class="editor-content">
-      <div class="editor-header">
-        <div class="editor-title-section">
-          <h2>Petição Inicial - Ação Trabalhista</h2>
-          <p>Documento • Processo #1024</p>
-        </div>
-
-        <div class="editor-actions">
-          <button class="btn-secondary">
-            <ion-icon name="save-outline"></ion-icon>
-            <span>Salvar</span>
-          </button>
-          <button class="btn-secondary">
-            <ion-icon name="download-outline"></ion-icon>
-            <span>Exportar</span>
-          </button>
-        </div>
-      </div>
-
-      <textarea class="editor-textarea" placeholder="Digite seu documento aqui..."> </textarea>
     </div>
   </div>
 </div>
