@@ -1,4 +1,4 @@
-npm <!-- Dashboard Container com Menu Lateral -->
+<!-- Dashboard Container com Menu Lateral -->
 <div class="dashboard-container">
   <!-- Menu Lateral -->
   <div class="navigation">
@@ -56,22 +56,27 @@ npm <!-- Dashboard Container com Menu Lateral -->
 
   <!-- Área Principal -->
   <div class="main">
-    <!-- Hero Section -->
-    <section class="cadastro-hero">
-      <!-- Background EFEITOS -->
-      <div class="hero-flare"></div>
-      <div class="hero-flare-secondary"></div>
-      <div class="hero-triangle-pattern"></div>
+    <!-- Background EFEITOS -->
+    <div class="hero-flare"></div>
+    <div class="hero-flare-secondary"></div>
+    <div class="hero-triangle-pattern"></div>
 
-      <!-- Cadastro CARD -->
-      <div class="cadastro-wrapper">
-        <div class="cadastro-container">
-          <div class="cadastro-card">
-        <!-- Header -->
-        <div class="cadastro-header">
-          <h1>Cadastro de Cliente</h1>
-          <p>Preencha os dados para criar uma nova conta</p>
-        </div>
+    <!-- HEADER DA PÁGINA - Fora do card -->
+    <div class="page-header">
+      <div class="page-header-icon">
+        <ion-icon name="person-add-outline"></ion-icon>
+      </div>
+      <div class="page-header-content">
+        <h1 class="page-title">Cadastro de Cliente</h1>
+        <p class="page-subtitle">Preencha os dados para criar uma nova conta</p>
+      </div>
+    </div>
+
+    <!-- Layout em 2 colunas -->
+    <div class="cadastro-layout">
+      <!-- COLUNA ESQUERDA - Formulário -->
+      <div class="cadastro-column">
+        <div class="cadastro-card">
 
         <!-- Mensagem de erro/sucesso -->
         @if (errorMessage) {
@@ -113,22 +118,22 @@ npm <!-- Dashboard Container com Menu Lateral -->
             </div>
           </div>
 
-          <!-- CPF / CNPJ e Justificativa -->
+          <!-- CPF / CNPJ e Telefone Celular -->
           <div class="form-row">
-            <div class="form-group" [class.col-50]="clienteForm.tipo === 'fisica'">
+            <div class="form-group col-50">
               <label [attr.for]="clienteForm.tipo === 'fisica' ? 'cpf' : 'cnpj'">
                 {{ clienteForm.tipo === 'fisica' ? 'CPF' : 'CNPJ' }}
                 <span class="required">*</span>
               </label>
               <div class="input-wrapper" [class.error]="hasError('cpfCnpj')">
                 <input
-                  [type]="clienteForm.tipo === 'fisica' ? 'text' : 'text'"
+                  type="text"
                   [id]="clienteForm.tipo === 'fisica' ? 'cpf' : 'cnpj'"
                   [(ngModel)]="clienteForm.cpfCnpj"
                   name="cpfCnpj"
                   class="form-input"
                   [placeholder]="clienteForm.tipo === 'fisica' ? '000.000.000-00' : '00.000.000/0000-00'"
-                  [required]="clienteForm.tipo === 'fisica'"
+                  required
                 />
                 <i class="fas fa-id-card input-icon"></i>
               </div>
@@ -137,22 +142,27 @@ npm <!-- Dashboard Container com Menu Lateral -->
               }
             </div>
 
-            @if (clienteForm.tipo === 'fisica') {
             <div class="form-group col-50">
-              <label for="justificativa">Justificativa sem CPF</label>
-              <div class="input-wrapper">
+              <label for="telefoneCelular">
+                Telefone Celular
+                <span class="required">*</span>
+              </label>
+              <div class="input-wrapper" [class.error]="hasError('telefoneCelular')">
                 <input
-                  type="text"
-                  id="justificativa"
-                  [(ngModel)]="clienteForm.justificativaSemCpf"
-                  name="justificativaSemCpf"
+                  type="tel"
+                  id="telefoneCelular"
+                  [(ngModel)]="clienteForm.telefoneCelular"
+                  name="telefoneCelular"
                   class="form-input"
-                  placeholder="Opcional"
+                  placeholder="(00) 00000-0000"
+                  required
                 />
-                <i class="fas fa-comment-dots input-icon"></i>
+                <i class="fas fa-mobile-alt input-icon"></i>
               </div>
+              @if (hasError('telefoneCelular')) {
+                <span class="error-text">{{ getError('telefoneCelular') }}</span>
+              }
             </div>
-            }
           </div>
 
           <!-- Nome -->
@@ -179,9 +189,36 @@ npm <!-- Dashboard Container com Menu Lateral -->
           </div>
 
           @if (clienteForm.tipo === 'fisica') {
+          <!-- Maior de Idade - Melhorado -->
+          <div class="form-group">
+            <div class="idade-verification" [class.error]="hasError('maiorIdade')">
+              <div class="idade-icon">
+                <ion-icon name="shield-checkmark-outline"></ion-icon>
+              </div>
+              <div class="idade-content">
+                <label class="idade-checkbox">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="clienteForm.maiorIdade"
+                    name="maiorIdade"
+                    class="checkbox-input"
+                  />
+                  <span class="checkmark"></span>
+                  <span class="idade-text">
+                    <strong>Confirmo que sou maior de 18 anos</strong>
+                    <small>Necessário para prosseguir com o cadastro</small>
+                  </span>
+                </label>
+              </div>
+            </div>
+            @if (hasError('maiorIdade')) {
+              <span class="error-text">{{ getError('maiorIdade') }}</span>
+            }
+          </div>
+
           <!-- Gênero -->
           <div class="form-group">
-            <label>Gênero</label>
+            <label>Identidade de Gênero</label>
             <div class="genero-options">
               <label class="radio-option">
                 <input
@@ -192,7 +229,7 @@ npm <!-- Dashboard Container com Menu Lateral -->
                 />
                 <span class="radio-label">
                   <i class="fas fa-mars"></i>
-                  MASCULINO
+                  Masculino
                 </span>
               </label>
               <label class="radio-option">
@@ -204,7 +241,31 @@ npm <!-- Dashboard Container com Menu Lateral -->
                 />
                 <span class="radio-label">
                   <i class="fas fa-venus"></i>
-                  FEMININO
+                  Feminino
+                </span>
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="genero"
+                  value="outros"
+                  [(ngModel)]="clienteForm.genero"
+                />
+                <span class="radio-label">
+                  <i class="fas fa-transgender"></i>
+                  Outros
+                </span>
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="genero"
+                  value="prefiro-nao-identificar"
+                  [(ngModel)]="clienteForm.genero"
+                />
+                <span class="radio-label">
+                  <i class="fas fa-user-secret"></i>
+                  Prefiro não identificar
                 </span>
               </label>
             </div>
@@ -323,73 +384,6 @@ npm <!-- Dashboard Container com Menu Lateral -->
             </div>
           </div>
           }
-
-          <!-- Categoria e URL Site -->
-          <div class="form-row">
-            <div class="form-group col-50">
-              <label for="categoria">Categoria</label>
-              <div class="input-wrapper">
-                <select
-                  id="categoria"
-                  [(ngModel)]="clienteForm.categoria"
-                  name="categoria"
-                  class="form-input"
-                >
-                  <option value="">Selecione uma categoria</option>
-                  <option value="cliente-vip">Cliente VIP</option>
-                  <option value="cliente-gold">Cliente Gold</option>
-                  <option value="cliente-standard">Cliente Standard</option>
-                  <option value="cliente-novo">Cliente Novo</option>
-                </select>
-                <i class="fas fa-tag input-icon"></i>
-              </div>
-            </div>
-            <div class="form-group col-50">
-              <label for="urlSite">URL Site</label>
-              <div class="input-wrapper">
-                <input
-                  type="url"
-                  id="urlSite"
-                  [(ngModel)]="clienteForm.urlSite"
-                  name="urlSite"
-                  class="form-input"
-                  placeholder="https://exemplo.com.br"
-                />
-                <i class="fas fa-globe input-icon"></i>
-              </div>
-            </div>
-          </div>
-
-          <!-- Anexar Foto -->
-          <div class="form-group">
-            <label for="foto">Anexar foto (envie uma imagem na proporção 50 x 50 ou superior)</label>
-            <div class="file-upload-wrapper">
-              <input
-                type="file"
-                id="foto"
-                (change)="onFileSelected($event)"
-                accept="image/*"
-                class="file-input"
-                #fileInput
-              />
-              <button type="button" class="file-upload-btn" (click)="fileInput.click()">
-                <i class="fas fa-cloud-upload-alt"></i>
-                {{ clienteForm.foto ? 'Alterar Foto' : 'Selecionar Foto' }}
-              </button>
-              @if (clienteForm.foto) {
-                <span class="file-name">{{ clienteForm.foto.name }}</span>
-              }
-              @if (fotoPreview) {
-                <div class="foto-preview">
-                  <img [src]="fotoPreview" alt="Preview da foto" />
-                  <button type="button" class="remove-foto" (click)="removeFoto()">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              }
-            </div>
-          </div>
-
           <!-- Botões de Ação -->
           <div class="form-actions">
             <button type="button" class="btn-cancelar" (click)="onCancel()">
@@ -404,7 +398,349 @@ npm <!-- Dashboard Container com Menu Lateral -->
         </form>
       </div>
     </div>
-  </div>
-</section>
+
+    <!-- COLUNA DIREITA - Documentos -->
+    <div class="documentos-column">
+      <div class="documentos-wrapper">
+        <div class="documentos-header">
+          <div class="header-icon">
+            <ion-icon name="documents-outline"></ion-icon>
+          </div>
+          <div class="header-content">
+            <h2>Documentos</h2>
+            <p>Anexe os documentos necessários</p>
+          </div>
+        </div>
+
+        <div class="documentos-scroll">
+          <!-- Foto do Cliente - Card Destaque -->
+      <div class="documento-card documento-card-photo">
+        <div class="documento-card-header">
+          <div class="documento-icon">
+            <ion-icon name="camera-outline"></ion-icon>
+          </div>
+          <div class="documento-info">
+            <h3>Foto do Cliente</h3>
+            <span class="documento-subtitle">Foto de perfil (JPG, PNG)</span>
+          </div>
+        </div>
+
+        <div class="documento-card-body">
+          <input
+            type="file"
+            id="foto"
+            (change)="onFileSelected($event)"
+            accept="image/*"
+            class="file-input"
+            #fileInput
+          />
+
+          @if (!fotoPreview) {
+            <div class="upload-area" (click)="fileInput.click()">
+              <div class="upload-icon">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+              </div>
+              <p class="upload-text">Clique para selecionar a foto</p>
+              <span class="upload-hint">ou arraste e solte aqui</span>
+            </div>
+          } @else {
+            <div class="preview-area">
+              <img [src]="fotoPreview" alt="Preview da foto" class="preview-image" />
+              <div class="preview-overlay">
+                <button type="button" class="btn-preview-action" (click)="fileInput.click()">
+                  <ion-icon name="create-outline"></ion-icon>
+                  Alterar
+                </button>
+                <button type="button" class="btn-preview-action btn-delete" (click)="removeDocument('foto')">
+                  <ion-icon name="trash-outline"></ion-icon>
+                  Remover
+                </button>
+              </div>
+              @if (clienteForm.foto) {
+                <div class="file-info">
+                  <ion-icon name="document-outline"></ion-icon>
+                  <span>{{ clienteForm.foto.name }}</span>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Grid de Documentos -->
+      <div class="documentos-grid">
+        <!-- Comprovante de Endereço -->
+        <div class="documento-card" [class.has-file]="clienteForm.comprovanteEndereco">
+          <div class="documento-card-header">
+            <div class="documento-icon">
+              <ion-icon name="home-outline"></ion-icon>
+            </div>
+            <div class="documento-info">
+              <h3>Comprovante</h3>
+              <span class="documento-subtitle">Comprovante de Endereço</span>
+            </div>
+            @if (clienteForm.comprovanteEndereco) {
+              <div class="status-badge status-success">
+                <ion-icon name="checkmark-circle"></ion-icon>
+                Anexado
+              </div>
+            }
+          </div>
+
+          <div class="documento-card-body">
+            <input
+              type="file"
+              id="comprovanteEndereco"
+              (change)="onDocumentSelected($event, 'comprovanteEndereco')"
+              accept="image/*,.pdf"
+              class="file-input"
+              #compEnderecoInput
+            />
+
+            @if (!clienteForm.comprovanteEndereco) {
+              <button type="button" class="btn-upload" (click)="compEnderecoInput.click()">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+                <span>Selecionar Arquivo</span>
+              </button>
+            } @else {
+              <div class="file-attached">
+                <div class="file-icon">
+                  <ion-icon name="document-attach-outline"></ion-icon>
+                </div>
+                <div class="file-details">
+                  <span class="file-name">{{ clienteForm.comprovanteEndereco.name }}</span>
+                </div>
+                <div class="file-actions">
+                  <button type="button" class="btn-icon" (click)="compEnderecoInput.click()" title="Alterar">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </button>
+                  <button type="button" class="btn-icon btn-delete" (click)="removeDocument('comprovanteEndereco')" title="Remover">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- CNH -->
+        <div class="documento-card" [class.has-file]="clienteForm.cnh">
+          <div class="documento-card-header">
+            <div class="documento-icon">
+              <ion-icon name="car-outline"></ion-icon>
+            </div>
+            <div class="documento-info">
+              <h3>CNH</h3>
+              <span class="documento-subtitle">Carteira de Habilitação</span>
+            </div>
+            @if (clienteForm.cnh) {
+              <div class="status-badge status-success">
+                <ion-icon name="checkmark-circle"></ion-icon>
+                Anexado
+              </div>
+            }
+          </div>
+
+          <div class="documento-card-body">
+            <input
+              type="file"
+              id="cnh"
+              (change)="onDocumentSelected($event, 'cnh')"
+              accept="image/*,.pdf"
+              class="file-input"
+              #cnhInput
+            />
+
+            @if (!clienteForm.cnh) {
+              <button type="button" class="btn-upload" (click)="cnhInput.click()">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+                <span>Selecionar Arquivo</span>
+              </button>
+            } @else {
+              <div class="file-attached">
+                <div class="file-icon">
+                  <ion-icon name="document-attach-outline"></ion-icon>
+                </div>
+                <div class="file-details">
+                  <span class="file-name">{{ clienteForm.cnh.name }}</span>
+                </div>
+                <div class="file-actions">
+                  <button type="button" class="btn-icon" (click)="cnhInput.click()" title="Alterar">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </button>
+                  <button type="button" class="btn-icon btn-delete" (click)="removeDocument('cnh')" title="Remover">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Certidão de Nascimento -->
+        <div class="documento-card" [class.has-file]="clienteForm.certidaoNascimento">
+          <div class="documento-card-header">
+            <div class="documento-icon">
+              <ion-icon name="ribbon-outline"></ion-icon>
+            </div>
+            <div class="documento-info">
+              <h3>Certidão</h3>
+              <span class="documento-subtitle">Certidão de Nascimento</span>
+            </div>
+            @if (clienteForm.certidaoNascimento) {
+              <div class="status-badge status-success">
+                <ion-icon name="checkmark-circle"></ion-icon>
+                Anexado
+              </div>
+            }
+          </div>
+
+          <div class="documento-card-body">
+            <input
+              type="file"
+              id="certidaoNascimento"
+              (change)="onDocumentSelected($event, 'certidaoNascimento')"
+              accept="image/*,.pdf"
+              class="file-input"
+              #certidaoInput
+            />
+
+            @if (!clienteForm.certidaoNascimento) {
+              <button type="button" class="btn-upload" (click)="certidaoInput.click()">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+                <span>Selecionar Arquivo</span>
+              </button>
+            } @else {
+              <div class="file-attached">
+                <div class="file-icon">
+                  <ion-icon name="document-attach-outline"></ion-icon>
+                </div>
+                <div class="file-details">
+                  <span class="file-name">{{ clienteForm.certidaoNascimento.name }}</span>
+                </div>
+                <div class="file-actions">
+                  <button type="button" class="btn-icon" (click)="certidaoInput.click()" title="Alterar">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </button>
+                  <button type="button" class="btn-icon btn-delete" (click)="removeDocument('certidaoNascimento')" title="Remover">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Título de Eleitor -->
+        <div class="documento-card" [class.has-file]="clienteForm.tituloEleitor">
+          <div class="documento-card-header">
+            <div class="documento-icon">
+              <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+            </div>
+            <div class="documento-info">
+              <h3>Título Eleitor</h3>
+              <span class="documento-subtitle">Título de Eleitor</span>
+            </div>
+            @if (clienteForm.tituloEleitor) {
+              <div class="status-badge status-success">
+                <ion-icon name="checkmark-circle"></ion-icon>
+                Anexado
+              </div>
+            }
+          </div>
+
+          <div class="documento-card-body">
+            <input
+              type="file"
+              id="tituloEleitor"
+              (change)="onDocumentSelected($event, 'tituloEleitor')"
+              accept="image/*,.pdf"
+              class="file-input"
+              #tituloInput
+            />
+
+            @if (!clienteForm.tituloEleitor) {
+              <button type="button" class="btn-upload" (click)="tituloInput.click()">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+                <span>Selecionar Arquivo</span>
+              </button>
+            } @else {
+              <div class="file-attached">
+                <div class="file-icon">
+                  <ion-icon name="document-attach-outline"></ion-icon>
+                </div>
+                <div class="file-details">
+                  <span class="file-name">{{ clienteForm.tituloEleitor.name }}</span>
+                </div>
+                <div class="file-actions">
+                  <button type="button" class="btn-icon" (click)="tituloInput.click()" title="Alterar">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </button>
+                  <button type="button" class="btn-icon btn-delete" (click)="removeDocument('tituloEleitor')" title="Remover">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Carteira de Trabalho -->
+        <div class="documento-card" [class.has-file]="clienteForm.carteiraTrabalho">
+          <div class="documento-card-header">
+            <div class="documento-icon">
+              <ion-icon name="briefcase-outline"></ion-icon>
+            </div>
+            <div class="documento-info">
+              <h3>Carteira Trabalho</h3>
+              <span class="documento-subtitle">Carteira de Trabalho</span>
+            </div>
+            @if (clienteForm.carteiraTrabalho) {
+              <div class="status-badge status-success">
+                <ion-icon name="checkmark-circle"></ion-icon>
+                Anexado
+              </div>
+            }
+          </div>
+
+          <div class="documento-card-body">
+            <input
+              type="file"
+              id="carteiraTrabalho"
+              (change)="onDocumentSelected($event, 'carteiraTrabalho')"
+              accept="image/*,.pdf"
+              class="file-input"
+              #carteiraInput
+            />
+
+            @if (!clienteForm.carteiraTrabalho) {
+              <button type="button" class="btn-upload" (click)="carteiraInput.click()">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+                <span>Selecionar Arquivo</span>
+              </button>
+            } @else {
+              <div class="file-attached">
+                <div class="file-icon">
+                  <ion-icon name="document-attach-outline"></ion-icon>
+                </div>
+                <div class="file-details">
+                  <span class="file-name">{{ clienteForm.carteiraTrabalho.name }}</span>
+                </div>
+                <div class="file-actions">
+                  <button type="button" class="btn-icon" (click)="carteiraInput.click()" title="Alterar">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </button>
+                  <button type="button" class="btn-icon btn-delete" (click)="removeDocument('carteiraTrabalho')" title="Remover">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
