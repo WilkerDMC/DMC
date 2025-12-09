@@ -637,7 +637,7 @@ body {
 }
 
 /* ============================================
-   FORM ROW (Campos em linha)
+    FORM ROW (Campos em linha)
    ============================================ */
 .form-row {
     display: flex;
@@ -661,7 +661,7 @@ body {
 }
 
 /* ============================================
-   INPUT WRAPPER
+    INPUT WRAPPER
    ============================================ */
 .input-wrapper {
     position: relative;
@@ -909,7 +909,7 @@ select.form-input {
 }
 
 /* ============================================
-   BOTÕES DE AÇÃO
+    BOTÕES DE AÇÃO
    ============================================ */
 .form-actions {
     display: flex;
@@ -997,7 +997,7 @@ select.form-input {
 }
 
 /* ============================================
-   RESPONSIVIDADE
+    RESPONSIVIDADE
    ============================================ */
 @media (min-width: 1920px) {
     .cadastro-wrapper {
@@ -1173,7 +1173,7 @@ select.form-input {
 }
 
 /* ============================================
-   TEMA LIGHT
+      TEMA LIGHT
    ============================================ */
 [data-theme="light"] .cadastro-card {
     background: rgba(255, 255, 255, 0.95);

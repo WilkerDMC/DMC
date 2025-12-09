@@ -1,11 +1,16 @@
-<!-- Documentos - Nova Interface Completa -->
-<div class="documentos-container dashboard-hero">
-  <div class="hero-flare"></div>
-  <div class="hero-flare-secondary"></div>
-  <div class="hero-triangle-pattern"></div>
+<!-- Documentos - Layout igual Home -->
+<div class="dashboard-hero">
+  <div class="hero-flare" aria-hidden="true"></div>
+  <div class="hero-flare-secondary" aria-hidden="true"></div>
+  <div class="hero-triangle-pattern" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-1" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-2" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-3" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-4" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-5" aria-hidden="true"></div>
 
-  <!-- Navigation Sidebar -->
-  <div class="navigation">
+  <!-- Menu Lateral (igual Dashboard) -->
+  <nav class="navigation">
     <ul>
       <li>
         <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
@@ -32,12 +37,6 @@
         </a>
       </li>
       <li>
-        <a routerLink="/documentos" routerLinkActive="active">
-          <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
-          <span class="title">Documentos</span>
-        </a>
-      </li>
-      <li>
         <a href="#">
           <span class="icon"><ion-icon name="stats-chart-outline"></ion-icon></span>
           <span class="title">Relatórios</span>
@@ -50,70 +49,45 @@
         </a>
       </li>
       <li>
+        <a routerLink="/documentos" routerLinkActive="active">
+          <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
+          <span class="title">Documentos</span>
+        </a>
+      </li>
+      <li>
         <a href="#">
           <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
           <span class="title">Configurações</span>
         </a>
       </li>
     </ul>
-  </div>
+  </nav>
 
-  <!-- Main Content -->
-  <div class="main">
-    <!-- Topbar -->
-    <div class="topbar">
-      <div class="toggle">
-        <ion-icon name="menu-outline"></ion-icon>
-      </div>
+  <div class="dashboard-layout">
+    <main class="dashboard-main">
+      <!-- Título e Subtítulo -->
+      <div class="dashboard-top">
+        <div class="dashboard-title">
+          <div class="dashboard-title-inner">
+            <h1>Documentos</h1>
+            <p class="dashboard-subtitle">Gerencie e crie documentos jurídicos de forma prática e eficiente</p>
+          </div>
+        </div>
 
-      <div class="search">
-        <label>
-          <input type="text" placeholder="Pesquisar documentos...">
-          <ion-icon name="search-outline"></ion-icon>
-        </label>
-      </div>
-
-      <div class="notification-icon">
-        <ion-icon name="notifications-outline"></ion-icon>
-        <span class="notification-badge">3</span>
-      </div>
-
-      <div class="user-profile">
-        <ion-icon name="person-outline"></ion-icon>
-      </div>
-    </div>
-
-    <!-- Page Header com Logo -->
-    <div class="page-header-with-logo">
-      <div class="logo-section">
-        <div class="logo-wrapper">
-          <img src="assets/logo.png" alt="Logo" class="brand-logo">
+        <!-- Search Input -->
+        <div class="placeholder-wrap">
+          <input class="search-input" type="text" placeholder="Pesquisar documentos..." aria-label="Pesquisar documentos" />
         </div>
       </div>
 
-      <div class="header-content">
-        <div class="header-left">
-          <h1>
-            <ion-icon name="document-text-outline"></ion-icon>
-            Modelos de Documentos
-          </h1>
-          <p>Gerencie e crie documentos jurídicos de forma prática e eficiente</p>
-        </div>
-        <button class="btn-primary">
-          <ion-icon name="add-outline"></ion-icon>
-          Novo Documento
-        </button>
-      </div>
-    </div>
+      <!-- Categorias de Documentos -->
+      <section class="categories-section">
+        <h2 class="section-title">
+          <ion-icon name="folder-open-outline"></ion-icon>
+          Categorias de Documentos
+        </h2>
 
-    <!-- Categorias de Documentos -->
-    <div class="categories-section">
-      <h2 class="section-title">
-        <ion-icon name="folder-open-outline"></ion-icon>
-        Categorias de Documentos
-      </h2>
-
-      <div class="categories-grid">
+        <div class="categories-grid">
         <!-- Inventário -->
         <div class="category-card">
           <div class="category-icon inventario">
@@ -140,7 +114,7 @@
             <p class="category-count">12 modelos disponíveis</p>
             <p class="category-desc">Modelos de procurações públicas, privadas e específicas</p>
           </div>
-          <button class="btn-category">
+          <button class="btn-category" routerLink="/procuracao">
             Ver Modelos
             <ion-icon name="arrow-forward-outline"></ion-icon>
           </button>
@@ -210,10 +184,10 @@
           </button>
         </div>
       </div>
-    </div>
+      </section>
 
-    <!-- Documentos Necessários -->
-    <div class="documents-required-section">
+      <!-- Documentos Necessários -->
+      <section class="documents-required-section">
       <div class="section-header-tabs">
         <h2 class="section-title">
           <ion-icon name="alert-circle-outline"></ion-icon>
@@ -349,10 +323,10 @@
           </button>
         </div>
       </div>
-    </div>
+      </section>
 
-    <!-- Documentos Recentes -->
-    <div class="recent-documents-section">
+      <!-- Documentos Recentes -->
+      <section class="recent-documents-section">
       <h2 class="section-title">
         <ion-icon name="time-outline"></ion-icon>
         Documentos Recentes
@@ -484,6 +458,21 @@
           </div>
         </div>
       </div>
-    </div>
+    </section>
+    </main>
   </div>
+
+  <!-- Profile Dropdown (igual Home) -->
+  <details class="profile-dropdown" aria-label="Profile menu">
+    <summary class="profile-summary">
+      <div class="profile-avatar">
+        <img class="profile-pic" src="assets/images/login.png" alt="Foto de perfil" loading="lazy" decoding="async" />
+        <span class="online-badge" aria-hidden="true"></span>
+      </div>
+      <span class="profile-name">Usuário</span>
+    </summary>
+    <div class="profile-menu">
+      <button class="btn-neon logout-action" type="button">Sair</button>
+    </div>
+  </details>
 </div>
