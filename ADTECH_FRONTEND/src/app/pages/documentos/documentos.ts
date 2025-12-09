@@ -1,5 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 interface DocumentModel {
   id: string;
@@ -36,7 +37,7 @@ interface Deadline {
 @Component({
   selector: 'app-documentos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './documentos.html',
   styleUrl: './documentos.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -525,6 +526,22 @@ export class Documentos implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.setupModal();
     this.setupCategoryButtons();
+    this.setupToggleMenu();
+  }
+
+  private setupToggleMenu() {
+    const toggle = document.querySelector('.toggle');
+    const navigation = document.querySelector('.navigation');
+    const main = document.querySelector('.main');
+
+    if (toggle && navigation) {
+      toggle.addEventListener('click', () => {
+        navigation.classList.toggle('active');
+        if (main) {
+          main.classList.toggle('active');
+        }
+      });
+    }
   }
 
   private setupCategoryButtons() {

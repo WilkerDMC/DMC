@@ -1,5 +1,23 @@
 <!-- Dashboard - Página limpa com contornos neon -->
-<div class="dashboard-container">
+<div class="dashboard-container dashboard-hero">
+  <div class="hero-flare"></div>
+  <div class="hero-flare-secondary"></div>
+  <div class="hero-triangle-pattern"></div>
+
+  <!-- Dropdown do Profile (nível superior para não ser cortado) -->
+  @if (showProfileMenu) {
+    <div class="profile-dropdown">
+      <div class="profile-menu-item" (click)="goToSettings($event)">
+        <ion-icon name="settings-outline"></ion-icon>
+        <span>Configurações</span>
+      </div>
+      <div class="profile-menu-item logout-item" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+        <span>Sair</span>
+      </div>
+    </div>
+  }
+
   <!-- Menu Lateral -->
   <div class="navigation">
     <ul>
@@ -71,20 +89,12 @@
           <ion-icon name="search-outline"></ion-icon>
         </label>
       </div>
+      <div class="notification-icon">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <span class="notification-badge">3</span>
+      </div>
       <div class="user-profile" (click)="toggleProfileMenu($event)">
         <ion-icon name="person-outline"></ion-icon>
-        @if (showProfileMenu) {
-          <div class="profile-dropdown">
-            <div class="profile-menu-item" (click)="goToSettings($event)">
-              <ion-icon name="settings-outline"></ion-icon>
-              <span>Configurações</span>
-            </div>
-            <div class="profile-menu-item logout-item" (click)="logout()">
-              <ion-icon name="log-out-outline"></ion-icon>
-              <span>Sair</span>
-            </div>
-          </div>
-        }
       </div>
     </div>
     <!-- cards-->
@@ -106,100 +116,388 @@
         </div>
       </div>
     </div>
-    <!--CARDS PROCESSOS E CALENDARIO-->
-    <div class="content-flex">
-      <div class="processos">
-        <div
-          class="recentOrders"
-          #processosElement
-          (mousemove)="onMouseMove($event, processosElement)"
-        >
+
+    <!-- Layout Quebra-Cabeça -->
+    <div class="dashboard-grid">
+      <!-- Coluna Esquerda: Compromissos + Prazos + Processos -->
+      <div class="left-column">
+        <!-- Pendências Urgentes -->
+        <div class="pendencias-urgentes compact" #pendenciasElement (mousemove)="onMouseMove($event, pendenciasElement)">
           <div class="cardHeader">
+            <ion-icon name="alert-circle"></ion-icon>
+            <h2>Pendências Urgentes</h2>
+          </div>
+          <div class="pendencias-list">
+            <div class="pendencia-item urgente">
+              <div class="pendencia-dias">2d</div>
+              <div class="pendencia-info">
+                <p class="pendencia-title">Recurso Apelação</p>
+                <p class="pendencia-subtitle">Proc. 0005678-90.2024 - Maria Silva</p>
+              </div>
+            </div>
+            <div class="pendencia-item alerta">
+              <div class="pendencia-dias">5d</div>
+              <div class="pendencia-info">
+                <p class="pendencia-title">Contestação Trabalhista</p>
+                <p class="pendencia-subtitle">Proc. 0006789-01.2024 - João Santos</p>
+              </div>
+            </div>
+            <div class="pendencia-item normal">
+              <div class="pendencia-dias">7d</div>
+              <div class="pendencia-info">
+                <p class="pendencia-title">Petição Inicial</p>
+                <p class="pendencia-subtitle">Proc. 0007890-12.2024 - Ana Souza</p>
+              </div>
+            </div>
+            <div class="pendencia-item alerta">
+              <div class="pendencia-dias">4d</div>
+              <div class="pendencia-info">
+                <p class="pendencia-title">Audiência Conciliação</p>
+                <p class="pendencia-subtitle">Proc. 0008901-23.2024 - Carlos Lima</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Processos Recentes -->
+        <div class="processos-compact" #processosElement (mousemove)="onMouseMove($event, processosElement)">
+          <div class="cardHeader">
+            <ion-icon name="folder-open"></ion-icon>
             <h2>Processos Recentes</h2>
-            <a href="#" class="btn-neon">Ver Todos</a>
           </div>
-          <table>
-            <thead>
-              <tr>
-                <td>Cliente</td>
-                <td>Processo</td>
-                <td>Data de Abertura</td>
-                <td>Status</td>
-                <td>Prioridade</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Maria Silva</td>
-                <td>0001234-56.2024</td>
-                <td>15/01/2024</td>
-                <td><span class="status andamento">Andamento</span></td>
-                <td>Alta</td>
-              </tr>
-              <tr>
-                <td>João Santos</td>
-                <td>0002345-67.2024</td>
-                <td>22/01/2024</td>
-                <td><span class="status pendente">Pendente</span></td>
-                <td>Média</td>
-              </tr>
-              <tr>
-                <td>Ana Souza</td>
-                <td>0003456-78.2024</td>
-                <td>03/02/2024</td>
-                <td><span class="status concluido">Concluído</span></td>
-                <td>Baixa</td>
-              </tr>
-              <tr>
-                <td>Carlos Lima</td>
-                <td>0004567-89.2024</td>
-                <td>10/02/2024</td>
-                <td><span class="status andamento">Andamento</span></td>
-                <td>Alta</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="processo-list">
+            <div class="processo-item">
+            <ion-icon name="document-text"></ion-icon>
+            <div class="processo-info">
+              <span class="processo-numero">0001234-56.2024.8.09.0001</span>
+              <span class="processo-cliente">Maria Silva - Trabalhista</span>
+              <span class="processo-acao">Reclamação Trabalhista</span>
+            </div>
+            <span class="status andamento">Andamento</span>
+          </div>
+          <div class="processo-item">
+            <ion-icon name="document-text"></ion-icon>
+            <div class="processo-info">
+              <span class="processo-numero">0002345-67.2024.8.09.0002</span>
+              <span class="processo-cliente">João Santos - Cível</span>
+              <span class="processo-acao">Ação de Cobrança</span>
+            </div>
+            <span class="status pendente">Pendente</span>
+          </div>
+          <div class="processo-item">
+            <ion-icon name="document-text"></ion-icon>
+            <div class="processo-info">
+              <span class="processo-numero">0003456-78.2024.8.09.0003</span>
+              <span class="processo-cliente">Ana Souza - Família</span>
+              <span class="processo-acao">Divórcio Consensual</span>
+            </div>
+            <span class="status concluido">Concluído</span>
+          </div>
+          <div class="processo-item">
+            <ion-icon name="document-text"></ion-icon>
+            <div class="processo-info">
+              <span class="processo-numero">0004567-89.2024.8.09.0004</span>
+              <span class="processo-cliente">Carlos Lima - Trabalhista</span>
+              <span class="processo-acao">Horas Extras</span>
+            </div>
+            <span class="status andamento">Andamento</span>
+          </div>
+          <div class="processo-item">
+            <ion-icon name="document-text"></ion-icon>
+            <div class="processo-info">
+              <span class="processo-numero">0005678-90.2024.8.09.0005</span>
+              <span class="processo-cliente">Paula Costa - Previdenciário</span>
+              <span class="processo-acao">Aposentadoria por Invalidez</span>
+            </div>
+            <span class="status andamento">Andamento</span>
+          </div>
+          <div class="processo-item">
+            <ion-icon name="document-text"></ion-icon>
+            <div class="processo-info">
+              <span class="processo-numero">0006789-01.2024.8.09.0006</span>
+              <span class="processo-cliente">Ricardo Alves - Criminal</span>
+              <span class="processo-acao">Defesa Criminal</span>
+            </div>
+            <span class="status urgente">Urgente</span>
+          </div>
+          </div>
         </div>
       </div>
 
-      <!--Mini Calendario-->
-      <div
-        class="calendario"
-        #calendarioElement
-        (mousemove)="onMouseMove($event, calendarioElement)"
-      >
-        <div class="cardHeader">
-          <h2>Calendário de Compromissos</h2>
-        </div>
-        <div class="calendar-nav">
-          <div id="prev" class="btn">
-            <ion-icon name="chevron-back-outline"></ion-icon>
+      <!-- Coluna Central: Agenda (Calendário) -->
+      <div class="center-column">
+        <div class="calendario-agenda" #calendarioElement (mousemove)="onMouseMove($event, calendarioElement)">
+          <div class="cardHeader">
+            <ion-icon name="calendar"></ion-icon>
+            <h2>Agenda</h2>
+            <span class="month-label">Dezembro 2025</span>
           </div>
-          <div id="month-year"></div>
-          <div id="next" class="btn">
-            <ion-icon name="chevron-forward-outline"></ion-icon>
+          <div class="diasSemanas">
+            <div>D</div>
+            <div>S</div>
+            <div>T</div>
+            <div>Q</div>
+            <div>Q</div>
+            <div>S</div>
+            <div>S</div>
+          </div>
+          <div class="dias">
+            <div></div>
+            <div class="has-task">1<span class="task-dot blue"></span><span class="task-dot green"></span></div>
+            <div class="has-task">2<span class="task-dot orange"></span></div>
+            <div class="has-task">3<span class="task-dot green"></span><span class="task-dot purple"></span></div>
+            <div class="has-task">4<span class="task-dot red"></span></div>
+            <div class="today">5<span class="task-dot orange"></span><span class="task-dot purple"></span><span class="task-dot blue"></span></div>
+            <div class="has-task">6<span class="task-dot green"></span></div>
+            <div class="has-task">7<span class="task-dot red"></span><span class="task-dot orange"></span></div>
+            <div class="has-task">8<span class="task-dot blue"></span></div>
+            <div class="has-task">9<span class="task-dot purple"></span><span class="task-dot green"></span></div>
+            <div class="has-task">10<span class="task-dot blue"></span><span class="task-dot red"></span></div>
+            <div>11</div>
+            <div class="has-task">12<span class="task-dot green"></span><span class="task-dot orange"></span></div>
+            <div class="has-task">13<span class="task-dot cyan"></span></div>
+            <div>14</div>
+            <div class="has-task">15<span class="task-dot orange"></span><span class="task-dot blue"></span><span class="task-dot red"></span></div>
+            <div class="has-task">16<span class="task-dot green"></span></div>
+            <div class="has-task">17<span class="task-dot cyan"></span><span class="task-dot orange"></span></div>
+            <div class="has-task">18<span class="task-dot blue"></span></div>
+            <div>19</div>
+            <div class="has-task">20<span class="task-dot purple"></span><span class="task-dot green"></span></div>
+            <div>21</div>
+            <div class="has-task">22<span class="task-dot red"></span><span class="task-dot blue"></span></div>
+            <div class="has-task">23<span class="task-dot orange"></span></div>
+            <div>24</div>
+            <div class="has-task">25<span class="task-dot green"></span><span class="task-dot cyan"></span></div>
+            <div class="has-task">26<span class="task-dot blue"></span></div>
+            <div class="has-task">27<span class="task-dot red"></span><span class="task-dot orange"></span></div>
+            <div>28</div>
+            <div class="has-task">29<span class="task-dot green"></span></div>
+            <div class="has-task">30<span class="task-dot cyan"></span><span class="task-dot blue"></span></div>
+            <div class="has-task">31<span class="task-dot orange"></span><span class="task-dot red"></span><span class="task-dot green"></span></div>
           </div>
         </div>
-        <div class="diasSemanas">
-          <div>Dom</div>
-          <div>Seg</div>
-          <div>Ter</div>
-          <div>Qua</div>
-          <div>Qui</div>
-          <div>Sex</div>
-          <div>Sáb</div>
-        </div>
-        <div class="dias" id="days"></div>
-      </div>
-    </div>
 
-    <!--Grafico de Linhas-->
-    <div class="graphBox" #graphElement (mousemove)="onMouseMove($event, graphElement)">
-      <div class="cardHeader">
-        <h2>Atividade Semanal</h2>
+        <!-- Gráfico de Pizza - Estatísticas -->
+        <div class="stats-chart" #statsElement (mousemove)="onMouseMove($event, statsElement)">
+          <div class="cardHeader">
+            <ion-icon name="pie-chart"></ion-icon>
+            <h2>Distribuição de Processos</h2>
+          </div>
+          <div class="chart-donut-container">
+            <svg viewBox="0 0 240 240" class="donut-chart">
+              <defs>
+                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#00e7fc;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#00b8d4;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#00ff4d;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#00cc3d;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#ffc107;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#ff9800;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="gradient4" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#ff4757;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#ff1744;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+
+              <!-- Círculo de fundo -->
+              <circle cx="120" cy="120" r="80" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="34"/>
+
+              <!-- Segmento 1 - Andamento (50%) -->
+              <circle cx="120" cy="120" r="80" fill="none" stroke="url(#gradient1)" stroke-width="34"
+                      stroke-dasharray="220 440" stroke-dashoffset="0"
+                      class="donut-segment segment-1" transform="rotate(-90 120 120)"/>
+
+              <!-- Segmento 2 - Concluídos (30%) -->
+              <circle cx="120" cy="120" r="80" fill="none" stroke="url(#gradient2)" stroke-width="34"
+                      stroke-dasharray="132 440" stroke-dashoffset="-220"
+                      class="donut-segment segment-2" transform="rotate(-90 120 120)"/>
+
+              <!-- Segmento 3 - Pendentes (12%) -->
+              <circle cx="120" cy="120" r="80" fill="none" stroke="url(#gradient3)" stroke-width="34"
+                      stroke-dasharray="53 440" stroke-dashoffset="-352"
+                      class="donut-segment segment-3" transform="rotate(-90 120 120)"/>
+
+              <!-- Segmento 4 - Urgentes (8%) -->
+              <circle cx="120" cy="120" r="80" fill="none" stroke="url(#gradient4)" stroke-width="34"
+                      stroke-dasharray="35 440" stroke-dashoffset="-405"
+                      class="donut-segment segment-4" transform="rotate(-90 120 120)"/>
+
+              <!-- Texto central -->
+              <text x="120" y="115" text-anchor="middle" class="donut-total">127</text>
+              <text x="120" y="135" text-anchor="middle" class="donut-label">Total</text>
+            </svg>
+
+            <div class="chart-legend">
+              <div class="legend-item">
+                <span class="legend-color cyan"></span>
+                <span class="legend-text">Andamento (63)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color green"></span>
+                <span class="legend-text">Concluídos (38)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color yellow"></span>
+                <span class="legend-text">Pendentes (15)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color red"></span>
+                <span class="legend-text">Urgentes (11)</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="chart-container">
-        <canvas id="barChart"></canvas>
+
+      <!-- Coluna Direita: Mini Gráfico + Atividades -->
+      <div class="right-column">
+        <!-- Mini Gráfico de Performance -->
+        <div class="mini-chart" #miniChartElement (mousemove)="onMouseMove($event, miniChartElement)">
+          <div class="cardHeader">
+            <ion-icon name="analytics"></ion-icon>
+            <h2>Performance Semanal</h2>
+          </div>
+          <div class="line-chart-container">
+            <svg viewBox="0 0 400 180" class="line-chart" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" style="stop-color:#00e7fc;stop-opacity:0.8" />
+                  <stop offset="100%" style="stop-color:#00e7fc;stop-opacity:0" />
+                </linearGradient>
+                <linearGradient id="strokeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#00e7fc;stop-opacity:1" />
+                  <stop offset="50%" style="stop-color:#00ff4d;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#00e7fc;stop-opacity:1" />
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+
+              <!-- Grid Lines -->
+              <line x1="0" y1="45" x2="400" y2="45" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <line x1="0" y1="90" x2="400" y2="90" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <line x1="0" y1="135" x2="400" y2="135" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+
+              <!-- Area under line -->
+              <path d="M 0,81 L 66.67,135 L 133.33,117 L 200,162 L 266.67,108 L 333.33,63 L 400,36 L 400,180 L 0,180 Z"
+                    fill="url(#lineGradient)"
+                    opacity="0.3"/>
+
+              <!-- Main Line -->
+              <path d="M 0,81 L 66.67,135 L 133.33,117 L 200,162 L 266.67,108 L 333.33,63 L 400,36"
+                    fill="none"
+                    stroke="url(#strokeGradient)"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    filter="url(#glow)"
+                    class="line-path"/>
+
+              <!-- Data Points -->
+              <circle cx="0" cy="81" r="5" fill="#00e7fc" class="data-point" data-value="9"/>
+              <circle cx="66.67" cy="135" r="5" fill="#00e7fc" class="data-point" data-value="15"/>
+              <circle cx="133.33" cy="117" r="5" fill="#00e7fc" class="data-point" data-value="12"/>
+              <circle cx="200" cy="162" r="5" fill="#00ff4d" class="data-point" data-value="18"/>
+              <circle cx="266.67" cy="108" r="5" fill="#00e7fc" class="data-point" data-value="11"/>
+              <circle cx="333.33" cy="63" r="5" fill="#00e7fc" class="data-point" data-value="6"/>
+              <circle cx="400" cy="36" r="5" fill="#00e7fc" class="data-point" data-value="4"/>
+            </svg>
+
+            <!-- Labels -->
+            <div class="chart-labels">
+              <span>Seg</span>
+              <span>Ter</span>
+              <span>Qua</span>
+              <span>Qui</span>
+              <span>Sex</span>
+              <span>Sáb</span>
+              <span>Dom</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Atividades Recentes Compactas -->
+        <div class="activities-compact" #activityElement (mousemove)="onMouseMove($event, activityElement)">
+          <div class="cardHeader">
+            <ion-icon name="pulse"></ion-icon>
+            <h2>Atividades Recentes</h2>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item-mini">
+              <span class="activity-dot green"></span>
+              <div class="activity-content-mini">
+                <p class="activity-text">Editou Petição Inicial</p>
+                <p class="activity-subtitle">Proc. 0001234-56.2024 - Maria Silva</p>
+                <p class="activity-extra">Trabalhista - Reclamação</p>
+              </div>
+              <span class="activity-time">5min</span>
+            </div>
+            <div class="activity-item-mini">
+              <span class="activity-dot blue"></span>
+              <div class="activity-content-mini">
+                <p class="activity-text">Criou Contestação</p>
+                <p class="activity-subtitle">Proc. 0002345-67.2024 - João Santos</p>
+                <p class="activity-extra">Cível - Ação de Cobrança</p>
+              </div>
+              <span class="activity-time">1h</span>
+            </div>
+            <div class="activity-item-mini">
+              <span class="activity-dot purple"></span>
+              <div class="activity-content-mini">
+                <p class="activity-text">Anexou Documentos</p>
+                <p class="activity-subtitle">Proc. 0003456-78.2024 - Ana Souza</p>
+                <p class="activity-extra">Família - Divórcio (3 arquivos)</p>
+              </div>
+              <span class="activity-time">2h</span>
+            </div>
+            <div class="activity-item-mini">
+              <span class="activity-dot orange"></span>
+              <div class="activity-content-mini">
+                <p class="activity-text">Agendou Audiência</p>
+                <p class="activity-subtitle">Proc. 0004567-89.2024 - Carlos Lima</p>
+                <p class="activity-extra">Trabalhista - 15/12/2025 às 14h</p>
+              </div>
+              <span class="activity-time">3h</span>
+            </div>
+            <div class="activity-item-mini">
+              <span class="activity-dot cyan"></span>
+              <div class="activity-content-mini">
+                <p class="activity-text">Protocolou Recurso</p>
+                <p class="activity-subtitle">Proc. 0005678-90.2024 - Paula Costa</p>
+                <p class="activity-extra">Previdenciário - Apelação</p>
+              </div>
+              <span class="activity-time">5h</span>
+            </div>
+            <div class="activity-item-mini">
+              <span class="activity-dot red"></span>
+              <div class="activity-content-mini">
+                <p class="activity-text">Atualizou Status</p>
+                <p class="activity-subtitle">Proc. 0006789-01.2024 - Ricardo Alves</p>
+                <p class="activity-extra">Criminal - Andamento → Urgente</p>
+              </div>
+              <span class="activity-time">Ontem</span>
+            </div>
+            <div class="activity-item-mini">
+              <span class="activity-dot yellow"></span>
+              <div class="activity-content-mini">
+                <p class="activity-text">Enviou Proposta de Acordo</p>
+                <p class="activity-subtitle">Proc. 0007890-12.2024 - Fernanda Dias</p>
+                <p class="activity-extra">Cível - Negociação R$ 50.000</p>
+              </div>
+              <span class="activity-time">Ontem</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
