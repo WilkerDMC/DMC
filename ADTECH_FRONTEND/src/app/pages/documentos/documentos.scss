@@ -1083,3 +1083,44 @@
     transition-timing-function: linear !important;
   }
 }
+
+/* Logo Rinoceronte maior e glow ainda mais discreto */
+.logo-rhino-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2.2rem;
+}
+
+.logo-rhino-img {
+  width: 600px;
+  max-width: 98vw;
+  filter: drop-shadow(0 0 6px #00e7fc) drop-shadow(0 0 3px #00ff4d);
+  transition: filter 0.3s;
+}
+.logo-rhino-img:hover {
+  filter: drop-shadow(0 0 12px #00e7fc) drop-shadow(0 0 6px #00ff4d);
+}
+
+.logo-title-adtech {
+  font-size: 2.6rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-top: 1.2rem;
+  margin-bottom: 0.2rem;
+  background: linear-gradient(90deg, #00e7fc 0%, #00ff4d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 2px #00e7fc);
+}
+
+.logo-title-sub {
+  font-size: 1.1rem;
+  font-weight: 400;
+  text-align: center;
+  color: #b6f7e7;
+  margin-bottom: 2.2rem;
+}
