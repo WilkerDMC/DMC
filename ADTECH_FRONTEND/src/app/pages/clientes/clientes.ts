@@ -4,6 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 interface ClienteForm {
+  cnpj?: string;
+  inscricaoEstadual?: string;
+  razaoSocial?: string;
+  nomeFantasia?: string;
+  dataAbertura?: string;
+  porte?: string;
+  naturezaJuridica?: string;
+  opcaoMei?: string;
+  opcaoSimples?: string;
+  dataOpcaoSimples?: string;
+  capitalSocial?: string;
+  tipoMatriz?: string;
+  situacao?: string;
+  dataSituacaoCadastral?: string;
   tipo: 'fisica' | 'juridica' | 'advogado' | 'colaborador';
   cpfCnpj: string;
   nome: string;
@@ -52,7 +66,21 @@ export class Clientes implements OnInit {
     estadoCivil: '',
     nomeMae: '',
     nomePai: '',
-    categoria: ''
+  categoria: '',
+    cnpj: '',
+    inscricaoEstadual: '',
+    razaoSocial: '',
+    nomeFantasia: '',
+    dataAbertura: '',
+    porte: '',
+    naturezaJuridica: '',
+    opcaoMei: '',
+    opcaoSimples: '',
+    dataOpcaoSimples: '',
+    capitalSocial: '',
+    tipoMatriz: '',
+    situacao: '',
+    dataSituacaoCadastral: '',
   };
 
   isLoading = false;
