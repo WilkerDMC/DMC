@@ -71,8 +71,6 @@
         <p class="page-subtitle">Preencha os dados para criar uma nova conta</p>
       </div>
     </div>
-
-    <!-- Layout em 2 colunas -->
     <div class="cadastro-layout">
       <!-- COLUNA ESQUERDA - Formulário -->
       <div class="cadastro-column">
@@ -99,26 +97,15 @@
           <div class="form-group">
             <label>Tipo</label>
             <div class="tipo-toggle">
-              <button
-                type="button"
-                class="tipo-btn"
-                [class.active]="clienteForm.tipo === 'fisica'"
-                (click)="selectTipo('fisica')">
-                <i class="fas fa-user"></i>
-                Física
-              </button>
-              <button
-                type="button"
-                class="tipo-btn"
-                [class.active]="clienteForm.tipo === 'juridica'"
-                (click)="selectTipo('juridica')">
-                <i class="fas fa-building"></i>
-                Jurídica
-              </button>
+              <button type="button" class="tipo-btn" [class.active]="clienteForm.tipo === 'fisica'" (click)="selectTipo('fisica')"><i class="fas fa-user"></i>Física</button>
+              <button type="button" class="tipo-btn" [class.active]="clienteForm.tipo === 'juridica'" (click)="selectTipo('juridica')"><i class="fas fa-building"></i>Jurídica</button>
+              <button type="button" class="tipo-btn" [class.active]="clienteForm.tipo === 'advogado'" (click)="selectTipo('advogado')"><i class="fas fa-user"></i>Advogado</button>
+              <button type="button" class="tipo-btn" [class.active]="clienteForm.tipo === 'colaborador'" (click)="selectTipo('colaborador')"><i class="fas fa-user"></i>Colaborador</button>
             </div>
           </div>
 
           <!-- CPF / CNPJ e Telefone Celular -->
+
           <div class="form-row">
             <div class="form-group col-50">
               <label [attr.for]="clienteForm.tipo === 'fisica' ? 'cpf' : 'cnpj'">
@@ -126,39 +113,22 @@
                 <span class="required">*</span>
               </label>
               <div class="input-wrapper" [class.error]="hasError('cpfCnpj')">
-                <input
-                  type="text"
-                  [id]="clienteForm.tipo === 'fisica' ? 'cpf' : 'cnpj'"
-                  [(ngModel)]="clienteForm.cpfCnpj"
-                  name="cpfCnpj"
-                  class="form-input"
-                  [placeholder]="clienteForm.tipo === 'fisica' ? '000.000.000-00' : '00.000.000/0000-00'"
-                  required
-                />
+                <input type="text"[id]="clienteForm.tipo === 'fisica' ? 'cpf' : 'cnpj'" [(ngModel)]="clienteForm.cpfCnpj" name="cpfCnpj" class="form-input" [placeholder]="clienteForm.tipo === 'fisica' ? '000.000.000-00' : '00.000.000/0000-00'" required />
                 <i class="fas fa-id-card input-icon"></i>
               </div>
-              @if (hasError('cpfCnpj')) {
+
+                  @if (hasError('cpfCnpj')) {
                 <span class="error-text">{{ getError('cpfCnpj') }}</span>
               }
             </div>
-
             <div class="form-group col-50">
-              <label for="telefoneCelular">
-                Telefone Celular
-                <span class="required">*</span>
-              </label>
+              <label for="telefoneCelular">Telefone Celular<span class="required">*</span></label>
               <div class="input-wrapper" [class.error]="hasError('telefoneCelular')">
-                <input
-                  type="tel"
-                  id="telefoneCelular"
-                  [(ngModel)]="clienteForm.telefoneCelular"
-                  name="telefoneCelular"
-                  class="form-input"
-                  placeholder="(00) 00000-0000"
-                  required
-                />
+                <input type="tel" id="telefoneCelular" [(ngModel)]="clienteForm.telefoneCelular" name="telefoneCelular" class="form-input" placeholder="(00) 00000-0000" required/>
                 <i class="fas fa-mobile-alt input-icon"></i>
               </div>
+
+
               @if (hasError('telefoneCelular')) {
                 <span class="error-text">{{ getError('telefoneCelular') }}</span>
               }
@@ -172,23 +142,17 @@
               <span class="required">*</span>
             </label>
             <div class="input-wrapper" [class.error]="hasError('nome')">
-              <input
-                type="text"
-                id="nome"
-                [(ngModel)]="clienteForm.nome"
-                name="nome"
-                class="form-input"
-                [placeholder]="clienteForm.tipo === 'fisica' ? 'Digite o nome completo' : 'Digite o nome da empresa'"
-                required
-              />
+              <input type="text" id="nome" [(ngModel)]="clienteForm.nome" name="nome" class="form-input" [placeholder]="clienteForm.tipo === 'fisica' ? 'Digite o nome completo' : 'Digite o nome da empresa'"required/>
               <i class="fas fa-user input-icon"></i>
             </div>
+
+
             @if (hasError('nome')) {
               <span class="error-text">{{ getError('nome') }}</span>
             }
           </div>
 
-          @if (clienteForm.tipo === 'fisica') {
+          @if (clienteForm.tipo === 'fisica' || clienteForm.tipo === 'advogado' || clienteForm.tipo === 'colaborador') {
           <!-- Maior de Idade - Melhorado -->
           <div class="form-group">
             <div class="idade-verification" [class.error]="hasError('maiorIdade')">
@@ -197,12 +161,7 @@
               </div>
               <div class="idade-content">
                 <label class="idade-checkbox">
-                  <input
-                    type="checkbox"
-                    [(ngModel)]="clienteForm.maiorIdade"
-                    name="maiorIdade"
-                    class="checkbox-input"
-                  />
+                  <input type="checkbox" [(ngModel)]="clienteForm.maiorIdade" name="maiorIdade" class="checkbox-input" />
                   <span class="checkmark"></span>
                   <span class="idade-text">
                     <strong>Confirmo que sou maior de 18 anos</strong>
@@ -211,6 +170,8 @@
                 </label>
               </div>
             </div>
+
+
             @if (hasError('maiorIdade')) {
               <span class="error-text">{{ getError('maiorIdade') }}</span>
             }
@@ -221,52 +182,20 @@
             <label>Identidade de Gênero</label>
             <div class="genero-options">
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="genero"
-                  value="masculino"
-                  [(ngModel)]="clienteForm.genero"
-                />
-                <span class="radio-label">
-                  <i class="fas fa-mars"></i>
-                  Masculino
-                </span>
+                <input type="radio" name="genero" value="masculino" [(ngModel)]="clienteForm.genero" />
+                <span class="radio-label"><i class="fas fa-mars"></i> Masculino</span>
               </label>
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="genero"
-                  value="feminino"
-                  [(ngModel)]="clienteForm.genero"
-                />
-                <span class="radio-label">
-                  <i class="fas fa-venus"></i>
-                  Feminino
-                </span>
+                <input type="radio" name="genero" value="feminino" [(ngModel)]="clienteForm.genero" />
+                <span class="radio-label"><i class="fas fa-venus"></i>Feminino</span>
               </label>
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="genero"
-                  value="outros"
-                  [(ngModel)]="clienteForm.genero"
-                />
-                <span class="radio-label">
-                  <i class="fas fa-transgender"></i>
-                  Outros
-                </span>
+                <input type="radio" name="genero" value="outros" [(ngModel)]="clienteForm.genero" />
+                <span class="radio-label"><i class="fas fa-transgender"></i>Outros</span>
               </label>
               <label class="radio-option">
-                <input
-                  type="radio"
-                  name="genero"
-                  value="prefiro-nao-identificar"
-                  [(ngModel)]="clienteForm.genero"
-                />
-                <span class="radio-label">
-                  <i class="fas fa-user-secret"></i>
-                  Prefiro não identificar
-                </span>
+                <input type="radio" name="genero" value="prefiro-nao-identificar" [(ngModel)]="clienteForm.genero"/>
+                <span class="radio-label"><i class="fas fa-user-secret"></i>Prefiro não identificar</span>
               </label>
             </div>
           </div>
@@ -276,14 +205,7 @@
             <div class="form-group col-33">
               <label for="rg">RG</label>
               <div class="input-wrapper">
-                <input
-                  type="text"
-                  id="rg"
-                  [(ngModel)]="clienteForm.rg"
-                  name="rg"
-                  class="form-input"
-                  placeholder="00.000.000-0"
-                />
+                <input type="text" id="rg" [(ngModel)]="clienteForm.rg" name="rg" class="form-input" placeholder="00.000.000-0"/>
                 <i class="fas fa-id-card-alt input-icon"></i>
               </div>
             </div>
@@ -383,6 +305,27 @@
               </div>
             </div>
           </div>
+          <!-- Campo OAB para Advogado -->
+          @if (clienteForm.tipo === 'advogado') {
+          <div class="form-group">
+            <label for="oab">OAB</label>
+            <div class="input-wrapper" [class.error]="hasError('oab')">
+              <input
+                type="text"
+                id="oab"
+                [(ngModel)]="clienteForm.oab"
+                name="oab"
+                class="form-input"
+                placeholder="Número da OAB"
+                required
+              />
+              <i class="fas fa-id-card input-icon"></i>
+            </div>
+            @if (hasError('oab')) {
+              <span class="error-text">{{ getError('oab') }}</span>
+            }
+          </div>
+          }
           }
           <!-- Botões de Ação -->
           <div class="form-actions">
@@ -650,21 +593,16 @@
           </div>
 
           <div class="documento-card-body">
-            <input
-              type="file"
-              id="tituloEleitor"
-              (change)="onDocumentSelected($event, 'tituloEleitor')"
-              accept="image/*,.pdf"
-              class="file-input"
-              #tituloInput
-            />
+            <input type="file" id="tituloEleitor" (change)="onDocumentSelected($event, 'tituloEleitor')" accept="image/*,.pdf" class="file-input" #tituloInput />
 
             @if (!clienteForm.tituloEleitor) {
               <button type="button" class="btn-upload" (click)="tituloInput.click()">
                 <ion-icon name="cloud-upload-outline"></ion-icon>
                 <span>Selecionar Arquivo</span>
               </button>
-            } @else {
+            }
+
+              @else {
               <div class="file-attached">
                 <div class="file-icon">
                   <ion-icon name="document-attach-outline"></ion-icon>

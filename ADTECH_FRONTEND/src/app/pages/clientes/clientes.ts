@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 interface ClienteForm {
-  tipo: 'fisica' | 'juridica';
+  tipo: 'fisica' | 'juridica' | 'advogado' | 'colaborador';
   cpfCnpj: string;
   nome: string;
   telefoneCelular: string;
@@ -18,6 +18,7 @@ interface ClienteForm {
   nomeMae?: string;
   nomePai?: string;
   categoria: string;
+  oab?: string;
   // Arquivos/Documentos
   foto?: File;
   documentoIdentidade?: File;
@@ -74,7 +75,7 @@ export class Clientes implements OnInit {
     console.log('🔵 Clientes component iniciado');
   }
 
-  selectTipo(tipo: 'fisica' | 'juridica'): void {
+  selectTipo(tipo: 'fisica' | 'juridica' | 'advogado' | 'colaborador'): void {
     this.clienteForm.tipo = tipo;
     // Limpa campos específicos ao trocar o tipo
     if (tipo === 'juridica') {
