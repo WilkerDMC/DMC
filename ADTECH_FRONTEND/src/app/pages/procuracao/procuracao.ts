@@ -1,18 +1,17 @@
-
+import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NgIf, DatePipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-procuracao',
   standalone: true,
-  imports: [NgIf, FormsModule, DatePipe, RouterLink],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './procuracao.html',
   styleUrls: ['./procuracao.scss'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ProcuracaoComponent {
+export class ProcuracaoDigital {
   view: 'form' | 'preview' | 'due-diligence' = 'form';
   step = 1;
   procGerada = false;

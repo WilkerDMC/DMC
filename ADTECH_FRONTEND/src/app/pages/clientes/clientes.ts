@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 interface ClienteForm {
-  tipo: 'fisica' | 'juridica';
+  tipo: 'fisica' | 'juridica' | 'advogado' | 'colaborador';
   cpfCnpj: string;
   justificativaSemCpf?: string;
   nome: string;
-  genero?: 'masculino' | 'feminino';
+  genero?: 'masculino' | 'feminino' | 'outros' | 'prefiro-nao-identificar';
   rg?: string;
   profissao?: string;
   dataNascimento?: string;
@@ -19,6 +19,27 @@ interface ClienteForm {
   categoria: string;
   urlSite?: string;
   foto?: File;
+  inscricaoEstadual?: string;
+  razaoSocial?: string;
+  nomeFantasia?: string;
+  dataAbertura?: string;
+  porte?: string;
+  naturezaJuridica?: string;
+  opcaoMei?: string;
+  opcaoSimples?: string;
+  dataOpcaoSimples?: string;
+  capitalSocial?: string;
+  tipoMatriz?: string;
+  situacao?: string;
+  dataSituacaoCadastral?: string;
+  telefoneCelular?: string;
+  maiorIdade?: boolean;
+  oab?: string;
+  comprovanteEndereco?: File;
+  cnh?: File;
+  certidaoNascimento?: File;
+  tituloEleitor?: File;
+  carteiraTrabalho?: File;
 }
 
 @Component({
@@ -59,7 +80,7 @@ export class Clientes implements OnInit {
     console.log('🔵 Clientes component iniciado');
   }
 
-  selectTipo(tipo: 'fisica' | 'juridica'): void {
+  selectTipo(tipo: 'fisica' | 'juridica' | 'advogado' | 'colaborador'): void {
     this.clienteForm.tipo = tipo;
     // Limpa campos específicos ao trocar o tipo
     if (tipo === 'juridica') {
@@ -70,6 +91,22 @@ export class Clientes implements OnInit {
       this.clienteForm.estadoCivil = undefined;
       this.clienteForm.nomeMae = undefined;
       this.clienteForm.nomePai = undefined;
+    }
+    if (tipo === 'advogado') {
+      this.clienteForm.oab = '';
+    }
+  }
+  onDocumentSelected(event: Event, field: keyof ClienteForm): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      (this.clienteForm as any)[field] = input.files[0];
+    }
+  }
+
+  removeDocument(field: keyof ClienteForm): void {
+    (this.clienteForm as any)[field] = undefined;
+    if (field === 'foto') {
+      this.fotoPreview = null;
     }
   }
 

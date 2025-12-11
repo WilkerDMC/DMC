@@ -63,6 +63,6 @@ export const routes: Routes = [
   {
     path: 'procuracao',
     canActivate: [authGuard],
-    loadComponent: () => import('./pages/procuracao/procuracao').then(m => m.ProcuracaoComponent)
+    loadComponent: () => import('./pages/procuracao/procuracao').then(m => m.ProcuracaoDigital)
   }
 ];
