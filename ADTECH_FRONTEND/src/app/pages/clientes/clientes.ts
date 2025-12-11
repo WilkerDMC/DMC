@@ -115,6 +115,22 @@ export class Clientes implements OnInit {
       this.clienteForm.nomeMae = undefined;
       this.clienteForm.nomePai = undefined;
     }
+    if (tipo === 'advogado') {
+      this.clienteForm.oab = '';
+    }
+  }
+  onDocumentSelected(event: Event, field: keyof ClienteForm): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      (this.clienteForm as any)[field] = input.files[0];
+    }
+  }
+
+  removeDocument(field: keyof ClienteForm): void {
+    (this.clienteForm as any)[field] = undefined;
+    if (field === 'foto') {
+      this.fotoPreview = null;
+    }
   }
 
   onFileSelected(event: Event): void {

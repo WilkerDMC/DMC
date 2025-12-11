@@ -1,13 +1,59 @@
-
-<div class="calendar-card login-card">
-  <div class="calendar-header">
-    <h2>Calendário</h2>
+<!-- Calendário Premium - Estrutura base -->
+<div class="dashboard-hero">
+  <div class="hero-flare"></div>
+  <div class="hero-flare-secondary"></div>
+  <div class="hero-triangle-pattern"></div>
+  <div class="menu-card">
+    <ul>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
+          <span class="title">Geral</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/processos" routerLinkActive="active">
+          <span class="icon"><ion-icon name="folder-open-outline"></ion-icon></span>
+          <span class="title">Processos</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/clientes" routerLinkActive="active">
+          <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+          <span class="title">Clientes</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/calendar" routerLinkActive="active">
+          <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
+          <span class="title">Agenda</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="stats-chart-outline"></ion-icon></span>
+          <span class="title">Relatórios</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="wallet-outline"></ion-icon></span>
+          <span class="title">Financeiro</span>
+        </a>
+      </li>
+    </ul>
   </div>
-
-  <div class="calendar-body">
-    <!-- componente/integração do calendário ficará aqui -->
-    <p>Calendário aparecerá aqui</p>
-  </div>
+  <main class="calendar-main">
+    <div class="calendar-card">
+      <div class="calendar-header">
+        <h2 class="calendar-title">
+          <span style="color:#00e7fc;font-weight:900;letter-spacing:2px;">Agenda</span>
+          <span style="color:#00ff4d;font-weight:700;">Premium</span>
+        </h2>
+      </div>
+      <!-- Aqui virá o calendário visual, filtros e funcionalidades -->
+    </div>
+  </main>
 </div>
 
 
