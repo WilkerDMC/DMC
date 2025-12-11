@@ -4,21 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 interface ClienteForm {
-  tipo: 'fisica' | 'juridica' | 'advogado' | 'colaborador';
-  cpfCnpj: string;
-  justificativaSemCpf?: string;
-  nome: string;
-  genero?: 'masculino' | 'feminino' | 'outros' | 'prefiro-nao-identificar';
-  rg?: string;
-  profissao?: string;
-  dataNascimento?: string;
-  naturalidade?: string;
-  estadoCivil?: string;
-  nomeMae?: string;
-  nomePai?: string;
-  categoria: string;
-  urlSite?: string;
-  foto?: File;
+  cnpj?: string;
   inscricaoEstadual?: string;
   razaoSocial?: string;
   nomeFantasia?: string;
@@ -32,9 +18,24 @@ interface ClienteForm {
   tipoMatriz?: string;
   situacao?: string;
   dataSituacaoCadastral?: string;
-  telefoneCelular?: string;
-  maiorIdade?: boolean;
+  tipo: 'fisica' | 'juridica' | 'advogado' | 'colaborador';
+  cpfCnpj: string;
+  nome: string;
+  telefoneCelular: string;
+  genero?: 'masculino' | 'feminino' | 'outros' | 'prefiro-nao-identificar';
+  maiorIdade: boolean;
+  rg?: string;
+  profissao?: string;
+  dataNascimento?: string;
+  naturalidade?: string;
+  estadoCivil?: string;
+  nomeMae?: string;
+  nomePai?: string;
+  categoria: string;
   oab?: string;
+  // Arquivos/Documentos
+  foto?: File;
+  documentoIdentidade?: File;
   comprovanteEndereco?: File;
   cnh?: File;
   certidaoNascimento?: File;
@@ -54,9 +55,10 @@ export class Clientes implements OnInit {
   clienteForm: ClienteForm = {
     tipo: 'fisica',
     cpfCnpj: '',
-    justificativaSemCpf: '',
     nome: '',
+    telefoneCelular: '',
     genero: 'masculino',
+    maiorIdade: false,
     rg: '',
     profissao: '',
     dataNascimento: '',
@@ -64,15 +66,36 @@ export class Clientes implements OnInit {
     estadoCivil: '',
     nomeMae: '',
     nomePai: '',
-    categoria: '',
-    urlSite: ''
+  categoria: '',
+    cnpj: '',
+    inscricaoEstadual: '',
+    razaoSocial: '',
+    nomeFantasia: '',
+    dataAbertura: '',
+    porte: '',
+    naturezaJuridica: '',
+    opcaoMei: '',
+    opcaoSimples: '',
+    dataOpcaoSimples: '',
+    capitalSocial: '',
+    tipoMatriz: '',
+    situacao: '',
+    dataSituacaoCadastral: '',
   };
 
   isLoading = false;
   errorMessage = '';
   successMessage = '';
   fieldErrors: { [key: string]: string } = {};
+
+  // Previews dos arquivos
   fotoPreview: string | null = null;
+  documentoIdentidadePreview: string | null = null;
+  comprovanteEnderecoPreview: string | null = null;
+  cnhPreview: string | null = null;
+  certidaoNascimentoPreview: string | null = null;
+  tituloEleitorPreview: string | null = null;
+  carteiraTrabalhoPreview: string | null = null;
 
   constructor(private router: Router) {}
 
@@ -150,10 +173,8 @@ export class Clientes implements OnInit {
 
     // Validação do CPF/CNPJ para pessoa física
     if (this.clienteForm.tipo === 'fisica' && !this.clienteForm.cpfCnpj) {
-      if (!this.clienteForm.justificativaSemCpf) {
-        this.fieldErrors['cpfCnpj'] = 'CPF é obrigatório ou informe a justificativa';
-        isValid = false;
-      }
+      this.fieldErrors['cpfCnpj'] = 'CPF é obrigatório';
+      isValid = false;
     }
 
     // Validação do CNPJ para pessoa jurídica
@@ -162,7 +183,115 @@ export class Clientes implements OnInit {
       isValid = false;
     }
 
+    // Validação do telefone celular
+    if (!this.clienteForm.telefoneCelular || this.clienteForm.telefoneCelular.trim() === '') {
+      this.fieldErrors['telefoneCelular'] = 'Telefone celular é obrigatório';
+      isValid = false;
+    }
+
+    // Validação de maior de idade
+    if (this.clienteForm.tipo === 'fisica' && !this.clienteForm.maiorIdade) {
+      this.fieldErrors['maiorIdade'] = 'É necessário ser maior de 18 anos';
+      isValid = false;
+    }
+
     return isValid;
+  }
+
+  onDocumentSelected(event: Event, documentType: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      // Atribui o arquivo ao campo correto
+      switch(documentType) {
+        case 'documentoIdentidade':
+          this.clienteForm.documentoIdentidade = file;
+          this.createPreview(file, 'documentoIdentidade');
+          break;
+        case 'comprovanteEndereco':
+          this.clienteForm.comprovanteEndereco = file;
+          this.createPreview(file, 'comprovanteEndereco');
+          break;
+        case 'cnh':
+          this.clienteForm.cnh = file;
+          this.createPreview(file, 'cnh');
+          break;
+        case 'certidaoNascimento':
+          this.clienteForm.certidaoNascimento = file;
+          this.createPreview(file, 'certidaoNascimento');
+          break;
+        case 'tituloEleitor':
+          this.clienteForm.tituloEleitor = file;
+          this.createPreview(file, 'tituloEleitor');
+          break;
+        case 'carteiraTrabalho':
+          this.clienteForm.carteiraTrabalho = file;
+          this.createPreview(file, 'carteiraTrabalho');
+          break;
+      }
+    }
+  }
+
+  createPreview(file: File, documentType: string): void {
+    const reader = new FileReader();
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      const preview = e.target?.result as string;
+      switch(documentType) {
+        case 'documentoIdentidade':
+          this.documentoIdentidadePreview = preview;
+          break;
+        case 'comprovanteEndereco':
+          this.comprovanteEnderecoPreview = preview;
+          break;
+        case 'cnh':
+          this.cnhPreview = preview;
+          break;
+        case 'certidaoNascimento':
+          this.certidaoNascimentoPreview = preview;
+          break;
+        case 'tituloEleitor':
+          this.tituloEleitorPreview = preview;
+          break;
+        case 'carteiraTrabalho':
+          this.carteiraTrabalhoPreview = preview;
+          break;
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  removeDocument(documentType: string): void {
+    switch(documentType) {
+      case 'foto':
+        this.clienteForm.foto = undefined;
+        this.fotoPreview = null;
+        break;
+      case 'documentoIdentidade':
+        this.clienteForm.documentoIdentidade = undefined;
+        this.documentoIdentidadePreview = null;
+        break;
+      case 'comprovanteEndereco':
+        this.clienteForm.comprovanteEndereco = undefined;
+        this.comprovanteEnderecoPreview = null;
+        break;
+      case 'cnh':
+        this.clienteForm.cnh = undefined;
+        this.cnhPreview = null;
+        break;
+      case 'certidaoNascimento':
+        this.clienteForm.certidaoNascimento = undefined;
+        this.certidaoNascimentoPreview = null;
+        break;
+      case 'tituloEleitor':
+        this.clienteForm.tituloEleitor = undefined;
+        this.tituloEleitorPreview = null;
+        break;
+      case 'carteiraTrabalho':
+        this.clienteForm.carteiraTrabalho = undefined;
+        this.carteiraTrabalhoPreview = null;
+        break;
+    }
   }
 
   async onSubmit(event: Event): Promise<void> {
