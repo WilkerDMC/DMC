@@ -4,6 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 interface ClienteForm {
+  // Endereço
+  cep?: string;
+  logradouro?: string;
+  numero?: string;
+  complemento?: string;
+  bairro?: string;
+  cidade?: string;
   cnpj?: string;
   inscricaoEstadual?: string;
   razaoSocial?: string;
@@ -35,7 +42,8 @@ interface ClienteForm {
   oab?: string;
   // Arquivos/Documentos
   foto?: File;
-  documentoIdentidade?: File;
+  documentoRg?: File;
+  documentoCpf?: File;
   comprovanteEndereco?: File;
   cnh?: File;
   certidaoNascimento?: File;
@@ -52,6 +60,22 @@ interface ClienteForm {
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class Clientes implements OnInit {
+  // Estado do acordeão: nome do documento aberto (ex: 'foto', 'comprovanteEndereco', etc.)
+  documentoAccordionAberto: string | null = null;
+
+  // Abre/fecha o acordeão de um documento
+  toggleAccordion(documento: string): void {
+    if (this.documentoAccordionAberto === documento) {
+      this.documentoAccordionAberto = null;
+    } else {
+      this.documentoAccordionAberto = documento;
+    }
+  }
+
+  // Verifica se o acordeão está aberto
+  isAccordionOpen(documento: string): boolean {
+    return this.documentoAccordionAberto === documento;
+  }
   clienteForm: ClienteForm = {
     tipo: 'fisica',
     cpfCnpj: '',
@@ -66,7 +90,7 @@ export class Clientes implements OnInit {
     estadoCivil: '',
     nomeMae: '',
     nomePai: '',
-  categoria: '',
+    categoria: '',
     cnpj: '',
     inscricaoEstadual: '',
     razaoSocial: '',
@@ -81,6 +105,13 @@ export class Clientes implements OnInit {
     tipoMatriz: '',
     situacao: '',
     dataSituacaoCadastral: '',
+    // Endereço
+    cep: '',
+    logradouro: '',
+    numero: '',
+    complemento: '',
+    bairro: '',
+    cidade: '',
   };
 
   isLoading = false;
@@ -90,7 +121,8 @@ export class Clientes implements OnInit {
 
   // Previews dos arquivos
   fotoPreview: string | null = null;
-  documentoIdentidadePreview: string | null = null;
+  documentoRgPreview: string | null = null;
+  documentoCpfPreview: string | null = null;
   comprovanteEnderecoPreview: string | null = null;
   cnhPreview: string | null = null;
   certidaoNascimentoPreview: string | null = null;
@@ -149,8 +181,22 @@ export class Clientes implements OnInit {
   }
 
   validateForm(): boolean {
+
     this.fieldErrors = {};
     let isValid = true;
+
+    // ...validações anteriores...
+
+    // RG obrigatório
+    if (!this.clienteForm.documentoRg) {
+      this.fieldErrors['documentoRg'] = 'RG é obrigatório';
+      isValid = false;
+    }
+    // CPF obrigatório
+    if (!this.clienteForm.documentoCpf) {
+      this.fieldErrors['documentoCpf'] = 'CPF é obrigatório';
+      isValid = false;
+    }
 
     // Validação do nome
     if (!this.clienteForm.nome || this.clienteForm.nome.trim() === '') {
@@ -182,6 +228,29 @@ export class Clientes implements OnInit {
       isValid = false;
     }
 
+    // Validação dos documentos obrigatórios
+    // Foto é opcional, os demais são obrigatórios
+    if (!this.clienteForm.comprovanteEndereco) {
+      this.fieldErrors['comprovanteEndereco'] = 'Comprovante de endereço é obrigatório';
+      isValid = false;
+    }
+    if (!this.clienteForm.cnh) {
+      this.fieldErrors['cnh'] = 'CNH é obrigatória';
+      isValid = false;
+    }
+    if (!this.clienteForm.certidaoNascimento) {
+      this.fieldErrors['certidaoNascimento'] = 'Certidão de nascimento é obrigatória';
+      isValid = false;
+    }
+    if (!this.clienteForm.tituloEleitor) {
+      this.fieldErrors['tituloEleitor'] = 'Título de eleitor é obrigatório';
+      isValid = false;
+    }
+    if (!this.clienteForm.carteiraTrabalho) {
+      this.fieldErrors['carteiraTrabalho'] = 'Carteira de trabalho é obrigatória';
+      isValid = false;
+    }
+
     return isValid;
   }
 
@@ -192,9 +261,13 @@ export class Clientes implements OnInit {
 
       // Atribui o arquivo ao campo correto
       switch(documentType) {
-        case 'documentoIdentidade':
-          this.clienteForm.documentoIdentidade = file;
-          this.createPreview(file, 'documentoIdentidade');
+        case 'documentoRg':
+          this.clienteForm.documentoRg = file;
+          this.createPreview(file, 'documentoRg');
+          break;
+        case 'documentoCpf':
+          this.clienteForm.documentoCpf = file;
+          this.createPreview(file, 'documentoCpf');
           break;
         case 'comprovanteEndereco':
           this.clienteForm.comprovanteEndereco = file;
@@ -225,8 +298,11 @@ export class Clientes implements OnInit {
     reader.onload = (e: ProgressEvent<FileReader>) => {
       const preview = e.target?.result as string;
       switch(documentType) {
-        case 'documentoIdentidade':
-          this.documentoIdentidadePreview = preview;
+        case 'documentoRg':
+          this.documentoRgPreview = preview;
+          break;
+        case 'documentoCpf':
+          this.documentoCpfPreview = preview;
           break;
         case 'comprovanteEndereco':
           this.comprovanteEnderecoPreview = preview;
@@ -254,9 +330,13 @@ export class Clientes implements OnInit {
         this.clienteForm.foto = undefined;
         this.fotoPreview = null;
         break;
-      case 'documentoIdentidade':
-        this.clienteForm.documentoIdentidade = undefined;
-        this.documentoIdentidadePreview = null;
+      case 'documentoRg':
+        this.clienteForm.documentoRg = undefined;
+        this.documentoRgPreview = null;
+        break;
+      case 'documentoCpf':
+        this.clienteForm.documentoCpf = undefined;
+        this.documentoCpfPreview = null;
         break;
       case 'comprovanteEndereco':
         this.clienteForm.comprovanteEndereco = undefined;

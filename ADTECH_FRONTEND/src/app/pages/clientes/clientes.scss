@@ -1,3 +1,85 @@
+// =============================
+// ACORDEÃO CUSTOMIZADO DOCUMENTOS
+// =============================
+.documento-card {
+    transition: box-shadow 0.3s, border-color 0.3s, background 0.3s;
+}
+
+.documento-card.accordion-open {
+    box-shadow: 0 0 24px 0 rgba(0,231,252,0.25), 0 8px 32px rgba(0,255,77,0.10);
+    border-color: #00e7fc;
+    background: linear-gradient(135deg, rgba(0,231,252,0.10), rgba(0,255,77,0.05), rgba(26,26,26,0.95));
+}
+
+.documento-card.required-missing:not(.has-file) {
+    border-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239,68,68,0.10), rgba(26,26,26,0.90));
+}
+
+.documento-card .obrigatorio {
+    color: #ef4444;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-left: 0.5em;
+}
+.documento-card .opcional {
+    color: #aaa;
+    font-size: 0.85em;
+    font-weight: 400;
+    margin-left: 0.5em;
+}
+
+.accordion-header {
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+}
+.accordion-header:hover {
+    background: rgba(0,231,252,0.07);
+}
+
+.accordion-arrow {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s;
+}
+.accordion-arrow ion-icon {
+    font-size: 1.5rem;
+    color: #00e7fc;
+    transition: color 0.3s, transform 0.3s;
+}
+.accordion-arrow.open ion-icon {
+    transform: rotate(180deg);
+    color: #00ff4d;
+}
+
+.accordion-body {
+    animation: accordionFadeIn 0.35s;
+}
+@keyframes accordionFadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.documento-card.has-file {
+    border-color: #00ff4d;
+    background: linear-gradient(135deg, rgba(0,255,77,0.10), rgba(26,26,26,0.90));
+}
+
+.documento-card.required-missing:not(.has-file) .documento-icon,
+.documento-card.required-missing:not(.has-file) .accordion-arrow ion-icon {
+    color: #ef4444;
+    border-color: #ef4444;
+}
+.documento-card.has-file .documento-icon,
+.documento-card.has-file .accordion-arrow ion-icon {
+    color: #00ff4d;
+    border-color: #00ff4d;
+}
+.documento-card .documento-icon {
+    transition: color 0.3s, border-color 0.3s;
+}
 /* ============================================
    DASHBOARD CONTAINER & NAVIGATION
    Menu lateral com expansão no hover
