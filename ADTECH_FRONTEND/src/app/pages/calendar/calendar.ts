@@ -325,6 +325,27 @@ export class Calendar {
     this.selectedTask = this.tasks[this.tasks.length - 1];
   }
 
+  // ======= DRAG & DROP SIMPLES ENTRE DIAS (VISÃO MÊS/SEMANA) =======
+  onTaskDragStart(event: DragEvent, task: any) {
+    event.dataTransfer?.setData('text/plain', String(task.id));
+    event.dataTransfer?.setDragImage?.(event.target as Element, 10, 10);
+  }
+
+  onDayDrop(event: DragEvent, day: Date) {
+    event.preventDefault();
+    const idStr = event.dataTransfer?.getData('text/plain');
+    if (!idStr) return;
+    const task = this.tasks.find(t => t.id === Number(idStr));
+    if (!task) return;
+    task.date = this.formatDateKey(day);
+    this.showNotification('Diligência remanejada para o novo dia.');
+    this.selectedDay = day;
+  }
+
+  onDayDragOver(event: DragEvent) {
+    event.preventDefault();
+  }
+
   // ======= VIEWS (MÊS / SEMANA / DIA) =======
   setCalendarView(view: 'month' | 'week' | 'day') {
     this.calendarView = view;

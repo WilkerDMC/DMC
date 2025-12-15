@@ -179,6 +179,36 @@ export class ProcuracaoComponent implements OnInit {
     return this.procuracaoForm.get('validade') as FormGroup;
   }
 
+  // Helpers de validação para o template
+  hasError(section: 'grantor' | 'poderes' | 'validade', controlName: string): boolean {
+    const group = this.procuracaoForm.get(section) as FormGroup | null;
+    const control = group?.get(controlName);
+    return !!(control && control.invalid && (control.dirty || control.touched));
+  }
+
+  getError(section: 'grantor' | 'poderes' | 'validade', controlName: string): string {
+    const group = this.procuracaoForm.get(section) as FormGroup | null;
+    const control = group?.get(controlName);
+
+    if (!control || !control.errors) {
+      return '';
+    }
+
+    if (control.errors['required']) {
+      return 'Campo obrigatório.';
+    }
+
+    if (control.errors['email']) {
+      return 'Informe um e-mail válido.';
+    }
+
+    if (controlName === 'cpf' && control.errors['cpfInvalido']) {
+      return 'CPF inválido.';
+    }
+
+    return 'Valor inválido.';
+  }
+
   // Preview do documento jurídico
   get procuracaoPreview(): string {
     const grantor = this.grantorForm.value;
@@ -189,17 +219,17 @@ export class ProcuracaoComponent implements OnInit {
       return 'Preencha os dados do outorgante para visualizar o preview.';
     }
 
-    const tipoDoc = grantor.tipoDocumento === 'RG' ? 'RG' :
+    const tipoDoc = grantor.tipoDocumento === 'RG' ? 'RG' : 
                     grantor.tipoDocumento === 'CNH' ? 'CNH' : 'RNE';
-
+    
     const estadoCivilText = this.getEstadoCivilText(grantor.estadoCivil);
     const validadeText = this.getValidadeText(validade);
     const poderesText = poderes.poderesConcedidos || this.textoPoderesBase;
 
-    const dataFormatada = this.dataAtual.toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric'
+    const dataFormatada = this.dataAtual.toLocaleDateString('pt-BR', { 
+      day: '2-digit', 
+      month: 'long', 
+      year: 'numeric' 
     });
 
     return `PROCURAÇÃO PÚBLICA
@@ -245,10 +275,10 @@ CPF: ${grantor.cpf}`;
     } else {
       if (validade.dataValidade) {
         const data = new Date(validade.dataValidade + 'T00:00:00');
-        const dataFormatada = data.toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric'
+        const dataFormatada = data.toLocaleDateString('pt-BR', { 
+          day: '2-digit', 
+          month: 'long', 
+          year: 'numeric' 
         });
         return `Esta procuração terá validade até ${dataFormatada}, salvo revogação antecipada pela outorgante.`;
       }
@@ -273,20 +303,9 @@ CPF: ${grantor.cpf}`;
     console.log('Baixando Due Diligence...', this.procuracaoForm.value);
   }
 
-  // Verificar se campo tem erro
-  hasError(group: string, field: string): boolean {
-    const control = this.procuracaoForm.get(`${group}.${field}`);
-    return !!(control && control.invalid && (control.dirty || control.touched));
-  }
-
-  getError(group: string, field: string): string {
-    const control = this.procuracaoForm.get(`${group}.${field}`);
-    if (control?.errors) {
-      if (control.errors['required']) return 'Campo obrigatório';
-      if (control.errors['email']) return 'Email inválido';
-      if (control.errors['minlength']) return `Mínimo de ${control.errors['minlength'].requiredLength} caracteres`;
-      if (control.errors['cpfInvalido']) return 'CPF inválido';
+    onSubmit() {
+      // Aqui você pode trocar para preview ou gerar a procuração
+      // Exemplo: this.view = 'preview';
+      alert('Procuração gerada!');
     }
-    return '';
-  }
   }

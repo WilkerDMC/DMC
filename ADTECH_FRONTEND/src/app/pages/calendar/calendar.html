@@ -63,9 +63,9 @@
     <!-- Cabeçalho / Título -->
     <div class="agenda-header">
       <div class="agenda-title-block">
-        <div class="agenda-title-eyebrow">ORQUESTRAÇÃO DE PRAZOS E DILIGÊNCIAS</div>
+        <div class="agenda-title-eyebrow"></div>
         <h1 class="agenda-title">
-          Agenda Inteligente
+          Agenda de Tarefas
           <span class="agenda-title-glow"></span>
         </h1>
         <p class="agenda-subtitle">
@@ -231,16 +231,23 @@
                 'has-task': hasTask(day),
                 selected: selectedDay && (formatDateKey(day) === formatDateKey(selectedDay))
               }"
+              (dragover)="onDayDragOver($event)"
+              (drop)="onDayDrop($event, day)"
               (click)="selectDay(day)"
             >
               <span class="day-number">{{ day.getDate() }}</span>
               <div class="task-dots" *ngIf="getTasksForDay(day).length">
-                <span
+                <div
                   *ngFor="let task of getTasksForDay(day) | slice:0:3"
-                  class="task-dot"
+                  class="task-chip"
                   [ngClass]="task.color"
-                  [title]="task.title"
-                ></span>
+                  draggable="true"
+                  (dragstart)="onTaskDragStart($event, task)"
+                  (click)="selectTask(task); $event.stopPropagation()"
+                >
+                  <span class="chip-dot"></span>
+                  <span class="chip-title">{{ task.title }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -269,6 +276,8 @@
                     *ngFor="let task of getTasksForDay(day)"
                     class="week-task-pill"
                     [ngClass]="[task.color, task.urgency | lowercase]"
+                    draggable="true"
+                    (dragstart)="onTaskDragStart($event, task)"
                     (click)="selectTask(task); $event.stopPropagation()"
                   >
                     <span class="time">{{ task.time }}</span>
@@ -294,6 +303,8 @@
                 *ngFor="let task of selectedDay ? getTasksForDay(selectedDay) : []"
                 class="day-task-card"
                 [ngClass]="[task.color, task.urgency | lowercase]"
+                draggable="true"
+                (dragstart)="onTaskDragStart($event, task)"
                 (click)="selectTask(task)"
               >
                 <div class="day-task-time">
@@ -423,7 +434,7 @@
         </div>
 
         <!-- Modo criação de diligência -->
-        <div class="side-card" *ngIf="isCreatingTask">
+        <div class="side-card form-mode" *ngIf="isCreatingTask">
           <div class="side-card-header">
             <div class="side-chip">
               <ion-icon name="add-circle-outline"></ion-icon>
@@ -436,41 +447,56 @@
           <form (ngSubmit)="addTask()" class="side-form">
             <div class="form-row">
               <label>Título</label>
-              <input
-                type="text"
-                [(ngModel)]="newTask.title"
-                name="title"
-                placeholder="Ex: Audiência de instrução, protocolo de petição..."
-              />
+              <div class="form-input-wrapper">
+                <ion-icon name="create-outline" class="form-input-icon"></ion-icon>
+                <input
+                  type="text"
+                  [(ngModel)]="newTask.title"
+                  name="title"
+                  placeholder="Ex: Audiência de instrução, protocolo de petição..."
+                />
+              </div>
             </div>
 
             <div class="form-row two-columns">
               <div>
                 <label>Data</label>
-                <input type="date" [(ngModel)]="newTask.date" name="date" />
+                <div class="form-input-wrapper">
+                  <ion-icon name="calendar-outline" class="form-input-icon"></ion-icon>
+                  <input type="date" [(ngModel)]="newTask.date" name="date" />
+                </div>
               </div>
               <div>
                 <label>Horário</label>
-                <input type="time" [(ngModel)]="newTask.time" name="time" />
+                <div class="form-input-wrapper">
+                  <ion-icon name="time-outline" class="form-input-icon"></ion-icon>
+                  <input type="time" [(ngModel)]="newTask.time" name="time" />
+                </div>
               </div>
             </div>
 
             <div class="form-row two-columns">
               <div>
                 <label>Status</label>
-                <select [(ngModel)]="newTask.status" name="status">
-                  <option *ngFor="let status of statusList" [value]="status">
-                    {{ status }}
-                  </option>
-                </select>
+                <div class="form-input-wrapper">
+                  <ion-icon name="flag-outline" class="form-input-icon"></ion-icon>
+                  <select [(ngModel)]="newTask.status" name="status">
+                    <option *ngFor="let status of statusList" [value]="status">
+                      {{ status }}
+                    </option>
+                  </select>
+                </div>
               </div>
               <div>
                 <label>Urgência</label>
-                <select [(ngModel)]="newTask.urgency" name="urgency">
-                  <option *ngFor="let urg of urgencyList" [value]="urg">
-                    {{ urg }}
-                  </option>
-                </select>
+                <div class="form-input-wrapper">
+                  <ion-icon name="flame-outline" class="form-input-icon"></ion-icon>
+                  <select [(ngModel)]="newTask.urgency" name="urgency">
+                    <option *ngFor="let urg of urgencyList" [value]="urg">
+                      {{ urg }}
+                    </option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -485,16 +511,36 @@
                   (click)="newTask.color = c"
                 ></button>
               </div>
+              <div class="color-legend">
+                <span class="color-legend-item">
+                  <span class="legend-dot cyan"></span> Azul (prazos gerais)
+                </span>
+                <span class="color-legend-item">
+                  <span class="legend-dot green"></span> Verde (concluídas)
+                </span>
+                <span class="color-legend-item">
+                  <span class="legend-dot orange"></span> Laranja (atenção)
+                </span>
+                <span class="color-legend-item">
+                  <span class="legend-dot red"></span> Vermelho (urgente)
+                </span>
+                <span class="color-legend-item">
+                  <span class="legend-dot purple"></span> Roxo (personalizado)
+                </span>
+              </div>
             </div>
 
             <div class="form-row">
               <label>Observações</label>
-              <textarea
-                [(ngModel)]="newTask.description"
-                name="description"
-                rows="4"
-                placeholder="Detalhes da diligência, número do processo, partes envolvidas, foro, cartório, etc."
-              ></textarea>
+              <div class="form-textarea-wrapper">
+                <ion-icon name="document-text-outline" class="form-textarea-icon"></ion-icon>
+                <textarea
+                  [(ngModel)]="newTask.description"
+                  name="description"
+                  rows="4"
+                  placeholder="Detalhes da diligência, número do processo, partes envolvidas, foro, cartório, etc."
+                ></textarea>
+              </div>
             </div>
 
             <div class="side-actions">

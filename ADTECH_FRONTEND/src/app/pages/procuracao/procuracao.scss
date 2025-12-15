@@ -356,7 +356,7 @@
 .navigation ul li:hover a .icon ion-icon,
 .navigation ul li a.active .icon ion-icon {
   color: #00ff5e;
-}
+  }
 
 
 /* Badge de notificação (opcional) */
@@ -801,7 +801,7 @@
 /* Linha ativa (entre steps completados) */
 .steps-bar .line.active {
   background: linear-gradient(90deg, #00ff6a, #00e7fc);
-  box-shadow:
+  box-shadow: 
     0 0 10px rgba(0, 255, 106, 0.5),
     0 0 15px rgba(0, 231, 252, 0.3);
   animation: lineGlow 2s ease-in-out infinite;
@@ -810,13 +810,13 @@
 @keyframes lineGlow {
   0%, 100% {
     opacity: 1;
-    box-shadow:
+  box-shadow:
       0 0 10px rgba(0, 255, 106, 0.5),
       0 0 15px rgba(0, 231, 252, 0.3);
   }
   50% {
     opacity: 0.8;
-    box-shadow:
+    box-shadow: 
       0 0 15px rgba(0, 255, 106, 0.7),
       0 0 20px rgba(0, 231, 252, 0.5);
   }
@@ -866,7 +866,7 @@
       0 0 15px rgba(0, 231, 252, 0.6),
       0 0 30px rgba(0, 255, 77, 0.4);
     animation: pulse 2s ease-in-out infinite;
-  }
+}
 }
 
 .section-title:hover::after {
@@ -1255,7 +1255,7 @@
   text-align: justify;
   letter-spacing: 0.3px;
   padding: 0;
-
+  
   /* Espaçamento entre seções */
   &::before {
     content: '';
