@@ -1,3 +1,17 @@
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
+.search-icon-inside {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.3em;
+  color: #b6f7e7;
+  pointer-events: none;
+}
 /* ========================================
    DOCUMENTOS - LAYOUT IGUAL HOME/LOGIN/DASHBOARD
 ======================================== */
@@ -108,14 +122,20 @@
 }
 
 .placeholder-wrap{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:2rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
   position: relative;
   z-index: 2;
-  width: 100%;
   animation: fadeUp var(--anim-medium) var(--anim-ease) 0.06s both;
+  /* Removido width: 100% para centralizar o bloco */
+}
+
+.placeholder-wrap .search-input {
+  max-width: 500px;
+  width: 100%;
+/* fim do bloco, removida chave solta */
 }
 
 .search-input{

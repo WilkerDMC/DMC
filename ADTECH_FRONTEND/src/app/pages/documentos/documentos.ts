@@ -1,5 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 interface DocumentModel {
@@ -37,12 +38,18 @@ interface Deadline {
 @Component({
   selector: 'app-documentos',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './documentos.html',
   styleUrl: './documentos.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class Documentos implements OnInit, AfterViewInit {
+  searchTerm: string = '';
+
+  onSearch() {
+    // Implemente a lógica de busca se desejar, por enquanto apenas loga
+    console.log('Busca:', this.searchTerm);
+  }
   private uploadedFiles: File[] = [];
   private currentDocument: DocumentModel | null = null;
   private uploadedDocumentsByRequirement: Map<number, File[]> = new Map();
