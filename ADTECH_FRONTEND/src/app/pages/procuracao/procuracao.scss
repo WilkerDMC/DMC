@@ -356,7 +356,7 @@
 .navigation ul li:hover a .icon ion-icon,
 .navigation ul li a.active .icon ion-icon {
   color: #00ff5e;
-}
+  }
 
 
 /* Badge de notificação (opcional) */
@@ -810,7 +810,7 @@
 @keyframes lineGlow {
   0%, 100% {
     opacity: 1;
-    box-shadow: 
+  box-shadow:
       0 0 10px rgba(0, 255, 106, 0.5),
       0 0 15px rgba(0, 231, 252, 0.3);
   }
@@ -866,7 +866,7 @@
       0 0 15px rgba(0, 231, 252, 0.6),
       0 0 30px rgba(0, 255, 77, 0.4);
     animation: pulse 2s ease-in-out infinite;
-  }
+}
 }
 
 .section-title:hover::after {

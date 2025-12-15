@@ -332,7 +332,7 @@
                   </span>
                   <small class="form-hint">O texto acima foi pré-preenchido com um modelo jurídico padrão. Você pode editá-lo livremente.</small>
                 </div>
-              </div>
+      </div>
 
       <div class="form-actions">
                 <button type="button" class="button-elegant" (click)="prevStep()">
@@ -365,7 +365,7 @@
                   <span *ngIf="hasError('validade', 'tipoValidade')" class="error-text">
                     {{ getError('validade', 'tipoValidade') }}
                   </span>
-                </div>
+        </div>
 
                 <div class="form-group" *ngIf="validadeForm.get('tipoValidade')?.value === 'data-especifica'">
                   <label for="dataValidade">Data de Validade <span class="required">*</span></label>
@@ -378,7 +378,7 @@
                       [min]="dataAtual | date:'yyyy-MM-dd'"
                     />
                     <i class="fas fa-calendar-check input-icon"></i>
-                  </div>
+          </div>
                   <span *ngIf="hasError('validade', 'dataValidade')" class="error-text">
                     {{ getError('validade', 'dataValidade') }}
                   </span>
@@ -388,8 +388,8 @@
                   <label>Cláusula de Renúncia</label>
                   <div class="clausula-readonly">
                     <p>{{ clausulaRenuncia }}</p>
-                  </div>
-                </div>
+              </div>
+                    </div>
 
                 <div class="form-group">
                   <label for="honorarios">Honorários (Opcional)</label>
@@ -405,7 +405,7 @@
                   </div>
                   <small class="form-hint">Campo opcional para registro de honorários advocatícios.</small>
                 </div>
-              </div>
+                          </div>
 
                     <div class="form-actions">
                 <button type="button" class="button-elegant" (click)="prevStep()">
