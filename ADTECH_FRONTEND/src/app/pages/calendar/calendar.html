@@ -1,12 +1,14 @@
-<!-- Calendário Premium - Estrutura base -->
-<div class="dashboard-hero">
+<!-- Agenda / Calendário Inteligente -->
+<div class="dashboard-hero agenda-hero">
   <div class="hero-flare"></div>
   <div class="hero-flare-secondary"></div>
   <div class="hero-triangle-pattern"></div>
-  <div class="menu-card">
+
+  <!-- Menu lateral padrão -->
+  <div class="navigation">
     <ul>
       <li>
-        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
           <span class="title">Geral</span>
         </a>
@@ -41,22 +43,479 @@
           <span class="title">Financeiro</span>
         </a>
       </li>
+      <li>
+        <a routerLink="/documentos" routerLinkActive="active">
+          <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
+          <span class="title">Documentos</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+          <span class="title">Configurações</span>
+        </a>
+      </li>
     </ul>
   </div>
-  <main class="calendar-main">
-    <div class="calendar-card">
-      <div class="calendar-header">
-        <h2 class="calendar-title">
-          <span style="color:#00e7fc;font-weight:900;letter-spacing:2px;">Agenda</span>
-          <span style="color:#00ff4d;font-weight:700;">Premium</span>
-        </h2>
+
+  <!-- Área principal da Agenda -->
+  <div class="agenda-main">
+    <!-- Cabeçalho / Título -->
+    <div class="agenda-header">
+      <div class="agenda-title-block">
+        <div class="agenda-title-eyebrow">ORQUESTRAÇÃO DE PRAZOS E DILIGÊNCIAS</div>
+        <h1 class="agenda-title">
+          Agenda Inteligente
+          <span class="agenda-title-glow"></span>
+        </h1>
+        <p class="agenda-subtitle">
+          Visualize prazos, diligências e cargas de trabalho com a mesma precisão da sua dashboard principal.
+        </p>
       </div>
-      <!-- Aqui virá o calendário visual, filtros e funcionalidades -->
+
+      <!-- Filtros gerais -->
+      <div class="agenda-filters">
+        <div class="filter-group">
+          <label>Usuário</label>
+          <select [(ngModel)]="selectedUser" class="filter-input user-select">
+            <option *ngFor="let user of users" [ngValue]="user">{{ user.name }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Tipo de usuário</label>
+          <select [(ngModel)]="userTypeFilter" class="filter-input">
+            <option *ngFor="let type of userTypeList" [value]="type">{{ type }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Status</label>
+          <select [(ngModel)]="statusFilter" class="filter-input">
+            <option value="">Todos</option>
+            <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Urgência</label>
+          <select [(ngModel)]="urgencyFilter" class="filter-input">
+            <option value="">Todas</option>
+            <option *ngFor="let urg of urgencyList" [value]="urg">{{ urg }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Período</label>
+          <select [(ngModel)]="periodFilter" class="filter-input">
+            <option *ngFor="let p of periodList" [value]="p">{{ p }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group search-group">
+          <label>Busca</label>
+          <div class="search-wrapper">
+            <input
+              type="text"
+              [(ngModel)]="taskSearch"
+              class="filter-input search-input"
+              placeholder="Buscar por diligência, processo ou cliente..."
+            />
+            <ion-icon name="search-outline"></ion-icon>
+          </div>
+        </div>
+      </div>
     </div>
-  </main>
+
+    <!-- Layout principal: coluna central + painel direito -->
+    <div class="agenda-layout">
+      <div class="agenda-center">
+        <!-- Faixa de usuários acima da agenda -->
+        <div class="agenda-users-strip">
+          <div
+            class="agenda-user-card"
+            *ngFor="let user of users"
+            [class.active]="user.id === selectedUser.id"
+            (click)="selectUser(user)"
+          >
+            <div class="user-avatar">
+              <span>{{ user.avatar }}</span>
+            </div>
+            <div class="user-info">
+              <div class="user-name-row">
+                <span class="user-name">{{ user.name }}</span>
+                <span class="user-type">{{ user.type }}</span>
+              </div>
+              <div class="user-metrics">
+                <span class="metric-pill total">
+                  <span class="dot cyan"></span>{{ totalTasksForUser }} totais
+                </span>
+                <span class="metric-pill pending">
+                  <span class="dot yellow"></span>{{ pendingTasksForUser }} pendentes
+                </span>
+                <span class="metric-pill urgent">
+                  <span class="dot red"></span>{{ urgentTasksForUser }} urgentes
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toolbar da agenda (visualização + navegação) -->
+        <div class="agenda-toolbar">
+          <div class="view-switch">
+            <button
+              type="button"
+              [class.active]="calendarView === 'day'"
+              (click)="setCalendarView('day')"
+            >
+              Dia
+            </button>
+            <button
+              type="button"
+              [class.active]="calendarView === 'week'"
+              (click)="setCalendarView('week')"
+            >
+              Semana
+            </button>
+            <button
+              type="button"
+              [class.active]="calendarView === 'month'"
+              (click)="setCalendarView('month')"
+            >
+              Mês
+            </button>
+          </div>
+
+          <div class="calendar-nav">
+            <button type="button" class="nav-btn" (click)="prevMonth()">
+              <ion-icon name="chevron-back-outline"></ion-icon>
+            </button>
+            <div class="current-month">
+              {{ monthName | titlecase }} {{ currentYear }}
+            </div>
+            <button type="button" class="nav-btn" (click)="nextMonth()">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </button>
+            <button type="button" class="today-btn" (click)="goToday()">Hoje</button>
+          </div>
+
+          <button type="button" class="new-task-btn" (click)="startCreateTask()">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            Nova diligência
+          </button>
+        </div>
+
+        <!-- Calendário central (replicando visual da dashboard) -->
+        <div class="calendario-agenda">
+          <div class="cardHeader">
+            <ion-icon name="calendar"></ion-icon>
+            <h2>Agenda do escritório</h2>
+            <span class="month-label">
+              {{ monthName | titlecase }} • {{ filteredTasks().length }} diligências visíveis
+            </span>
+          </div>
+
+          <div class="diasSemanas" *ngIf="calendarView === 'month'">
+            <div *ngFor="let w of weekDays">{{ w }}</div>
+          </div>
+
+          <!-- Grade mensal -->
+          <div class="dias" *ngIf="calendarView === 'month'">
+            <div
+              *ngFor="let day of calendarDays"
+              class="dia"
+              [ngClass]="{
+                'out-month': !isSameMonth(day),
+                today: isToday(day),
+                'has-task': hasTask(day),
+                selected: selectedDay && (formatDateKey(day) === formatDateKey(selectedDay))
+              }"
+              (click)="selectDay(day)"
+            >
+              <span class="day-number">{{ day.getDate() }}</span>
+              <div class="task-dots" *ngIf="getTasksForDay(day).length">
+                <span
+                  *ngFor="let task of getTasksForDay(day) | slice:0:3"
+                  class="task-dot"
+                  [ngClass]="task.color"
+                  [title]="task.title"
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualização semanal -->
+          <div class="week-view" *ngIf="calendarView === 'week'">
+            <div class="week-days">
+              <div
+                *ngFor="let day of getWeekDays()"
+                class="week-day"
+                [ngClass]="{
+                  today: isToday(day),
+                  'has-task': hasTask(day),
+                  selected: selectedDay && (formatDateKey(day) === formatDateKey(selectedDay))
+                }"
+                (click)="selectDay(day)"
+              >
+                <div class="week-day-header">
+                  <span class="week-day-name">
+                    {{ weekDays[day.getDay()] }}
+                  </span>
+                  <span class="week-day-number">{{ day.getDate() }}</span>
+                </div>
+                <div class="week-day-tasks">
+                  <div
+                    *ngFor="let task of getTasksForDay(day)"
+                    class="week-task-pill"
+                    [ngClass]="[task.color, task.urgency | lowercase]"
+                    (click)="selectTask(task); $event.stopPropagation()"
+                  >
+                    <span class="time">{{ task.time }}</span>
+                    <span class="title">{{ task.title }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualização diária -->
+          <div class="day-view" *ngIf="calendarView === 'day'">
+            <div class="day-header" *ngIf="selectedDay">
+              <div class="day-title">
+                {{ selectedDay | date: 'EEEE, dd \'de\' MMMM' : undefined : 'pt-BR' }}
+              </div>
+              <div class="day-count">
+                {{ getTasksForDay(selectedDay).length }} diligências neste dia
+              </div>
+            </div>
+            <div class="day-tasks">
+              <div
+                *ngFor="let task of selectedDay ? getTasksForDay(selectedDay) : []"
+                class="day-task-card"
+                [ngClass]="[task.color, task.urgency | lowercase]"
+                (click)="selectTask(task)"
+              >
+                <div class="day-task-time">
+                  <ion-icon name="time-outline"></ion-icon>
+                  <span>{{ task.time }}</span>
+                </div>
+                <div class="day-task-main">
+                  <div class="day-task-title-row">
+                    <span class="day-task-title">{{ task.title }}</span>
+                    <span class="day-task-status" [ngClass]="statusClass(task.status)">
+                      {{ task.status }}
+                    </span>
+                  </div>
+                  <p class="day-task-desc">{{ task.description }}</p>
+                  <div class="day-task-meta">
+                    <span class="urgency" [ngClass]="task.urgency | lowercase">
+                      <ion-icon name="flame-outline"></ion-icon>
+                      {{ task.urgency }} urgência
+                    </span>
+                    <span class="user-label">
+                      <ion-icon name="person-outline"></ion-icon>
+                      {{ getUserNameById(task.userId) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="day-empty" *ngIf="!(selectedDay && getTasksForDay(selectedDay).length)">
+                Nenhuma diligência para este dia. Clique em
+                <strong>Nova diligência</strong> para agendar.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Painel direito: detalhes / criação -->
+      <aside class="agenda-side-panel">
+        <div class="side-card" *ngIf="!isCreatingTask && selectedTask">
+          <div class="side-card-header">
+            <div class="side-chip">
+              <ion-icon name="document-text-outline"></ion-icon>
+              Diligência selecionada
+            </div>
+            <span class="side-status" [ngClass]="statusClass(selectedTask.status)">
+              {{ selectedTask.status }}
+            </span>
+          </div>
+
+          <h2 class="side-title">{{ selectedTask.title }}</h2>
+
+          <div class="side-meta-grid">
+            <div class="meta-item">
+              <span class="meta-label">Responsável</span>
+              <span class="meta-value">
+                {{ getUserNameById(selectedTask?.userId) }}
+              </span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Data</span>
+              <span class="meta-value">
+                {{ selectedTask.date | date: 'dd/MM/yyyy' }}
+              </span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Horário</span>
+              <span class="meta-value">{{ selectedTask.time }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Urgência</span>
+              <span class="meta-value urgency-pill" [ngClass]="selectedTask.urgency | lowercase">
+                <ion-icon name="flame-outline"></ion-icon>
+                {{ selectedTask.urgency }}
+              </span>
+            </div>
+          </div>
+
+          <div class="side-section">
+            <div class="side-section-title">
+              <ion-icon name="reader-outline"></ion-icon>
+              Detalhes
+            </div>
+            <p class="side-description">
+              {{ selectedTask.description || 'Sem observações adicionais.' }}
+            </p>
+          </div>
+
+          <div class="side-section side-section-compact">
+            <div class="side-section-title">
+              <ion-icon name="pulse-outline"></ion-icon>
+              Sinais Inteligentes
+            </div>
+            <div class="side-badges">
+              <span class="badge" [ngClass]="selectedTask.urgency | lowercase">
+                <ion-icon name="flash-outline"></ion-icon>
+                {{ selectedTask.urgency }} prioridade
+              </span>
+              <span class="badge neutral">
+                <ion-icon name="calendar-outline"></ion-icon>
+                Próximo prazo: {{ selectedTask.date | date: 'dd/MM' }}
+              </span>
+            </div>
+          </div>
+
+          <div class="side-actions">
+            <button type="button" class="btn-outline" (click)="startCreateTask()">
+              <ion-icon name="add-outline"></ion-icon>
+              Nova diligência
+            </button>
+          </div>
+        </div>
+
+        <!-- Estado vazio / sem seleção -->
+        <div class="side-card empty" *ngIf="!isCreatingTask && !selectedTask">
+          <div class="empty-icon">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
+          <h2>Selecione um dia ou diligência</h2>
+          <p>
+            Clique em um dia no calendário ou em uma diligência na visão semanal/diária
+            para ver os detalhes aqui.
+          </p>
+          <button type="button" class="new-task-btn" (click)="startCreateTask()">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            Nova diligência
+          </button>
+        </div>
+
+        <!-- Modo criação de diligência -->
+        <div class="side-card" *ngIf="isCreatingTask">
+          <div class="side-card-header">
+            <div class="side-chip">
+              <ion-icon name="add-circle-outline"></ion-icon>
+              Nova diligência
+            </div>
+          </div>
+
+          <h2 class="side-title">Cadastrar diligência</h2>
+
+          <form (ngSubmit)="addTask()" class="side-form">
+            <div class="form-row">
+              <label>Título</label>
+              <input
+                type="text"
+                [(ngModel)]="newTask.title"
+                name="title"
+                placeholder="Ex: Audiência de instrução, protocolo de petição..."
+              />
+            </div>
+
+            <div class="form-row two-columns">
+              <div>
+                <label>Data</label>
+                <input type="date" [(ngModel)]="newTask.date" name="date" />
+              </div>
+              <div>
+                <label>Horário</label>
+                <input type="time" [(ngModel)]="newTask.time" name="time" />
+              </div>
+            </div>
+
+            <div class="form-row two-columns">
+              <div>
+                <label>Status</label>
+                <select [(ngModel)]="newTask.status" name="status">
+                  <option *ngFor="let status of statusList" [value]="status">
+                    {{ status }}
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label>Urgência</label>
+                <select [(ngModel)]="newTask.urgency" name="urgency">
+                  <option *ngFor="let urg of urgencyList" [value]="urg">
+                    {{ urg }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label>Cor da tarefa</label>
+              <div class="color-choices">
+                <button
+                  type="button"
+                  *ngFor="let c of ['cyan', 'green', 'orange', 'red', 'purple']"
+                  class="color-dot"
+                  [ngClass]="[c, { active: newTask.color === c }]"
+                  (click)="newTask.color = c"
+                ></button>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label>Observações</label>
+              <textarea
+                [(ngModel)]="newTask.description"
+                name="description"
+                rows="4"
+                placeholder="Detalhes da diligência, número do processo, partes envolvidas, foro, cartório, etc."
+              ></textarea>
+            </div>
+
+            <div class="side-actions">
+              <button type="button" class="btn-outline" (click)="isCreatingTask = false">
+                Cancelar
+              </button>
+              <button type="submit" class="btn-primary">
+                <ion-icon name="checkmark-outline"></ion-icon>
+                Salvar diligência
+              </button>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Notificação flutuante -->
+    <div class="calendar-notification" *ngIf="notificationMessage">
+      {{ notificationMessage }}
+    </div>
+  </div>
 </div>
-
-
-
 
 
