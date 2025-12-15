@@ -1,171 +1,484 @@
-<!-- Menu Lateral Premium - Igual Dashboard -->
-<div class="menu-card">
-  <ul>
-    <li>
-      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
-        <span class="title">Geral</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/processos" routerLinkActive="active">
-        <span class="icon"><ion-icon name="folder-open-outline"></ion-icon></span>
-        <span class="title">Processos</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/clientes" routerLinkActive="active">
-        <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
-        <span class="title">Clientes</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/calendar" routerLinkActive="active">
-        <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
-        <span class="title">Agenda</span>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <span class="icon"><ion-icon name="stats-chart-outline"></ion-icon></span>
-        <span class="title">Relatórios</span>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <span class="icon"><ion-icon name="wallet-outline"></ion-icon></span>
-        <span class="title">Financeiro</span>
-      </a>
-    </li>
-  </ul>
-</div>
+<!-- Procuração - Layout igual Documentos -->
+<div class="dashboard-hero">
+  <div class="hero-flare" aria-hidden="true"></div>
+  <div class="hero-flare-secondary" aria-hidden="true"></div>
+  <div class="hero-triangle-pattern" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-1" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-2" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-3" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-4" aria-hidden="true"></div>
+  <div class="floating-triangle triangle-5" aria-hidden="true"></div>
 
+  <!-- Menu Lateral (igual Dashboard/Documentos) -->
+  <nav class="navigation">
+    <ul>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
+          <span class="title">Geral</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/processos" routerLinkActive="active">
+          <span class="icon"><ion-icon name="folder-open-outline"></ion-icon></span>
+          <span class="title">Processos</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/clientes" routerLinkActive="active">
+          <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+          <span class="title">Clientes</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/calendar" routerLinkActive="active">
+          <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
+          <span class="title">Agenda</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="stats-chart-outline"></ion-icon></span>
+          <span class="title">Relatórios</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="wallet-outline"></ion-icon></span>
+          <span class="title">Financeiro</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/documentos" routerLinkActive="active">
+          <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
+          <span class="title">Documentos</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+          <span class="title">Configurações</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 
-<!------------------------------------------------COMPONENTE PROCURACAO-------------------------------->
-
-<div class="procuracao-container">
-  <div id="container-title">
-    <div class="adtech-title">AD-TECH</div>
-    <div class="subtitle">Gerador de Procuração Digital</div>
-  </div>
-
-  <div class="procuracao-wrapper">
-    <div class="titulo-procuracao">
-      <span>
-        <i class="icon" aria-hidden="false"></i>Procuração Digital</span>
-      <div class="btn-top-right" *ngIf="procGerada">
-        <button class="button-elegant" (click)="baixarProcuracao()">
-          <i class="fa fa-download"></i> Baixar Procuração</button>
-      </div>
-    </div>
-
-    <div class="steps-bar">
-      <div [class.active]="step === 1">1</div>
-      <div class="line" [class.active]="step > 1"></div>
-      <div [class.active]="step === 2">2</div>
-      <div class="line" [class.active]="step > 2"></div>
-      <div [class.active]="step === 3">3</div>
-      <div class="line" [class.active]="step > 3"></div>
-      <div [class.active]="step === 4">4</div>
-      <div class="line" [class.active]="step > 4"></div>
-      <div [class.active]="step === 5">5</div>
-    </div>
-
-    <!-----------------------------------------------ETAPA 1--------------------------------------------------->
-
-
-    <form *ngIf="step === 1 && !procGerada" autocomplete="on">
-      <fieldset>
-        <legend>Dados do Outorgante</legend>
-        <label>Nome<input type="text" [(ngModel)]="formData.grantor.name" name="grantorName" required /></label>
-        <label>CPF<input type="text" [(ngModel)]="formData.grantor.cpf" name="grantorCpf" required /></label>
-        <label>RG<input type="text" [(ngModel)]="formData.grantor.rg" name="grantorRg" required /></label>
-        <label>Endereço<input type="text" [(ngModel)]="formData.grantor.endereco" name="grantorEndereco" required /></label>
-        <label>Email<input type="text" [(ngModel)]="formData.grantor.email" name="grantorEmail" required /></label>
-      </fieldset>
-      <div class="form-actions">
-        <button type="button" class="button-elegant" (click)="nextStep()" [disabled]="!isStepValid()">Próxima Etapa</button>
-      </div>
-    </form>
-
-    <!-------------------------------- ETAPA 2 ----------------------------------------------------------->
-
-
-    <form *ngIf="step === 2 && !procGerada" autocomplete="on">
-      <fieldset>
-        <legend>Dados do Outorgado</legend>
-        <label>Nome<input type="text" [(ngModel)]="formData.grantee.name" name="granteeName" required /></label>
-        <label>CPF<input type="text" [(ngModel)]="formData.grantee.cpf" name="granteeCpf" required /></label>
-        <label>RG<input type="text" [(ngModel)]="formData.grantee.rg" name="granteeRg" required /></label>
-        <label>Endereço<input type="text" [(ngModel)]="formData.grantee.endereco" name="granteeEndereco" required /></label>
-        <label>Email<input type="text" [(ngModel)]="formData.grantee.email" name="granteeEmail" required></label>
-      </fieldset>
-      <div class="form-actions">
-        <button class="button-elegant" (click)="prevStep()">Voltar</button>
-        <button class="btn-procuracao" (click)="gerarProcuracao()">Gerar Procuração</button>
-      </div>
-    </form>
-
-    <!----------------------------------- ETAPA 3-------------------------------------------------------------->
-
-
-    <div *ngIf="step === 3">
-      <fieldset>
-        <legend>Conferir Dados</legend>
-        <div><b>Outorgante:</b> {{formData.grantor.name}} - CPF: {{formData.grantor.cpf}} - RG: {{formData.grantor.rg}} - Endereço: {{formData.grantor.endereco}} - Email: {{formData.grantor.email}}</div>
-        <div><b>Outorgado:</b> {{formData.grantee.name}} - CPF: {{formData.grantee.cpf}} - RG: {{formData.grantee.rg}} - Endereço: {{formData.grantee.endereco}} - Email: {{formData.grantee.email}}</div>
-      </fieldset>
-      <div class="form-actions">
-        <button class="button-elegant" (click)="prevStep()">Voltar</button>
-        <button class="btn-procuracao" (click)="gerarProcuracao()">Gerar Procuração</button>
-      </div>
-    </div>
-
-
-    <!---------------------------------------------------------- ETAPA 4-------------------------------------------------------------->
-
-    <div *ngIf="step === 4">
-      <div class="procuracao-document">
-        <h3 id="cor-procuracao">Procuração Gerada</h3>
-          <p>Eu, {{formData.grantor.name}}, portador do CPF {{formData.grantor.cpf}} e RG {{formData.grantor.rg}}, residente em {{formData.grantor.endereco}}, nomeio e constituo como meu
-          bastante procurador {{formData.grantee.name}}, portador do CPF {{formData.grantee.cpf}} e RG {{formData.grantee.rg}}, residente em {{formData.grantee.endereco}}, para
-          me representar junto a terceiros, com poderes para praticar todos os atos necessários ao bom e fiel cumprimento deste mandato.</p>
-          <p>Esta procuração é válida por 1 (um) ano a partir da data de sua assinatura.</p>
-        <p id="data-emissao">Data: {{dataAtual | date:'dd/MM/yyyy'}}</p>
-      </div>
-      <div class="form-actions">
-        <button class="button-elegant" (click)="prevStep()">Voltar</button>
-        <button class="btn-procuracao" (click)="gerarProcuracao()">Continuar para Due Diligence</button>
-      </div>
-    </div>
-
-
-    <!------------------------------------------------ ETAPA 5 ----------------------------------------------------------->
-   <div *ngIf="step === 5">
-      <div class="due-diligence-section">
-        <div class="due-diligence-header">
-          <h3 id="cor-procuracao">Due Diligence Detalhada</h3>
-          <button class="btn-procuracao" (click)="baixarDueDiligence()">Baixar Due Diligence</button>
-        </div>
-        <div class="due-diligence-report">
-          <p><b>Outorgante</b>{{formData.grantor.name}}({{formData.grantor.cpf}})</p>
-          <p><b>Outorgado</b>{{formData.grantee.name}}({{formData.grantee.cpf}})</p>
-          <p>Status: <span id="status-aprovado"></span></p>
-          <p>Relatório geredo automaticamente em {{dataAtual | date:'dd/MM/yyyy'}}</p>
-
-          <button type="button" class="button-elegant" (click)="expandir = !expandir">ver detalhes financeiros</button>
-          <div *ngIf="expandir"class="due-details">
-            <p><b>Histórico financeiro</b></p>
+  <div class="dashboard-layout">
+    <main class="dashboard-main">
+      <!-- Conteúdo da Procuração -->
+      <div class="procuracao-container">
+        <div class="procuracao-wrapper procuracao-card">
+          <div class="titulo-procuracao">
+            <span>
+              <ion-icon name="create-outline" class="titulo-icon"></ion-icon>
+              Procuração Digital
+            </span>
+            <div class="btn-top-right" *ngIf="procGerada">
+              <button class="button-elegant" (click)="baixarProcuracao()">
+                <i class="fas fa-download"></i> Baixar Procuração
+              </button>
+            </div>
           </div>
-          <button type="button" class="button-elegant" (click)="expandir2 = !expandir2">ver processos</button>
-          <div *ngIf="expandir2"class="due-details">
-            <p><b>Histórico de processos:</b></p>
-        </div>
-      </div>
-      <div class="form-actions">
-        <button class="button-elegant" (click)="prevStep()">Voltar</button>
-        <button class="btn-procuracao" (click)="baixarProcuracao()">Baixar Procuração</button>
-      </div>
-  </div>
-</div>
+          <div class="steps-bar">
+            <div 
+              [class.active]="isStep(1)" 
+              [class.completed]="isStepCompleted(1)"
+              class="step-item">
+              <span *ngIf="isStepCompleted(1)" class="step-check">
+                <i class="fas fa-check"></i>
+              </span>
+              <span *ngIf="!isStepCompleted(1)">1</span>
+            </div>
+            <div class="line" [class.active]="isStepGreaterThan(1)"></div>
+            <div 
+              [class.active]="isStep(2)" 
+              [class.completed]="isStepCompleted(2)"
+              class="step-item">
+              <span *ngIf="isStepCompleted(2)" class="step-check">
+                <i class="fas fa-check"></i>
+              </span>
+              <span *ngIf="!isStepCompleted(2)">2</span>
+            </div>
+            <div class="line" [class.active]="isStepGreaterThan(2)"></div>
+            <div 
+              [class.active]="isStep(3)" 
+              [class.completed]="isStepCompleted(3)"
+              class="step-item">
+              <span *ngIf="isStepCompleted(3)" class="step-check">
+                <i class="fas fa-check"></i>
+              </span>
+              <span *ngIf="!isStepCompleted(3)">3</span>
+            </div>
+            <div class="line" [class.active]="isStepGreaterThan(3)"></div>
+            <div 
+              [class.active]="isStep(4)" 
+              [class.completed]="isStepCompleted(4)"
+              class="step-item">
+              <span *ngIf="isStepCompleted(4)" class="step-check">
+                <i class="fas fa-check"></i>
+              </span>
+              <span *ngIf="!isStepCompleted(4)">4</span>
+            </div>
+            <div class="line" [class.active]="isStepGreaterThan(4)"></div>
+            <div 
+              [class.active]="isStep(5)" 
+              [class.completed]="isStepCompleted(5)"
+              class="step-item">
+              <span *ngIf="isStepCompleted(5)" class="step-check">
+                <i class="fas fa-check"></i>
+              </span>
+              <span *ngIf="!isStepCompleted(5)">5</span>
+            </div>
+          </div>
 
+          <form [formGroup]="procuracaoForm" (ngSubmit)="gerarProcuracao()">
+            <!-- ETAPA 1: DADOS DO OUTORGANTE -->
+            <div *ngIf="isStep(1) && !procGerada" class="form-animation">
+              <div formGroupName="grantor">
+                <div class="section-title">DADOS DO OUTORGANTE</div>
+                
+                <div class="form-group">
+                  <label for="grantorNome">Nome Completo <span class="required">*</span></label>
+                  <div class="input-wrapper" [class.error]="hasError('grantor', 'nome')">
+                    <input 
+                      type="text" 
+                      id="grantorNome" 
+                      formControlName="nome" 
+                      class="form-input" 
+                      placeholder="Digite o nome completo" 
+                    />
+                    <i class="fas fa-user input-icon"></i>
+                  </div>
+                  <span *ngIf="hasError('grantor', 'nome')" class="error-text">
+                    {{ getError('grantor', 'nome') }}
+                  </span>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-50">
+                    <label for="grantorCpf">CPF <span class="required">*</span></label>
+                    <div class="input-wrapper" [class.error]="hasError('grantor', 'cpf')">
+                      <input 
+                        type="text" 
+                        id="grantorCpf" 
+                        formControlName="cpf" 
+                        class="form-input" 
+                        placeholder="000.000.000-00"
+                        maxlength="14"
+                        (input)="applyCpfMask($event)"
+                      />
+                      <i class="fas fa-id-card input-icon"></i>
+                    </div>
+                    <span *ngIf="hasError('grantor', 'cpf')" class="error-text">
+                      {{ getError('grantor', 'cpf') }}
+                    </span>
+                  </div>
+                  <div class="form-group col-50">
+                    <label for="grantorEstadoCivil">Estado Civil <span class="required">*</span></label>
+                    <div class="input-wrapper" [class.error]="hasError('grantor', 'estadoCivil')">
+                      <select 
+                        id="grantorEstadoCivil" 
+                        formControlName="estadoCivil" 
+                        class="form-input"
+                      >
+                        <option value="">Selecione</option>
+                        <option value="solteiro">Solteiro(a)</option>
+                        <option value="casado">Casado(a)</option>
+                        <option value="divorciado">Divorciado(a)</option>
+                        <option value="viuvo">Viúvo(a)</option>
+                        <option value="uniao-estavel">União Estável</option>
+                      </select>
+                      <i class="fas fa-heart input-icon"></i>
+                    </div>
+                    <span *ngIf="hasError('grantor', 'estadoCivil')" class="error-text">
+                      {{ getError('grantor', 'estadoCivil') }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-33">
+                    <label for="grantorTipoDocumento">Tipo de Documento <span class="required">*</span></label>
+                    <div class="input-wrapper" [class.error]="hasError('grantor', 'tipoDocumento')">
+                      <select 
+                        id="grantorTipoDocumento" 
+                        formControlName="tipoDocumento" 
+                        class="form-input"
+                      >
+                        <option value="RG">RG</option>
+                        <option value="CNH">CNH</option>
+                        <option value="RNE">RNE</option>
+                      </select>
+                      <i class="fas fa-id-badge input-icon"></i>
+                    </div>
+                  </div>
+                  <div class="form-group col-66">
+                    <label for="grantorNumeroDocumento">Número do Documento <span class="required">*</span></label>
+                    <div class="input-wrapper" [class.error]="hasError('grantor', 'numeroDocumento')">
+                      <input 
+                        type="text" 
+                        id="grantorNumeroDocumento" 
+                        formControlName="numeroDocumento" 
+                        class="form-input" 
+                        placeholder="Número do documento"
+                      />
+                      <i class="fas fa-id-card-alt input-icon"></i>
+                    </div>
+                    <span *ngIf="hasError('grantor', 'numeroDocumento')" class="error-text">
+                      {{ getError('grantor', 'numeroDocumento') }}
+                    </span>
+            </div>
+      </div>
+
+                <div class="form-group">
+                  <label for="grantorEndereco">Endereço Completo <span class="required">*</span></label>
+                  <div class="input-wrapper" [class.error]="hasError('grantor', 'endereco')">
+                    <input 
+                      type="text" 
+                      id="grantorEndereco" 
+                      formControlName="endereco" 
+                      class="form-input" 
+                      placeholder="Rua, número, bairro, cidade - UF, CEP"
+                    />
+                    <i class="fas fa-map-marker-alt input-icon"></i>
+                  </div>
+                  <span *ngIf="hasError('grantor', 'endereco')" class="error-text">
+                    {{ getError('grantor', 'endereco') }}
+                  </span>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-50">
+                    <label for="grantorTelefone">Telefone Celular <span class="required">*</span></label>
+                    <div class="input-wrapper" [class.error]="hasError('grantor', 'telefoneCelular')">
+                      <input 
+                        type="tel" 
+                        id="grantorTelefone" 
+                        formControlName="telefoneCelular" 
+                        class="form-input" 
+                        placeholder="(00) 00000-0000"
+                        maxlength="15"
+                        (input)="applyTelefoneMask($event)"
+                      />
+                      <i class="fas fa-mobile-alt input-icon"></i>
+                    </div>
+                    <span *ngIf="hasError('grantor', 'telefoneCelular')" class="error-text">
+                      {{ getError('grantor', 'telefoneCelular') }}
+                    </span>
+                  </div>
+                  <div class="form-group col-50">
+                    <label for="grantorEmail">Email <span class="required">*</span></label>
+                    <div class="input-wrapper" [class.error]="hasError('grantor', 'email')">
+                      <input 
+                        type="email" 
+                        id="grantorEmail" 
+                        formControlName="email" 
+                        class="form-input" 
+                        placeholder="exemplo@email.com"
+                      />
+                      <i class="fas fa-envelope input-icon"></i>
+                    </div>
+                    <span *ngIf="hasError('grantor', 'email')" class="error-text">
+                      {{ getError('grantor', 'email') }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+      <div class="form-actions">
+                <button type="button" class="btn-procuracao" (click)="nextStep()" [disabled]="!isStepValid()">
+                  <i class="fas fa-arrow-right"></i> Próxima Etapa
+                </button>
+      </div>
+    </div>
+
+            <!-- ETAPA 2: PODERES DA PROCURAÇÃO -->
+            <div *ngIf="isStep(2) && !procGerada" class="form-animation">
+              <div formGroupName="poderes">
+                <div class="section-title">PODERES DA PROCURAÇÃO</div>
+                
+                <div class="form-group">
+                  <label for="tipoProcuração">Tipo de Procuração <span class="required">*</span></label>
+                  <div class="input-wrapper" [class.error]="hasError('poderes', 'tipoProcuração')">
+                    <select 
+                      id="tipoProcuração" 
+                      formControlName="tipoProcuração" 
+                      class="form-input"
+                    >
+                      <option value="geral">Geral (ad judicia et extra)</option>
+                      <option value="especifica">Específica</option>
+                    </select>
+                    <i class="fas fa-gavel input-icon"></i>
+                  </div>
+                  <span *ngIf="hasError('poderes', 'tipoProcuração')" class="error-text">
+                    {{ getError('poderes', 'tipoProcuração') }}
+                  </span>
+                </div>
+
+                <div class="form-group">
+                  <label for="poderesConcedidos">Poderes Concedidos <span class="required">*</span></label>
+                  <div class="textarea-wrapper" [class.error]="hasError('poderes', 'poderesConcedidos')">
+                    <textarea 
+                      id="poderesConcedidos" 
+                      formControlName="poderesConcedidos" 
+                      class="form-textarea" 
+                      placeholder="Descreva os poderes concedidos..."
+                      rows="8"
+                    ></textarea>
+                    <i class="fas fa-file-contract textarea-icon"></i>
+                  </div>
+                  <span *ngIf="hasError('poderes', 'poderesConcedidos')" class="error-text">
+                    {{ getError('poderes', 'poderesConcedidos') }}
+                  </span>
+                  <small class="form-hint">O texto acima foi pré-preenchido com um modelo jurídico padrão. Você pode editá-lo livremente.</small>
+                </div>
+              </div>
+
+      <div class="form-actions">
+                <button type="button" class="button-elegant" (click)="prevStep()">
+                  <i class="fas fa-arrow-left"></i> Voltar
+                </button>
+                <button type="button" class="btn-procuracao" (click)="nextStep()" [disabled]="!isStepValid()">
+                  <i class="fas fa-arrow-right"></i> Próxima Etapa
+                </button>
+      </div>
+    </div>
+
+            <!-- ETAPA 3: VALIDADE E CONDIÇÕES -->
+            <div *ngIf="isStep(3) && !procGerada" class="form-animation">
+              <div formGroupName="validade">
+                <div class="section-title">VALIDADE E CONDIÇÕES</div>
+                
+                <div class="form-group">
+                  <label for="tipoValidade">Prazo de Validade <span class="required">*</span></label>
+                  <div class="input-wrapper" [class.error]="hasError('validade', 'tipoValidade')">
+                    <select 
+                      id="tipoValidade" 
+                      formControlName="tipoValidade" 
+                      class="form-input"
+                    >
+                      <option value="indeterminado">Indeterminado</option>
+                      <option value="data-especifica">Data Específica</option>
+                    </select>
+                    <i class="fas fa-calendar-alt input-icon"></i>
+                  </div>
+                  <span *ngIf="hasError('validade', 'tipoValidade')" class="error-text">
+                    {{ getError('validade', 'tipoValidade') }}
+                  </span>
+                </div>
+
+                <div class="form-group" *ngIf="validadeForm.get('tipoValidade')?.value === 'data-especifica'">
+                  <label for="dataValidade">Data de Validade <span class="required">*</span></label>
+                  <div class="input-wrapper" [class.error]="hasError('validade', 'dataValidade')">
+                    <input 
+                      type="date" 
+                      id="dataValidade" 
+                      formControlName="dataValidade" 
+                      class="form-input"
+                      [min]="dataAtual | date:'yyyy-MM-dd'"
+                    />
+                    <i class="fas fa-calendar-check input-icon"></i>
+                  </div>
+                  <span *ngIf="hasError('validade', 'dataValidade')" class="error-text">
+                    {{ getError('validade', 'dataValidade') }}
+                  </span>
+                </div>
+
+                <div class="form-group">
+                  <label>Cláusula de Renúncia</label>
+                  <div class="clausula-readonly">
+                    <p>{{ clausulaRenuncia }}</p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="honorarios">Honorários (Opcional)</label>
+                  <div class="input-wrapper">
+                    <input 
+                      type="text" 
+                      id="honorarios" 
+                      formControlName="honorarios" 
+                      class="form-input" 
+                      placeholder="Ex: R$ 1.000,00 ou 10% do valor do acordo"
+                    />
+                    <i class="fas fa-dollar-sign input-icon"></i>
+                  </div>
+                  <small class="form-hint">Campo opcional para registro de honorários advocatícios.</small>
+                </div>
+              </div>
+
+                    <div class="form-actions">
+                <button type="button" class="button-elegant" (click)="prevStep()">
+                  <i class="fas fa-arrow-left"></i> Voltar
+                </button>
+                <button type="button" class="btn-procuracao" (click)="nextStep()" [disabled]="!isStepValid()">
+                  <i class="fas fa-eye"></i> Visualizar Preview
+                </button>
+              </div>
+                    </div>
+                  </form>
+
+          <!-- ETAPA 4: PREVIEW DO DOCUMENTO JURÍDICO -->
+          <div *ngIf="isStep(4)" class="form-animation">
+            <div class="section-title">PREVIEW DA PROCURAÇÃO</div>
+            
+            <div class="document-preview">
+              <div class="document-header">
+                <div class="document-logo">
+                  <ion-icon name="document-text-outline"></ion-icon>
+                </div>
+                <div class="document-title">PROCURAÇÃO PÚBLICA</div>
+              </div>
+              
+              <div class="document-content">
+                <div class="document-text">{{ procuracaoPreview }}</div>
+                    </div>
+              
+              <div class="document-footer">
+                <div class="document-stamp">
+                  <p>Documento gerado em {{ dataAtual | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
+                    </div>
+                  </div>
+                    </div>
+
+                    <div class="form-actions">
+              <button type="button" class="button-elegant" (click)="prevStep()">
+                <i class="fas fa-arrow-left"></i> Voltar
+              </button>
+              <button type="button" class="btn-procuracao" (click)="gerarProcuracao()">
+                <i class="fas fa-check"></i> Confirmar e Finalizar
+              </button>
+                    </div>
+                  </div>
+
+          <!-- ETAPA 5: Due Diligence -->
+                  <div *ngIf="isStep(5)">
+                    <div class="due-diligence-section">
+                      <div class="due-diligence-header">
+                        <h3 id="cor-procuracao">Due Diligence Detalhada</h3>
+                        <button class="btn-procuracao" (click)="baixarDueDiligence()">Baixar Due Diligence</button>
+                      </div>
+                      <div class="due-diligence-report">
+                <p><b>Outorgante:</b> {{ grantorForm.get('nome')?.value }} (CPF: {{ grantorForm.get('cpf')?.value }})</p>
+                <p>Status: <span id="status-aprovado">Aprovado</span></p>
+                <p>Relatório gerado automaticamente em {{ dataAtual | date:'dd/MM/yyyy' }}</p>
+                        <button type="button" class="button-elegant" (click)="expandir = !expandir">ver detalhes financeiros</button>
+                        <div *ngIf="expandir" class="due-details">
+                          <p><b>Histórico financeiro</b></p>
+                        </div>
+                        <button type="button" class="button-elegant" (click)="expandir2 = !expandir2">ver processos</button>
+                        <div *ngIf="expandir2" class="due-details">
+                          <p><b>Histórico de processos:</b></p>
+                        </div>
+                      </div>
+                      <div class="form-actions">
+                        <button class="button-elegant" (click)="prevStep()">Voltar</button>
+                        <button class="btn-procuracao" (click)="baixarProcuracao()">Baixar Procuração</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
+        </div>
