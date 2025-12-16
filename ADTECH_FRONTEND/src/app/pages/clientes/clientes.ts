@@ -2,15 +2,32 @@ import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ViacepService } from './viacep.service';
 
 interface ClienteForm {
-  // Endereço
-  cep?: string;
-  logradouro?: string;
-  numero?: string;
-  complemento?: string;
-  bairro?: string;
-  cidade?: string;
+  // Dados Básicos
+  tipo: 'fisica' | 'juridica' | 'advogado' | 'colaborador';
+  cpfCnpj: string;
+  nome: string;
+  telefoneCelular: string;
+  genero?: 'masculino' | 'feminino' | 'outros' | 'prefiro-nao-identificar';
+  maiorIdade: boolean;
+
+  // Pessoa Física
+  rg?: string;
+  profissao?: string;
+  dataNascimento?: string;
+  naturalidade?: string;
+  estadoCivil?: string;
+  nomeMae?: string;
+  nomePai?: string;
+
+  // Advogado
+  categoria?: string;
+  oab?: string;
+
+  // Pessoa Jurídica
   cnpj?: string;
   inscricaoEstadual?: string;
   razaoSocial?: string;
@@ -25,21 +42,15 @@ interface ClienteForm {
   tipoMatriz?: string;
   situacao?: string;
   dataSituacaoCadastral?: string;
-  tipo: 'fisica' | 'juridica' | 'advogado' | 'colaborador';
-  cpfCnpj: string;
-  nome: string;
-  telefoneCelular: string;
-  genero?: 'masculino' | 'feminino' | 'outros' | 'prefiro-nao-identificar';
-  maiorIdade: boolean;
-  rg?: string;
-  profissao?: string;
-  dataNascimento?: string;
-  naturalidade?: string;
-  estadoCivil?: string;
-  nomeMae?: string;
-  nomePai?: string;
-  categoria: string;
-  oab?: string;
+
+  // Endereço
+  cep?: string;
+  logradouro?: string;
+  numero?: string;
+  complemento?: string;
+  bairro?: string;
+  cidade?: string;
+
   // Arquivos/Documentos
   foto?: File;
   documentoRg?: File;
@@ -60,22 +71,17 @@ interface ClienteForm {
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class Clientes implements OnInit {
-  // Estado do acordeão: nome do documento aberto (ex: 'foto', 'comprovanteEndereco', etc.)
+  // Estado do acordeão
   documentoAccordionAberto: string | null = null;
 
-  // Abre/fecha o acordeão de um documento
-  toggleAccordion(documento: string): void {
-    if (this.documentoAccordionAberto === documento) {
-      this.documentoAccordionAberto = null;
-    } else {
-      this.documentoAccordionAberto = documento;
-    }
-  }
+  // CEP
+  cepCarregando = false;
+  cepErro = '';
 
-  // Verifica se o acordeão está aberto
-  isAccordionOpen(documento: string): boolean {
-    return this.documentoAccordionAberto === documento;
-  }
+  // Tipo de documento de identidade selecionado
+  documentoIdentidadeSelecionado = 'rg';
+
+  // Formulário
   clienteForm: ClienteForm = {
     tipo: 'fisica',
     cpfCnpj: '',
@@ -105,7 +111,6 @@ export class Clientes implements OnInit {
     tipoMatriz: '',
     situacao: '',
     dataSituacaoCadastral: '',
-    // Endereço
     cep: '',
     logradouro: '',
     numero: '',
@@ -114,6 +119,7 @@ export class Clientes implements OnInit {
     cidade: '',
   };
 
+  // Estados
   isLoading = false;
   errorMessage = '';
   successMessage = '';
@@ -129,14 +135,87 @@ export class Clientes implements OnInit {
   tituloEleitorPreview: string | null = null;
   carteiraTrabalhoPreview: string | null = null;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private viacep: ViacepService
+  ) {}
 
   ngOnInit(): void {
     console.log('🔵 Clientes component iniciado');
   }
 
+  // ============= GETTERS PARA DOCUMENTO DE IDENTIDADE =============
+  get documentoIdentidadeFile() {
+    if (this.documentoIdentidadeSelecionado === 'cnh') {
+      return this.clienteForm.cnh;
+    }
+    return this.clienteForm.documentoRg;
+  }
+
+  get documentoIdentidadeAccept() {
+    return 'image/*,.pdf';
+  }
+
+  // ============= ACORDEÃO =============
+  toggleAccordion(documento: string): void {
+    if (this.documentoAccordionAberto === documento) {
+      this.documentoAccordionAberto = null;
+    } else {
+      this.documentoAccordionAberto = documento;
+    }
+  }
+
+  isAccordionOpen(documento: string): boolean {
+    return this.documentoAccordionAberto === documento;
+  }
+
+  // ============= BUSCA CEP (API VIACEP) =============
+  buscarCep(cepValue?: string): void {
+    const cepRaw = (cepValue ?? this.clienteForm.cep ?? '').toString();
+    const cep = cepRaw.replace(/\D/g, '');
+
+    this.cepErro = '';
+
+    if (!cep || cep.length !== 8) {
+      return;
+    }
+
+    this.cepCarregando = true;
+
+    this.viacep.buscar(cep).subscribe({
+      next: (res: any) => {
+        this.cepCarregando = false;
+
+        if (res && !res.erro) {
+          this.clienteForm.logradouro = res.logradouro || '';
+          this.clienteForm.bairro = res.bairro || '';
+          this.clienteForm.cidade = res.localidade || '';
+          this.clienteForm.cep = res.cep || cep;
+          this.cepErro = '';
+        } else {
+          this.limparEndereco();
+          this.cepErro = 'CEP não encontrado';
+        }
+      },
+      error: (err) => {
+        console.error('Erro ao buscar CEP:', err);
+        this.cepCarregando = false;
+        this.limparEndereco();
+        this.cepErro = 'Erro ao buscar CEP';
+      }
+    });
+  }
+
+  limparEndereco(): void {
+    this.clienteForm.logradouro = '';
+    this.clienteForm.bairro = '';
+    this.clienteForm.cidade = '';
+  }
+
+  // ============= SELEÇÃO DE TIPO =============
   selectTipo(tipo: 'fisica' | 'juridica' | 'advogado' | 'colaborador'): void {
     this.clienteForm.tipo = tipo;
+
     // Limpa campos específicos ao trocar o tipo
     if (tipo === 'juridica') {
       this.clienteForm.genero = undefined;
@@ -147,18 +226,19 @@ export class Clientes implements OnInit {
       this.clienteForm.nomeMae = undefined;
       this.clienteForm.nomePai = undefined;
     }
+
     if (tipo === 'advogado') {
       this.clienteForm.oab = '';
     }
   }
 
+  // ============= UPLOAD DE FOTO =============
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
       this.clienteForm.foto = file;
 
-      // Criar preview da imagem
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
         this.fotoPreview = e.target?.result as string;
@@ -172,94 +252,38 @@ export class Clientes implements OnInit {
     this.fotoPreview = null;
   }
 
-  hasError(field: string): boolean {
-    return !!this.fieldErrors[field];
+  // ============= DOCUMENTO DE IDENTIDADE (RG OU CNH) =============
+  onDocumentoIdentidadeSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      if (this.documentoIdentidadeSelecionado === 'cnh') {
+        this.clienteForm.cnh = file;
+        this.createPreview(file, 'cnh');
+      } else {
+        this.clienteForm.documentoRg = file;
+        this.createPreview(file, 'documentoRg');
+      }
+    }
   }
 
-  getError(field: string): string {
-    return this.fieldErrors[field] || '';
+  removeDocumentoIdentidade(): void {
+    if (this.documentoIdentidadeSelecionado === 'cnh') {
+      this.clienteForm.cnh = undefined;
+      this.cnhPreview = null;
+    } else {
+      this.clienteForm.documentoRg = undefined;
+      this.documentoRgPreview = null;
+    }
   }
 
-  validateForm(): boolean {
-
-    this.fieldErrors = {};
-    let isValid = true;
-
-    // ...validações anteriores...
-
-    // RG obrigatório
-    if (!this.clienteForm.documentoRg) {
-      this.fieldErrors['documentoRg'] = 'RG é obrigatório';
-      isValid = false;
-    }
-    // CPF obrigatório
-    if (!this.clienteForm.documentoCpf) {
-      this.fieldErrors['documentoCpf'] = 'CPF é obrigatório';
-      isValid = false;
-    }
-
-    // Validação do nome
-    if (!this.clienteForm.nome || this.clienteForm.nome.trim() === '') {
-      this.fieldErrors['nome'] = 'Nome é obrigatório';
-      isValid = false;
-    }
-
-    // Validação do CPF/CNPJ para pessoa física
-    if (this.clienteForm.tipo === 'fisica' && !this.clienteForm.cpfCnpj) {
-      this.fieldErrors['cpfCnpj'] = 'CPF é obrigatório';
-      isValid = false;
-    }
-
-    // Validação do CNPJ para pessoa jurídica
-    if (this.clienteForm.tipo === 'juridica' && !this.clienteForm.cpfCnpj) {
-      this.fieldErrors['cpfCnpj'] = 'CNPJ é obrigatório';
-      isValid = false;
-    }
-
-    // Validação do telefone celular
-    if (!this.clienteForm.telefoneCelular || this.clienteForm.telefoneCelular.trim() === '') {
-      this.fieldErrors['telefoneCelular'] = 'Telefone celular é obrigatório';
-      isValid = false;
-    }
-
-    // Validação de maior de idade
-    if (this.clienteForm.tipo === 'fisica' && !this.clienteForm.maiorIdade) {
-      this.fieldErrors['maiorIdade'] = 'É necessário ser maior de 18 anos';
-      isValid = false;
-    }
-
-    // Validação dos documentos obrigatórios
-    // Foto é opcional, os demais são obrigatórios
-    if (!this.clienteForm.comprovanteEndereco) {
-      this.fieldErrors['comprovanteEndereco'] = 'Comprovante de endereço é obrigatório';
-      isValid = false;
-    }
-    if (!this.clienteForm.cnh) {
-      this.fieldErrors['cnh'] = 'CNH é obrigatória';
-      isValid = false;
-    }
-    if (!this.clienteForm.certidaoNascimento) {
-      this.fieldErrors['certidaoNascimento'] = 'Certidão de nascimento é obrigatória';
-      isValid = false;
-    }
-    if (!this.clienteForm.tituloEleitor) {
-      this.fieldErrors['tituloEleitor'] = 'Título de eleitor é obrigatório';
-      isValid = false;
-    }
-    if (!this.clienteForm.carteiraTrabalho) {
-      this.fieldErrors['carteiraTrabalho'] = 'Carteira de trabalho é obrigatória';
-      isValid = false;
-    }
-
-    return isValid;
-  }
-
+  // ============= UPLOAD DE DOCUMENTOS =============
   onDocumentSelected(event: Event, documentType: string): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
 
-      // Atribui o arquivo ao campo correto
       switch(documentType) {
         case 'documentoRg':
           this.clienteForm.documentoRg = file;
@@ -297,6 +321,7 @@ export class Clientes implements OnInit {
     const reader = new FileReader();
     reader.onload = (e: ProgressEvent<FileReader>) => {
       const preview = e.target?.result as string;
+
       switch(documentType) {
         case 'documentoRg':
           this.documentoRgPreview = preview;
@@ -361,6 +386,77 @@ export class Clientes implements OnInit {
     }
   }
 
+  // ============= VALIDAÇÃO =============
+  hasError(field: string): boolean {
+    return !!this.fieldErrors[field];
+  }
+
+  getError(field: string): string {
+    return this.fieldErrors[field] || '';
+  }
+
+  validateForm(): boolean {
+    this.fieldErrors = {};
+    let isValid = true;
+
+    // Nome obrigatório
+    if (!this.clienteForm.nome || this.clienteForm.nome.trim() === '') {
+      this.fieldErrors['nome'] = 'Nome é obrigatório';
+      isValid = false;
+    }
+
+    // CPF/CNPJ obrigatório
+    if (!this.clienteForm.cpfCnpj) {
+      this.fieldErrors['cpfCnpj'] = this.clienteForm.tipo === 'juridica' ? 'CNPJ é obrigatório' : 'CPF é obrigatório';
+      isValid = false;
+    }
+
+    // Telefone celular obrigatório
+    if (!this.clienteForm.telefoneCelular || this.clienteForm.telefoneCelular.trim() === '') {
+      this.fieldErrors['telefoneCelular'] = 'Telefone celular é obrigatório';
+      isValid = false;
+    }
+
+    // Validação de maior de idade para pessoa física
+    if (this.clienteForm.tipo === 'fisica' && !this.clienteForm.maiorIdade) {
+      this.fieldErrors['maiorIdade'] = 'É necessário ser maior de 18 anos';
+      isValid = false;
+    }
+
+    // Documento de identidade obrigatório (RG OU CNH)
+    if (!this.clienteForm.documentoRg && !this.clienteForm.cnh) {
+      this.fieldErrors['documentoIdentidade'] = 'RG ou CNH é obrigatório';
+      isValid = false;
+    }
+
+    // CPF obrigatório
+    if (!this.clienteForm.documentoCpf) {
+      this.fieldErrors['documentoCpf'] = 'CPF é obrigatório';
+      isValid = false;
+    }
+
+    // Comprovante de endereço obrigatório
+    if (!this.clienteForm.comprovanteEndereco) {
+      this.fieldErrors['comprovanteEndereco'] = 'Comprovante de endereço é obrigatório';
+      isValid = false;
+    }
+
+    // Título de eleitor obrigatório
+    if (!this.clienteForm.tituloEleitor) {
+      this.fieldErrors['tituloEleitor'] = 'Título de eleitor é obrigatório';
+      isValid = false;
+    }
+
+    // Carteira de trabalho obrigatória
+    if (!this.clienteForm.carteiraTrabalho) {
+      this.fieldErrors['carteiraTrabalho'] = 'Carteira de trabalho é obrigatória';
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
+  // ============= SUBMIT =============
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
 
@@ -375,7 +471,6 @@ export class Clientes implements OnInit {
     this.isLoading = true;
 
     try {
-      // Aqui você faria a chamada para a API
       console.log('📝 Dados do formulário:', this.clienteForm);
 
       // Simulando uma chamada de API
