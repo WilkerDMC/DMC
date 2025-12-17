@@ -2,25 +2,24 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { RegisterService } from '../../services/register.service';
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './cadastro.html',
-  styleUrls: ['./cadastro.scss', '../../../styles.scss']
+  styleUrls: ['./cadastro.scss', '../../../styles.scss'],
 })
 export class Cadastro {
   selectedRole: 'cartorio' | 'advogado' | 'cliente' = 'cliente';
-
   cadastroForm = {
     nome: '',
     email: '',
     senha: '',
     confirmarSenha: '',
     numero_cartorio: '', // Para cartório
-    oabNumber: '' // Para advogado
+    oabNumber: '', // Para advogado
   };
 
   isLoading = false;
@@ -28,10 +27,7 @@ export class Cadastro {
   successMessage = '';
   fieldErrors: { [key: string]: string } = {};
 
-  constructor(
-    private router: Router,
-    private authService: AuthService
-  ) {}
+  constructor(private router: Router, private RegisterService: RegisterService) {}
 
   selectRole(role: 'cartorio' | 'advogado' | 'cliente'): void {
     this.selectedRole = role;
@@ -112,14 +108,27 @@ export class Cadastro {
       nome: this.cadastroForm.nome,
       email: this.cadastroForm.email,
       senha: this.cadastroForm.senha,
-      numero_cartorio: this.selectedRole === 'cartorio' ? this.cadastroForm.numero_cartorio : undefined
+      numero_cartorio: this.cadastroForm.numero_cartorio,
+      oabNumber: this.cadastroForm.oabNumber
+      // numero_cartorio: this.selectedRole === 'cartorio' ? this.cadastroForm.numero_cartorio : undefined;
+      // oabNumber: this.selectedRole === 'advogado' ? this.cadastroForm.oabNumber : undefined
     };
+
+    // Inclui o campo específico de acordo com a role
+    if (this.selectedRole === 'cartorio') {
+      dadosCadastro.numero_cartorio = this.cadastroForm.numero_cartorio;
+    }
+
+    if (this.selectedRole === 'advogado') {
+      dadosCadastro.oabNumber = this.cadastroForm.oabNumber;
+    }
 
     console.log('📤 Enviando cadastro:', dadosCadastro);
 
-    this.authService.criarConta(dadosCadastro).subscribe({
+    this.RegisterService.registerOffice(dadosCadastro).subscribe({
       next: (response) => {
         this.isLoading = false;
+
         console.log('✅ Cadastro bem-sucedido:', response);
         this.successMessage = 'Cadastro realizado com sucesso! Redirecionando para login...';
 
@@ -131,11 +140,12 @@ export class Cadastro {
           this.router.navigate(['/login']);
         }, 2000);
       },
+
       error: (error) => {
         this.isLoading = false;
         this.errorMessage = error.message || 'Erro ao criar conta. Tente novamente.';
         console.error('❌ Erro no cadastro:', error);
-      }
+      },
     });
   }
 
@@ -146,7 +156,7 @@ export class Cadastro {
       senha: '',
       confirmarSenha: '',
       numero_cartorio: '',
-      oabNumber: ''
+      oabNumber: '',
     };
   }
 
