@@ -1,4 +1,4 @@
-from fastapi.testclient import TestClient
+from fastapi.testclient import TestClient # pyright: ignore[reportMissingImports]
 from main import app
 import random
 

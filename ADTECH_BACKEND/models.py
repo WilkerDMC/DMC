@@ -1,27 +1,64 @@
-from sqlalchemy import create_engine, Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, boolean
 from sqlalchemy.orm import declarative_base
-from sqlalchemy_utils.types import ChoiceType # pyright: ignore[reportMissingImports]
-from fastapi import APIRouter, HTTPException, Depends, status
-db = create_engine("sqlite:///banco.db")
 
+db= create_engine('sqlite:///banco.db') #oracle
 Base = declarative_base()
 
-class Usuario(Base):
-    __tablename__ = "usuario"
+#criar tabela usuario, no caso a tabela do banco de dados
+class User(Base):
+    __tablename__ = 'user'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True) #primeiro nivel de criptografia
 
-    self = Column("self", String)
-    nome = Column("nome", String)
-    email = Column("email", String, unique=True, index=True)
-    senha = Column("senha", String)
-    numero_cartorio = Column ("numero_cartorio", String)
-    ativo = Column ("ativo", Boolean)
-    admin = Column ("admin", Boolean, default=True)
+    self = Column ("self", String, nullable=True)
+    name = Column ("name", String, nullable=True)
+    email = Column ("email", String, nullable=True, index=True, nullable=False)
+    password = Column ("password", String, nullable=False)
+    number_cnj = Column (number_cnj, String, nullable=True)
 
-def __init__(self, nome, email, senha, numero_cartorio, ativo=True, admin=False):
+    number_oab = Column ("number_oab", String, nullable=True)
+    number_cnj = Column ("number_cnj", String, nullable=True)
 
-    self.nome = nome
-    self.email = email
-    self.senha = senha
-    self.numero_cartorio = numero_cartorio
+    user_type = Column ("user_type", String, nullable=True)
+
+    ativo = Column ("ativo", boolean, default=True)
+    admin = Column ("admin", boolean, default=False)
+
+    def __init__ (
+        self,
+        name,
+        email,
+        password,
+        number_cnj,
+        number_oab,
+        user_type="CLIENTE",
+        active=True,
+        admin=False,
+
+    ):
+
+#o self ele Print o sistema para deixar no banco como jason
+        self.name = name
+        self.email = email
+        self.password = password
+        self.number_cnj = number_cnj
+        self.oab = number_oab
+        self.user_type = user_type
+        self.active = active
+        self.admin = admin
+
+    def to_dict(self):
+          return {
+              "id": self.id,
+              "name": self.name,
+              "email": self.email,
+              "number_cnj": self.number_cnj,
+              "number_oab": self.oab,
+              "user_type": self.user_type,
+              "active": self.active,
+              "admin": self.admin,
+          }
+    def __repr__(self):
+        return f"<user id={self.id} name={self.name} email={self.email} user_type={self.user_type}>"
+
+
