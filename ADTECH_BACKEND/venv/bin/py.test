@@ -1,4 +1,4 @@
-#!/home/guilherme/DMC/ADTECH_BACKEND/venv/bin/python3
+#!/home/nathalia-santos/DMC/ADTECH_BACKEND/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

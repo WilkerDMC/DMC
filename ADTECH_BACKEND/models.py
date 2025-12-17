@@ -1,27 +1,62 @@
-from sqlalchemy import create_engine, Column, Integer, String, Boolean
-from sqlalchemy.orm import declarative_base
-from sqlalchemy_utils.types import ChoiceType # pyright: ignore[reportMissingImports]
-from fastapi import APIRouter, HTTPException, Depends, status
-db = create_engine("sqlite:///banco.db")
+from sqlachemy import create_engine, Column, Integer, String, Boolean
+from sqlachemy.orm import declarative_base
 
+db = create_engine("sqlite:///banco.db")
 Base = declarative_base()
 
-class Usuario(Base):
+class User(Base):
     __tablename__ = "usuario"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     self = Column("self", String)
-    nome = Column("nome", String)
+    name = Column("name", String)
     email = Column("email", String, unique=True, index=True)
-    senha = Column("senha", String)
-    numero_cartorio = Column ("numero_cartorio", String)
-    ativo = Column ("ativo", Boolean)
-    admin = Column ("admin", Boolean, default=True)
+    password = Column("password", String)
+    number_cnj = Column("number_cnj", String)
 
-def __init__(self, nome, email, senha, numero_cartorio, ativo=True, admin=False):
+    # Opcional
+    number_oab = Column("number_oab", String, nullable = True)
 
-    self.nome = nome
-    self.email = email
-    self.senha = senha
-    self.numero_cartorio = numero_cartorio
+    # Tipo de usuário (cliente, advogado e cartório)
+    user_type = Column("user", String, nullable=False, default="CLIENTE")
+
+    ativo = Column("ativo", Boolean, default=True)
+    admin = Column("admin", Boolean, default=False)
+
+def __init__(
+  self,
+  name,
+  email,
+  password,
+  number_cnj=None,
+  number_oab=None,
+  user_type="CLIENTE",
+  ativo=True,
+  admin=False,
+):
+  self.name = name
+  self.email = email
+  self.password = password
+  self.number_cnj = number_cnj
+  self.number_oab = number_oab
+  self.user_type = user_type
+  self.ativo = ativo
+  self.admin = admin
+
+  def to_dict(self):
+    return {
+      "id": self.id,
+      "self": self.self,
+      "name": self.name,
+      "email": self.email,
+      "password": self.password,
+      "number_cnj": self.number_cnj,
+      "number_oab": self.number_oab,
+      "user_type": self.user_type,
+      "ativo": self.ativo,
+      "admin": self.admin
+    }
+
+  def __repr__ (self):
+    return f"<Usuario id={self.id} email={self.email!r} user_type={self.user_type!r}"
