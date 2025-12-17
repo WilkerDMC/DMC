@@ -51,7 +51,7 @@
       <li>
         <a routerLink="/documentos" routerLinkActive="active">
           <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
-          <span class="title">Documentos</span>
+          <span class="title">Workspace</span>
         </a>
       </li>
       <li>
@@ -80,8 +80,8 @@
             </div>
           </div>
           <div class="steps-bar">
-            <div 
-              [class.active]="isStep(1)" 
+            <div
+              [class.active]="isStep(1)"
               [class.completed]="isStepCompleted(1)"
               class="step-item">
               <span *ngIf="isStepCompleted(1)" class="step-check">
@@ -90,8 +90,8 @@
               <span *ngIf="!isStepCompleted(1)">1</span>
             </div>
             <div class="line" [class.active]="isStepGreaterThan(1)"></div>
-            <div 
-              [class.active]="isStep(2)" 
+            <div
+              [class.active]="isStep(2)"
               [class.completed]="isStepCompleted(2)"
               class="step-item">
               <span *ngIf="isStepCompleted(2)" class="step-check">
@@ -100,8 +100,8 @@
               <span *ngIf="!isStepCompleted(2)">2</span>
             </div>
             <div class="line" [class.active]="isStepGreaterThan(2)"></div>
-            <div 
-              [class.active]="isStep(3)" 
+            <div
+              [class.active]="isStep(3)"
               [class.completed]="isStepCompleted(3)"
               class="step-item">
               <span *ngIf="isStepCompleted(3)" class="step-check">
@@ -110,8 +110,8 @@
               <span *ngIf="!isStepCompleted(3)">3</span>
             </div>
             <div class="line" [class.active]="isStepGreaterThan(3)"></div>
-            <div 
-              [class.active]="isStep(4)" 
+            <div
+              [class.active]="isStep(4)"
               [class.completed]="isStepCompleted(4)"
               class="step-item">
               <span *ngIf="isStepCompleted(4)" class="step-check">
@@ -120,8 +120,8 @@
               <span *ngIf="!isStepCompleted(4)">4</span>
             </div>
             <div class="line" [class.active]="isStepGreaterThan(4)"></div>
-            <div 
-              [class.active]="isStep(5)" 
+            <div
+              [class.active]="isStep(5)"
               [class.completed]="isStepCompleted(5)"
               class="step-item">
               <span *ngIf="isStepCompleted(5)" class="step-check">
@@ -136,16 +136,16 @@
             <div *ngIf="isStep(1) && !procGerada" class="form-animation">
               <div formGroupName="grantor">
                 <div class="section-title">DADOS DO OUTORGANTE</div>
-                
+
                 <div class="form-group">
                   <label for="grantorNome">Nome Completo <span class="required">*</span></label>
                   <div class="input-wrapper" [class.error]="hasError('grantor', 'nome')">
-                    <input 
-                      type="text" 
-                      id="grantorNome" 
-                      formControlName="nome" 
-                      class="form-input" 
-                      placeholder="Digite o nome completo" 
+                    <input
+                      type="text"
+                      id="grantorNome"
+                      formControlName="nome"
+                      class="form-input"
+                      placeholder="Digite o nome completo"
                     />
                     <i class="fas fa-user input-icon"></i>
                   </div>
@@ -158,11 +158,11 @@
                   <div class="form-group col-50">
                     <label for="grantorCpf">CPF <span class="required">*</span></label>
                     <div class="input-wrapper" [class.error]="hasError('grantor', 'cpf')">
-                      <input 
-                        type="text" 
-                        id="grantorCpf" 
-                        formControlName="cpf" 
-                        class="form-input" 
+                      <input
+                        type="text"
+                        id="grantorCpf"
+                        formControlName="cpf"
+                        class="form-input"
                         placeholder="000.000.000-00"
                         maxlength="14"
                         (input)="applyCpfMask($event)"
@@ -176,9 +176,9 @@
                   <div class="form-group col-50">
                     <label for="grantorEstadoCivil">Estado Civil <span class="required">*</span></label>
                     <div class="input-wrapper" [class.error]="hasError('grantor', 'estadoCivil')">
-                      <select 
-                        id="grantorEstadoCivil" 
-                        formControlName="estadoCivil" 
+                      <select
+                        id="grantorEstadoCivil"
+                        formControlName="estadoCivil"
                         class="form-input"
                       >
                         <option value="">Selecione</option>
@@ -200,9 +200,9 @@
                   <div class="form-group col-33">
                     <label for="grantorTipoDocumento">Tipo de Documento <span class="required">*</span></label>
                     <div class="input-wrapper" [class.error]="hasError('grantor', 'tipoDocumento')">
-                      <select 
-                        id="grantorTipoDocumento" 
-                        formControlName="tipoDocumento" 
+                      <select
+                        id="grantorTipoDocumento"
+                        formControlName="tipoDocumento"
                         class="form-input"
                       >
                         <option value="RG">RG</option>
@@ -215,11 +215,11 @@
                   <div class="form-group col-66">
                     <label for="grantorNumeroDocumento">Número do Documento <span class="required">*</span></label>
                     <div class="input-wrapper" [class.error]="hasError('grantor', 'numeroDocumento')">
-                      <input 
-                        type="text" 
-                        id="grantorNumeroDocumento" 
-                        formControlName="numeroDocumento" 
-                        class="form-input" 
+                      <input
+                        type="text"
+                        id="grantorNumeroDocumento"
+                        formControlName="numeroDocumento"
+                        class="form-input"
                         placeholder="Número do documento"
                       />
                       <i class="fas fa-id-card-alt input-icon"></i>
@@ -233,11 +233,11 @@
                 <div class="form-group">
                   <label for="grantorEndereco">Endereço Completo <span class="required">*</span></label>
                   <div class="input-wrapper" [class.error]="hasError('grantor', 'endereco')">
-                    <input 
-                      type="text" 
-                      id="grantorEndereco" 
-                      formControlName="endereco" 
-                      class="form-input" 
+                    <input
+                      type="text"
+                      id="grantorEndereco"
+                      formControlName="endereco"
+                      class="form-input"
                       placeholder="Rua, número, bairro, cidade - UF, CEP"
                     />
                     <i class="fas fa-map-marker-alt input-icon"></i>
@@ -251,11 +251,11 @@
                   <div class="form-group col-50">
                     <label for="grantorTelefone">Telefone Celular <span class="required">*</span></label>
                     <div class="input-wrapper" [class.error]="hasError('grantor', 'telefoneCelular')">
-                      <input 
-                        type="tel" 
-                        id="grantorTelefone" 
-                        formControlName="telefoneCelular" 
-                        class="form-input" 
+                      <input
+                        type="tel"
+                        id="grantorTelefone"
+                        formControlName="telefoneCelular"
+                        class="form-input"
                         placeholder="(00) 00000-0000"
                         maxlength="15"
                         (input)="applyTelefoneMask($event)"
@@ -269,11 +269,11 @@
                   <div class="form-group col-50">
                     <label for="grantorEmail">Email <span class="required">*</span></label>
                     <div class="input-wrapper" [class.error]="hasError('grantor', 'email')">
-                      <input 
-                        type="email" 
-                        id="grantorEmail" 
-                        formControlName="email" 
-                        class="form-input" 
+                      <input
+                        type="email"
+                        id="grantorEmail"
+                        formControlName="email"
+                        class="form-input"
                         placeholder="exemplo@email.com"
                       />
                       <i class="fas fa-envelope input-icon"></i>
@@ -296,13 +296,13 @@
             <div *ngIf="isStep(2) && !procGerada" class="form-animation">
               <div formGroupName="poderes">
                 <div class="section-title">PODERES DA PROCURAÇÃO</div>
-                
+
                 <div class="form-group">
                   <label for="tipoProcuração">Tipo de Procuração <span class="required">*</span></label>
                   <div class="input-wrapper" [class.error]="hasError('poderes', 'tipoProcuração')">
-                    <select 
-                      id="tipoProcuração" 
-                      formControlName="tipoProcuração" 
+                    <select
+                      id="tipoProcuração"
+                      formControlName="tipoProcuração"
                       class="form-input"
                     >
                       <option value="geral">Geral (ad judicia et extra)</option>
@@ -318,10 +318,10 @@
                 <div class="form-group">
                   <label for="poderesConcedidos">Poderes Concedidos <span class="required">*</span></label>
                   <div class="textarea-wrapper" [class.error]="hasError('poderes', 'poderesConcedidos')">
-                    <textarea 
-                      id="poderesConcedidos" 
-                      formControlName="poderesConcedidos" 
-                      class="form-textarea" 
+                    <textarea
+                      id="poderesConcedidos"
+                      formControlName="poderesConcedidos"
+                      class="form-textarea"
                       placeholder="Descreva os poderes concedidos..."
                       rows="8"
                     ></textarea>
@@ -348,13 +348,13 @@
             <div *ngIf="isStep(3) && !procGerada" class="form-animation">
               <div formGroupName="validade">
                 <div class="section-title">VALIDADE E CONDIÇÕES</div>
-                
+
                 <div class="form-group">
                   <label for="tipoValidade">Prazo de Validade <span class="required">*</span></label>
                   <div class="input-wrapper" [class.error]="hasError('validade', 'tipoValidade')">
-                    <select 
-                      id="tipoValidade" 
-                      formControlName="tipoValidade" 
+                    <select
+                      id="tipoValidade"
+                      formControlName="tipoValidade"
                       class="form-input"
                     >
                       <option value="indeterminado">Indeterminado</option>
@@ -370,10 +370,10 @@
                 <div class="form-group" *ngIf="validadeForm.get('tipoValidade')?.value === 'data-especifica'">
                   <label for="dataValidade">Data de Validade <span class="required">*</span></label>
                   <div class="input-wrapper" [class.error]="hasError('validade', 'dataValidade')">
-                    <input 
-                      type="date" 
-                      id="dataValidade" 
-                      formControlName="dataValidade" 
+                    <input
+                      type="date"
+                      id="dataValidade"
+                      formControlName="dataValidade"
                       class="form-input"
                       [min]="dataAtual | date:'yyyy-MM-dd'"
                     />
@@ -394,11 +394,11 @@
                 <div class="form-group">
                   <label for="honorarios">Honorários (Opcional)</label>
                   <div class="input-wrapper">
-                    <input 
-                      type="text" 
-                      id="honorarios" 
-                      formControlName="honorarios" 
-                      class="form-input" 
+                    <input
+                      type="text"
+                      id="honorarios"
+                      formControlName="honorarios"
+                      class="form-input"
                       placeholder="Ex: R$ 1.000,00 ou 10% do valor do acordo"
                     />
                     <i class="fas fa-dollar-sign input-icon"></i>
@@ -421,7 +421,7 @@
           <!-- ETAPA 4: PREVIEW DO DOCUMENTO JURÍDICO -->
           <div *ngIf="isStep(4)" class="form-animation">
             <div class="section-title">PREVIEW DA PROCURAÇÃO</div>
-            
+
             <div class="document-preview">
               <div class="document-header">
                 <div class="document-logo">
@@ -429,11 +429,11 @@
                 </div>
                 <div class="document-title">PROCURAÇÃO PÚBLICA</div>
               </div>
-              
+
               <div class="document-content">
                 <div class="document-text">{{ procuracaoPreview }}</div>
                     </div>
-              
+
               <div class="document-footer">
                 <div class="document-stamp">
                   <p>Documento gerado em {{ dataAtual | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>

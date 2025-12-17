@@ -14,10 +14,10 @@ import { RouterModule } from '@angular/router';
 export class Calendar {
   // Usuários responsáveis (sidebar / faixa superior)
   users = [
-    { id: 1, name: 'Ana Souza', type: 'Advogada', avatar: 'A', status: 'online' },
-    { id: 2, name: 'Carlos Lima', type: 'Funcionário', avatar: 'C', status: 'online' },
-    { id: 3, name: 'Julia Alves', type: 'Advogada', avatar: 'J', status: 'offline' },
-    { id: 4, name: 'Pedro Silva', type: 'Empresa', avatar: 'P', status: 'online' },
+    { id: 1, name: 'Matheus Vital Gomes', type: 'Advogado', avatar: 'M', status: 'online' },
+    { id: 2, name: 'Wilker s ', type: 'Funcionário', avatar: 'W', status: 'online' },
+    { id: 3, name: 'Guilherme', type: 'Advogado', avatar: 'G', status: 'offline' },
+    { id: 4, name: 'Cartorio Souza Lima', type: 'Cartório', avatar: 'CS', status: 'online' },
   ];
 
   selectedUser = this.users[0];
@@ -38,7 +38,7 @@ export class Calendar {
     {
       id: 1,
       userId: 1,
-      title: 'Audiência de Conciliação',
+      title: 'Inventário Judicial',
       date: '2025-12-10',
       time: '09:00',
       status: 'Pendente',

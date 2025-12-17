@@ -219,17 +219,17 @@ export class ProcuracaoComponent implements OnInit {
       return 'Preencha os dados do outorgante para visualizar o preview.';
     }
 
-    const tipoDoc = grantor.tipoDocumento === 'RG' ? 'RG' : 
+    const tipoDoc = grantor.tipoDocumento === 'RG' ? 'RG' :
                     grantor.tipoDocumento === 'CNH' ? 'CNH' : 'RNE';
-    
+
     const estadoCivilText = this.getEstadoCivilText(grantor.estadoCivil);
     const validadeText = this.getValidadeText(validade);
     const poderesText = poderes.poderesConcedidos || this.textoPoderesBase;
 
-    const dataFormatada = this.dataAtual.toLocaleDateString('pt-BR', { 
-      day: '2-digit', 
-      month: 'long', 
-      year: 'numeric' 
+    const dataFormatada = this.dataAtual.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
     });
 
     return `PROCURAÇÃO PÚBLICA
@@ -275,10 +275,10 @@ CPF: ${grantor.cpf}`;
     } else {
       if (validade.dataValidade) {
         const data = new Date(validade.dataValidade + 'T00:00:00');
-        const dataFormatada = data.toLocaleDateString('pt-BR', { 
-          day: '2-digit', 
-          month: 'long', 
-          year: 'numeric' 
+        const dataFormatada = data.toLocaleDateString('pt-BR', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric'
         });
         return `Esta procuração terá validade até ${dataFormatada}, salvo revogação antecipada pela outorgante.`;
       }
