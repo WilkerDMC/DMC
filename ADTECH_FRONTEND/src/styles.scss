@@ -946,7 +946,7 @@ body {
 .form-input.error {
   border-color: #ff4d4f !important;
   background: rgba(255, 77, 79, 0.05);
-  
+
   &:focus {
     border-color: #ff4d4f !important;
     box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.1),
@@ -960,7 +960,7 @@ body {
     border-color: #ff4d4f;
     background: rgba(255, 77, 79, 0.05);
   }
-  
+
   .input-icon {
     color: #ff4d4f;
   }
@@ -994,3 +994,439 @@ body {
 .input-wrapper.error .form-input {
   animation: shake 0.4s ease-in-out;
 }
+
+/* ============================================
+      ESTILOS GLOBAIS PARA DIALOGS/MODAIS
+  ============================================ */
+.cdk-overlay-container {
+  z-index: 10000 !important;
+}
+
+.cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.custom-dialog-backdrop {
+  background-color: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(8px);
+}
+
+.custom-dialog-container {
+  .mat-mdc-dialog-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+  }
+
+  .mat-mdc-dialog-surface {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+  }
+}
+
+.popup-dialog {
+  background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 231, 252, 0.3);
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(0, 231, 252, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  min-width: 450px;
+  max-width: 550px;
+  animation: popupSlideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popupSlideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(90deg, rgba(0, 231, 252, 0.15), rgba(0, 255, 77, 0.1));
+  border-bottom: 1px solid rgba(0, 231, 252, 0.2);
+
+  .popup-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    mat-icon {
+      color: #00e7fc;
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, #00e7fc, #00ff4d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  }
+
+  .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+
+    mat-icon {
+      color: #888;
+    }
+
+    &:hover {
+      background: rgba(255, 77, 87, 0.2);
+
+      mat-icon {
+        color: #ff4757;
+      }
+    }
+  }
+}
+
+.popup-content {
+  padding: 1.75rem 2rem;
+
+  .popup-date-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: rgba(0, 231, 252, 0.08);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0, 231, 252, 0.15);
+
+    mat-icon {
+      color: #00e7fc;
+    }
+
+    span {
+      color: #fff;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+  }
+
+  .popup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .full-width {
+      width: 100%;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    mat-form-field {
+      width: 100%;
+
+      .mat-mdc-text-field-wrapper {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border-radius: 10px !important;
+      }
+
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: rgba(255, 255, 255, 0.15) !important;
+      }
+
+      &.mat-focused {
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__trailing {
+          border-color: #00e7fc !important;
+        }
+      }
+
+      input, textarea {
+        color: #fff !important;
+      }
+
+      .mat-mdc-floating-label {
+        color: rgba(255, 255, 255, 0.6) !important;
+      }
+
+      mat-icon[matPrefix] {
+        color: rgba(255, 255, 255, 0.4);
+        margin-right: 8px;
+      }
+    }
+
+    .color-picker {
+      margin-top: 0.5rem;
+
+      label {
+        display: block;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .colors {
+        display: flex;
+        gap: 0.75rem;
+
+        .color-btn {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: 2px solid transparent;
+          cursor: pointer;
+          transition: all 0.25s ease;
+
+          &:hover {
+            transform: scale(1.15);
+          }
+
+          &.selected {
+            border-color: #fff;
+            box-shadow: 0 0 15px currentColor;
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.25rem 2rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  .delete-btn {
+    color: #ff4757;
+    border: 1px solid rgba(255, 71, 87, 0.3);
+    border-radius: 10px;
+    padding: 0.5rem 1.25rem;
+    margin-right: auto;
+    transition: all 0.25s ease;
+
+    mat-icon {
+      margin-right: 6px;
+    }
+
+    &:hover {
+      background: rgba(255, 71, 87, 0.2);
+      border-color: #ff4757;
+    }
+  }
+
+  .cancel-btn {
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.25s ease;
+
+    mat-icon {
+      margin-right: 6px;
+    }
+
+    &:hover {
+      background: rgba(255, 77, 87, 0.15);
+      border-color: rgba(255, 77, 87, 0.4);
+      color: #ff4757;
+    }
+  }
+
+  .save-btn {
+    background: linear-gradient(135deg, #00e7fc, #00ff4d) !important;
+    color: #000 !important;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s ease;
+
+    mat-icon {
+      margin-right: 6px;
+    }
+
+    &:hover {
+      box-shadow: 0 0 25px rgba(0, 231, 252, 0.5);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+/* Estilos extras para o popup */
+.popup-created-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+.form-section {
+  margin-bottom: 0.5rem;
+
+  h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.75rem 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: #00e7fc;
+    }
+  }
+}
+
+.multi-day-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(0, 231, 252, 0.1), rgba(0, 255, 77, 0.1));
+  border-radius: 10px;
+  border: 1px solid rgba(0, 231, 252, 0.2);
+  margin-top: 0.5rem;
+
+  mat-icon {
+    color: #00e7fc;
+  }
+
+  span {
+    color: #fff;
+    font-weight: 500;
+  }
+}
+
+/* ===== GLOBAL MAT-SELECT DROPDOWN STYLES ===== */
+.mat-mdc-select-panel {
+  background: #1a1a1a !important;
+  border: 1px solid rgba(0, 231, 252, 0.25) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+  margin-top: 4px !important;
+
+  .mat-mdc-option {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: 14px !important;
+    min-height: 44px !important;
+
+    &:hover {
+      background: rgba(0, 231, 252, 0.1) !important;
+    }
+
+    &.mdc-list-item--selected {
+      background: rgba(0, 231, 252, 0.15) !important;
+      color: #00e7fc !important;
+
+      .mdc-list-item__primary-text {
+        color: #00e7fc !important;
+      }
+    }
+  }
+
+  .mat-pseudo-checkbox {
+    display: none !important;
+  }
+}
+
+/* Mat Form Field Global Fixes */
+.mat-mdc-form-field {
+  .mdc-text-field--outlined {
+    .mdc-notched-outline {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: rgba(0, 231, 252, 0.25) !important;
+      }
+    }
+  }
+
+  &.mat-focused {
+    .mdc-text-field--outlined {
+      .mdc-notched-outline {
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__trailing {
+          border-color: #00e7fc !important;
+          border-width: 2px !important;
+        }
+      }
+    }
+  }
+
+  .mat-mdc-floating-label {
+    color: rgba(0, 231, 252, 0.7) !important;
+  }
+
+  &.mat-focused .mat-mdc-floating-label {
+    color: #00e7fc !important;
+  }
+
+  .mat-mdc-select-value-text {
+    color: #fff !important;
+  }
+
+  .mat-mdc-select-arrow {
+    color: #00e7fc !important;
+  }
+}
+
+/* ===== MAT-CARD DARK THEME ===== */
+.mat-mdc-card {
+  --mdc-elevated-card-container-color: transparent;
+  background: rgba(17, 17, 17, 0.8) !important;
+}
+
+/* ===== MAT-INPUT DARK THEME ===== */
+.mat-mdc-input-element {
+  color: #fff !important;
+  caret-color: #00e7fc !important;
+}
+
+.mat-mdc-input-element::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+

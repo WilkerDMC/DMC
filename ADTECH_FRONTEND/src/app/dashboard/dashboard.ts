@@ -1,16 +1,23 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, AfterViewInit, Inject } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule
+  ] as const,
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // ion-icon
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
+
+
 export class Dashboard implements AfterViewInit {
   searchTerm: string = ''; // Armazena o texto da busca
   showProfileMenu: boolean = false; // Controla a exibição do menu de perfil
@@ -79,11 +86,12 @@ export class Dashboard implements AfterViewInit {
   // Executa após a view estar carregada
   ngAfterViewInit() {
     // Fecha o menu de perfil ao clicar fora
-    document.addEventListener('click', () => {
-      if (this.showProfileMenu) {
-        this.showProfileMenu = false;
-      }
-    });
+window.addEventListener('resize', () => {
+  if (document.getElementById('barChart')) {
+    this.initBarChart();
+  }
+});
+
 
     const list = document.querySelectorAll<HTMLElement>('.navigation li');
 
@@ -109,10 +117,14 @@ export class Dashboard implements AfterViewInit {
     }
 
     // Inicializa o calendário e gráfico com delay para garantir que DOM está pronto
-    setTimeout(() => {
-      this.initCalendar();
-      this.initBarChart();
-    }, 300);
+   setTimeout(() => {
+  this.initCalendar();
+
+  if (document.getElementById('barChart')) {
+    this.initBarChart();
+  }
+}, 300);
+
 
     // Re-desenha o gráfico quando a janela é redimensionada
     window.addEventListener('resize', () => {
@@ -206,9 +218,6 @@ export class Dashboard implements AfterViewInit {
     const canvas = document.getElementById('barChart') as HTMLCanvasElement;
 
     if (!canvas) {
-      console.error('❌ Canvas não encontrado - aguardando DOM...');
-      // Tenta novamente após um delay
-      setTimeout(() => this.initBarChart(), 500);
       return;
     }
 
