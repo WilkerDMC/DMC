@@ -103,8 +103,7 @@
         *ngFor="let card of cards"
         class="card card-glow"
         #cardElement
-        (mousemove)="onMouseMove($event, cardElement)"
-      >
+        (mousemove)="onMouseMove($event, cardElement)">
         <div class="card-content">
           <div>
             <div [class]="card.class">{{ card.value }}</div>

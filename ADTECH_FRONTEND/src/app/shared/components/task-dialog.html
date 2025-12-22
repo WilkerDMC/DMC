@@ -1,0 +1,94 @@
+<h2 mat-dialog-title>{{ data && data.task ? 'Editar Tarefa' : 'Nova Tarefa' }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="title" placeholder="Ex: Audiência, Protocolo..." required>
+        <mat-icon matPrefix>edit</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row two-columns">
+      <mat-form-field appearance="outline">
+        <mat-label>Data</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-icon matPrefix>calendar_today</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Horário</mat-label>
+        <input matInput type="time" formControlName="time" required>
+        <mat-icon matPrefix>schedule</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput formControlName="description" rows="3" placeholder="Detalhes da tarefa..."></textarea>
+        <mat-icon matPrefix>description</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row two-columns">
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" required>
+          <mat-option *ngFor="let status of statusList" [value]="status">
+            {{ status }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matPrefix>flag</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Urgência</mat-label>
+        <mat-select formControlName="urgency" required>
+          <mat-option *ngFor="let urg of urgencyList" [value]="urg">
+            {{ urg }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matPrefix>whatshot</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <label>Responsável</label>
+      <mat-radio-group formControlName="userId" class="user-selection">
+        <mat-radio-button *ngFor="let user of users" [value]="user.id" class="user-option">
+          <div class="user-avatar" [style.background]="getUserColor(user.id)">
+            {{ user && user.name ? user.name.charAt(0) : 'U' }}
+          </div>
+          <span>{{ user ? user.name : 'Usuário' }}</span>
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="form-row">
+      <label>Cor</label>
+      <div class="color-options">
+        <button
+          *ngFor="let color of colorOptions"
+          type="button"
+          mat-icon-button
+          [style.background]="color.value"
+          [class.selected]="taskForm.get('color')?.value === color.key"
+          (click)="selectColor(color.key)"
+          [matTooltip]="color.name"
+        >
+          <mat-icon *ngIf="taskForm.get('color')?.value === color.key">check</mat-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!taskForm.valid">
+    {{ (data && data.task) ? 'Atualizar' : 'Salvar' }}
+  </button>
+</mat-dialog-actions>
